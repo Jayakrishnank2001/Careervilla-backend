@@ -1,8 +1,9 @@
 import Admin from "../entityInterfaces/admin"
 import { UpdateResult } from "mongodb"
 
-interface AdminRepository{
+interface IAdminRepository{
     adminLogin(username:string,password:string):Promise<Admin|null>
 
 }
-export default AdminRepository
+
+export default IAdminRepository

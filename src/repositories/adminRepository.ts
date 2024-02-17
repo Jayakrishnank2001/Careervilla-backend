@@ -1,11 +1,18 @@
 import AdminModel from "../models/adminModel";
-import AdminRepository from "../interfaces/repositoryInterfaces/adminRepository";
+import IAdminRepository from "../interfaces/repositoryInterfaces/adminRepository";
 import Admin from "../interfaces/entityInterfaces/admin";
-import { UpdateResult } from "mongodb"
-
-// class adminRepository implements AdminRepository{
 
 
-// }
+class AdminRepository implements IAdminRepository{
+    async adminLogin(username:string,password:string):Promise<Admin|null>{
+        try{
+           const admin=await AdminModel.findOne({username:username,password:password})
+           return admin
+        }catch(error){
+           console.error('Error in admin login repository:',error)
+           return null
+        }
+    }
+}
 
-// export default adminRepository
+export default AdminRepository
