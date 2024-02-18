@@ -9,7 +9,7 @@ class AdminRepository implements IAdminRepository{
            const admin=await AdminModel.findOne({username:username,password:password})
            return admin
         }catch(error){
-           console.error('Error in admin login repository:',error)
+           console.error(error)
            return null
         }
     }

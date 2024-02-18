@@ -1,6 +1,6 @@
 import { Request,Response } from "express";
 import Admin from "../interfaces/entityInterfaces/admin";
-import AdminService from "../services/adminServices";
+import AdminService from "../services/adminService";
 
 class AdminController{
     constructor(private adminService:AdminService){}
@@ -8,15 +8,20 @@ class AdminController{
     async adminLogin(req:Request,res:Response):Promise<void>{
         const { username,password }=req.body
         try{
-           const { admin,token }=await this.adminService.adminLogin(username,password)
-           if(!admin){
-            res.status(401).json({message:'Invalid credentials'})
-            return 
+           const loginStatus=await this.adminService.adminLogin(username,password)
+           if(loginStatus.data && typeof loginStatus.data=='object'&& 'token' in loginStatus.data){
+             res.cookie('adminJWT',loginStatus.data.token,{
+                httpOnly:true,
+                sameSite:'none',
+                secure:process.env.NODE_ENV!=='development',
+                maxAge:30 * 24 * 60 * 60 * 1000 
+             })
+             res.status(loginStatus.status).json(loginStatus)
+           }else{
+            res.status(loginStatus.status).json(loginStatus)
            }
-           res.json({admin,token})
         }catch(error){
-            console.error('Error during login:',error)
-            res.status(500).json({message:'Internal Server Error'})
+            console.log(error)
         }
     }
 }

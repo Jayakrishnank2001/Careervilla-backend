@@ -3,6 +3,8 @@ import cors from 'cors'
 import http from 'http'
 import cookieParser from 'cookie-parser'
 import adminRouter from '../src/routes/adminRoute'
+import jobseekerRouter from '../src/routes/jobseekerRoute'
+import employerRouter from '../src/routes/employerRoute'
 
 
 export const createServer=()=>{
@@ -20,6 +22,8 @@ export const createServer=()=>{
             })
         )
         app.use('/api/admin',adminRouter)
+        app.use('/api/jobseeker',jobseekerRouter)
+        app.use('/api/employer',employerRouter)
         return app
 
     }catch(error){
