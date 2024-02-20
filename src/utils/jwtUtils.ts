@@ -1,4 +1,4 @@
-import jwt, {Secret} from 'jsonwebtoken';
+import jwt, { Secret } from 'jsonwebtoken';
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -18,9 +18,9 @@ export const verifyToken = (token: string): any => {
     }
 };
 
-export class createJWT{
+export class createJWT {
     generateToken = (payload: any): string => {
-      const jwtSecret=process.env.JWT_SECRET
-      return jwt.sign(payload, jwtSecret as Secret, { expiresIn: '1h' });
+        const jwtSecret = process.env.JWT_SECRET
+        return jwt.sign(payload, jwtSecret as Secret, { expiresIn: '1h' });
     };
 }

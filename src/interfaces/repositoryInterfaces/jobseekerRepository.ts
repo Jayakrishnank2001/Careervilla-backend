@@ -1,8 +1,8 @@
 import Jobseeker from "../entityInterfaces/jobseeker";
 
 
-interface IJobseekerRepository{
-    jobseekerLogin(email:string):Promise<Jobseeker|null>
+interface IJobseekerRepository {
+    jobseekerLogin(email: string): Promise<Jobseeker | null>
 
 }
 

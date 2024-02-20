@@ -6,16 +6,17 @@ import EmployerService from '../services/employerService'
 import EmployerRepository from '../repositories/employerRepository'
 import { employerAuthMiddleware } from '../middlewares/employerAuth'
 
-const employerRouter=express.Router()
+const employerRouter = express.Router()
 
-const jwtCreate=new createJWT()
-const encrypt=new Encrypt()
-const employerRepository=new EmployerRepository()
-const employerService=new EmployerService(employerRepository,jwtCreate,encrypt)
-const employerController=new EmployerController(employerService)
+const jwtCreate = new createJWT()
+const encrypt = new Encrypt()
+const employerRepository = new EmployerRepository()
+const employerService = new EmployerService(employerRepository, jwtCreate, encrypt)
+const employerController = new EmployerController(employerService)
 
 
-employerRouter.post('/login', async(req,res) => employerController.employerLogin(req,res))
+employerRouter.post('/login', async (req, res) => employerController.employerLogin(req, res))
+employerRouter.post('/signup', async (req, res) => employerController.employerSignup(req, res))
 
 
 
