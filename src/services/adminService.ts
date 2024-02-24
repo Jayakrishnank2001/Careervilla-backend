@@ -1,5 +1,6 @@
 import AdminRepository from "../repositories/adminRepository";
 import { createJWT } from "../utils/jwtUtils";
+import { AdminLoginResponse } from "../interfaces/serviceInterfaces/adminService";
 import Admin from "../interfaces/entityInterfaces/admin";
 
 class AdminService {
@@ -8,13 +9,14 @@ class AdminService {
         private createJWT: createJWT
     ) { }
 
-    async adminLogin(username: string, password: string) {
+    async adminLogin(username: string, password: string): Promise<AdminLoginResponse> {
         try {
             const admin = await this.adminRepository.adminLogin(username, password);
             if (admin) {
                 const token = this.createJWT.generateToken({
                     id: admin.id,
                     username: admin.username,
+                    role:'admin'
                 });
                 return {
                     status: 200,

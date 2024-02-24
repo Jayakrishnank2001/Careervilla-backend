@@ -14,3 +14,4 @@ interface Jobseeker {
 
 }
 export default Jobseeker
+

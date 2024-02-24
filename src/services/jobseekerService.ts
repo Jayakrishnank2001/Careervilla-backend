@@ -1,6 +1,7 @@
 import JobseekerRepository from "../repositories/jobseekerRepository";
 import { createJWT } from "../utils/jwtUtils";
 import Encrypt from "../utils/hashPassword";
+import { JobseekerLoginResponse } from "../interfaces/serviceInterfaces/jobseekerService";
 import Jobseeker from "../interfaces/entityInterfaces/jobseeker";
 
 class JobseekerService {
@@ -10,7 +11,7 @@ class JobseekerService {
     private encrypt: Encrypt
   ) { }
 
-  async jobseekerLogin(user: any) {
+  async jobseekerLogin(user: any): Promise<JobseekerLoginResponse | undefined> {
     try {
       const jobseeker = await this.jobseekerRepository.jobseekerLogin(
         user.email
@@ -34,6 +35,7 @@ class JobseekerService {
             const token = this.createJWT.generateToken({
               id: jobseeker.id,
               email: jobseeker.email,
+              role: 'jobseeker'
             });
             return {
               status: 200,

@@ -1,5 +1,6 @@
 import Employer from "../interfaces/entityInterfaces/employer";
 import EmployerRepository from "../repositories/employerRepository";
+import { EmployerLoginResponse } from "../interfaces/serviceInterfaces/employerService";
 import Encrypt from "../utils/hashPassword";
 import { createJWT } from "../utils/jwtUtils";
 
@@ -10,7 +11,7 @@ class EmployerService {
     private encrypt: Encrypt
   ) {}
 
-  async employerLogin(user: any) {
+  async employerLogin(user: any): Promise<EmployerLoginResponse | undefined> {
     try {
       const employer = await this.employerRepository.employerLogin(user.email);
       if (employer) {
@@ -32,6 +33,7 @@ class EmployerService {
             const token = this.createJWT.generateToken({
               id: employer.id,
               email: employer.email,
+              role:'employer'
             });
             return {
               status: 200,
