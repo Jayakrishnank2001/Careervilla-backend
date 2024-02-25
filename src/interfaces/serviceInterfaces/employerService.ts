@@ -1,4 +1,4 @@
-export interface EmployerLoginResponse {
+export interface EmployerAuthResponse {
     status: number;
     data: {
       success: boolean;

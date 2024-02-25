@@ -1,4 +1,4 @@
-export interface JobseekerLoginResponse {
+export interface JobseekerAuthResponse {
     status: number;
     data: {
       success: boolean;

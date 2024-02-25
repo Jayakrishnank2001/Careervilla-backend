@@ -1,6 +1,6 @@
 import AdminRepository from "../repositories/adminRepository";
 import { createJWT } from "../utils/jwtUtils";
-import { AdminLoginResponse } from "../interfaces/serviceInterfaces/adminService";
+import { AdminAuthResponse } from "../interfaces/serviceInterfaces/adminService";
 import Admin from "../interfaces/entityInterfaces/admin";
 
 class AdminService {
@@ -9,7 +9,7 @@ class AdminService {
         private createJWT: createJWT
     ) { }
 
-    async adminLogin(username: string, password: string): Promise<AdminLoginResponse> {
+    async adminLogin(username: string, password: string): Promise<AdminAuthResponse> {
         try {
             const admin = await this.adminRepository.adminLogin(username, password);
             if (admin) {

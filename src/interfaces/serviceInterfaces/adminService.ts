@@ -1,4 +1,4 @@
-export interface AdminLoginResponse {
+export interface AdminAuthResponse {
     status: number;
     data: {
       success: boolean;

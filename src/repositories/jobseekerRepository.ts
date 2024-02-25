@@ -34,6 +34,12 @@ class JobseekerRepository implements IJobseekerRepository {
          return null
       }
    }
+
+
+
+
+
+   
 }
 
 export default JobseekerRepository

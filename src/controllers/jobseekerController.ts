@@ -5,7 +5,7 @@ import JobseekerService from "../services/jobseekerService";
 class JobseekerController {
     constructor(private jobseekerService: JobseekerService) { }
 
-    async jobseekerLogin(req: Request, res: Response): Promise<void> {
+    async jobseekerLogin(req: Request, res: Response) {
         const user = req.body
         try {
             const loginStatus = await this.jobseekerService.jobseekerLogin(user)
@@ -25,7 +25,13 @@ class JobseekerController {
         }
     }
 
-    async jobseekerSignup(req: Request, res: Response): Promise<void> {
+    async jobseekerSignup(req: Request, res: Response) {
+        try {
+            const jobseeker = req.body
+            const jobseekerFound = await this.jobseekerService.isEmailExist(jobseeker.email)
+        } catch (error) {
+            
+        }
 
     }
 }

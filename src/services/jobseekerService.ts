@@ -1,7 +1,7 @@
 import JobseekerRepository from "../repositories/jobseekerRepository";
 import { createJWT } from "../utils/jwtUtils";
 import Encrypt from "../utils/hashPassword";
-import { JobseekerLoginResponse } from "../interfaces/serviceInterfaces/jobseekerService";
+import { JobseekerAuthResponse } from "../interfaces/serviceInterfaces/jobseekerService";
 import Jobseeker from "../interfaces/entityInterfaces/jobseeker";
 
 class JobseekerService {
@@ -11,7 +11,7 @@ class JobseekerService {
     private encrypt: Encrypt
   ) { }
 
-  async jobseekerLogin(user: any): Promise<JobseekerLoginResponse | undefined> {
+  async jobseekerLogin(user: any): Promise<JobseekerAuthResponse | undefined> {
     try {
       const jobseeker = await this.jobseekerRepository.jobseekerLogin(
         user.email
@@ -70,6 +70,39 @@ class JobseekerService {
       throw new Error("Internal server error");
     }
   }
+
+  async isEmailExist(email: string): Promise<Jobseeker | null>{
+    try {
+      const isJobseekerExist = await this.jobseekerRepository.emailExistCheck(email)
+      return isJobseekerExist
+    } catch (error) {
+      console.log(error);
+      throw new Error("Internal server error");
+    }
+  }
+
+  async saveJobseeker(jobseekerData: Jobseeker): Promise<JobseekerAuthResponse>{
+    try {
+      const jobseeker = await this.jobseekerRepository.saveJobseeker(jobseekerData)
+      const token = this.createJWT.generateToken(jobseeker?.id)
+      return {
+        status: 200,
+        data: {
+          success: true,
+          message: 'Success',
+          userId: jobseeker?.id,
+          token:token
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      throw new Error("Internal server error");
+    }
+  }
+
+
+
+
 }
 
 export default JobseekerService;
