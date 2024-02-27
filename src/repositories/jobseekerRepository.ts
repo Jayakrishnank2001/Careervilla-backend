@@ -4,19 +4,10 @@ import JobseekerModel from "../models/jobseekerModel";
 
 
 class JobseekerRepository implements IJobseekerRepository {
-   async jobseekerLogin(email: string): Promise<Jobseeker | null> {
-      try {
-         const jobseeker = await JobseekerModel.findOne({ email: email })
-         return jobseeker as Jobseeker
-      } catch (error) {
-         console.error(error)
-         return null
-      }
-   }
 
    async emailExistCheck(email: string): Promise<Jobseeker | null>{
       try {
-         const jobseekerFound = await JobseekerModel.findOne({ email })
+         const jobseekerFound = await JobseekerModel.findOne({ email:email })
          return jobseekerFound as Jobseeker
       } catch (error) {
          console.error(error)
@@ -32,6 +23,20 @@ class JobseekerRepository implements IJobseekerRepository {
       } catch (error) {
          console.error(Error)
          return null
+      }
+   }
+
+   async updatePassword(email: string, newPassword: string): Promise<boolean> {
+      try {
+         const updatedJobseeker = await JobseekerModel.findOneAndUpdate(
+            { email: email },
+            { password: newPassword },
+            { new:true}
+         )
+         return !!updatedJobseeker
+      } catch (error) {
+         console.error(Error)
+         return false
       }
    }
 

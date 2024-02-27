@@ -13,7 +13,7 @@ class EmployerService {
 
   async employerLogin(user: any): Promise<EmployerAuthResponse | undefined> {
     try {
-      const employer = await this.employerRepository.employerLogin(user.email);
+      const employer = await this.employerRepository.emailExistCheck(user.email);
       if (employer) {
         if (employer.isBlocked) {
           return {
@@ -68,6 +68,52 @@ class EmployerService {
       throw new Error("Internal server error");
     }
   }
+
+  async isEmailExist(email: string): Promise<Employer | null>{
+    try {
+      const isEmployerExist = await this.employerRepository.emailExistCheck(email)
+      return isEmployerExist
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async saveEmployer(employerData: Employer): Promise<EmployerAuthResponse>{
+    try {
+      const hashPassword = await this.encrypt.createHash(employerData.password)
+      employerData.password = hashPassword
+      const employer = await this.employerRepository.saveEmployer(employerData)
+      return {
+        status: 200,
+        data: {
+          success: true,
+          message: 'Success',
+          userId:employer?.id
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async resetPassword(email: string, newPassword: string): Promise<boolean>{
+    try {
+      const hashedPassword = await this.encrypt.createHash(newPassword)
+      return this.employerRepository.updatePassword(email,hashedPassword)
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+
+
+
+
+
+
 }
 
 export default EmployerService;

@@ -1,7 +1,9 @@
 import Employer from "../entityInterfaces/employer"
 
 interface IEmployerRepository {
-    employerLogin(email: string): Promise<Employer | null>
+    emailExistCheck(email: string): Promise<Employer | null>
+    saveEmployer(employer:Employer): Promise<Employer | null>
+    updatePassword(email:string,newPassword:string): Promise<boolean>
 
 }
 

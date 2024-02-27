@@ -29,9 +29,11 @@
     "@types/cookie-parser": "^1.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/express-session": "^1.18.0",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/mongoose": "^5.11.97",
     "@types/nodemailer": "^6.4.14",
+    "@types/uuid": "^9.0.8",
     "nodemon": "^3.0.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"

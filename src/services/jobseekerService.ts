@@ -13,7 +13,7 @@ class JobseekerService {
 
   async jobseekerLogin(user: any): Promise<JobseekerAuthResponse | undefined> {
     try {
-      const jobseeker = await this.jobseekerRepository.jobseekerLogin(
+      const jobseeker = await this.jobseekerRepository.emailExistCheck(
         user.email
       );
       if (jobseeker) {
@@ -83,20 +83,30 @@ class JobseekerService {
 
   async saveJobseeker(jobseekerData: Jobseeker): Promise<JobseekerAuthResponse>{
     try {
+      const hashPassword = await this.encrypt.createHash(jobseekerData.password)
+      jobseekerData.password=hashPassword
       const jobseeker = await this.jobseekerRepository.saveJobseeker(jobseekerData)
-      const token = this.createJWT.generateToken(jobseeker?.id)
       return {
         status: 200,
         data: {
           success: true,
           message: 'Success',
-          userId: jobseeker?.id,
-          token:token
+          userId: jobseeker?.id
         }
       }
     } catch (error) {
       console.log(error);
       throw new Error("Internal server error");
+    }
+  }
+
+  async resetPassword(email: string, newPassword: string): Promise<boolean>{
+    try {
+      const hashedPassword = await this.encrypt.createHash(newPassword)
+      return this.jobseekerRepository.updatePassword(email,hashedPassword)
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
     }
   }
 

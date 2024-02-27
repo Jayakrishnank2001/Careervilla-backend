@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
 })
 
 export const generateAndSendOTP = async (toEmail: string): Promise<string> => {
-    const otp = generateRandomOTP()
+    let otp:string|null = generateRandomOTP()
     
     const mailOptions = {
         from: 'jayk16122001@gmail.com',

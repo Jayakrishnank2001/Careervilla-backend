@@ -6,8 +6,9 @@ interface Employer {
     location?: string,
     phoneNumber?: string,
     isBlocked?: boolean,
-    password?: string,
+    password: string,
     company_Id?: string
 }
 
 export default Employer
+

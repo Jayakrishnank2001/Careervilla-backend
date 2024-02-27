@@ -5,7 +5,7 @@ import AdminService from "../services/adminService";
 class AdminController {
   constructor(private adminService: AdminService) { }
 
-  async adminLogin(req: Request, res: Response): Promise<void> {
+  async adminLogin(req: Request, res: Response) {
     const { username, password } = req.body;
     try {
       const loginStatus = await this.adminService.adminLogin(
@@ -31,6 +31,64 @@ class AdminController {
       console.log(error);
     }
   }
+  async getAllEmployers(req: Request, res: Response) {
+    try {
+      const page = parseInt(req.query.page as string)
+      const limit = parseInt(req.query.limit as string)
+      const searchQuery = req.query.searchQuery as string | undefined
+      const data = await this.adminService.getAllEmployers(page, limit, searchQuery)
+      res.status(200).json(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async getAllJobseekers(req: Request, res: Response) {
+    try {
+      const page = parseInt(req.query.page as string)
+      const limit = parseInt(req.query.limit as string)
+      const searchQuery = req.query.searchQuery as string | undefined
+      const data = await this.adminService.getAllJobseekers(page, limit, searchQuery)
+      res.status(200).json(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async blockEmployer(req: Request, res: Response) {
+    try {
+      const data = await this.adminService.blockEmployer(req.params.employerId as string)
+      res.status(200).json({
+        success: true,
+        message:'blocked/unblocked employer successfully'
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async blockJobseeker(req: Request, res: Response) {
+    try {
+      const data = await this.adminService.blockJobseeker(req.params.jobseekerId as string)
+      res.status(200).json({
+        success: true,
+        message:'blocked/unblocked jobseeker successfully'
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
 }
 
 export default AdminController;

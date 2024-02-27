@@ -1,3 +1,6 @@
+import Employer from "../entityInterfaces/employer";
+import Jobseeker from "../entityInterfaces/jobseeker";
+
 export interface AdminAuthResponse {
     status: number;
     data: {
@@ -6,4 +9,14 @@ export interface AdminAuthResponse {
       adminId?: string;
       token?: string; 
     };
-  }
+}
+  
+export interface IJobseekersAndCount{
+  jobseekers: Jobseeker[],
+  jobseekersCount:number
+}
+
+export interface IEmployersAndCount{
+  employers: Employer[],
+  employersCount:number
+}

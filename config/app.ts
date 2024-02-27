@@ -6,7 +6,6 @@ import adminRouter from '../src/routes/adminRoute'
 import jobseekerRouter from '../src/routes/jobseekerRoute'
 import employerRouter from '../src/routes/employerRoute'
 
-
 export const createServer = () => {
     try {
         const app = express()
