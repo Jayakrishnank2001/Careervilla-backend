@@ -2,6 +2,7 @@ import AdminRepository from "../repositories/adminRepository";
 import { createJWT } from "../utils/jwtUtils";
 import { AdminAuthResponse, IEmployersAndCount, IJobseekersAndCount } from "../interfaces/serviceInterfaces/adminService";
 import Admin from "../interfaces/entityInterfaces/admin";
+import { IApiRes } from "../interfaces/common/common";
 
 class AdminService {
     constructor(
@@ -42,31 +43,39 @@ class AdminService {
         }
     }
 
-    async getAllEmployers(page: number, limit: number, searchQuery: string | undefined): Promise<IEmployersAndCount | null>{
+    async getAllEmployers(page: number, limit: number, searchQuery: string | undefined): Promise<IApiRes<IEmployersAndCount | null>>{
         try {
             if (isNaN(page)) page = 1
             if (isNaN(limit)) limit = 10
             if (!searchQuery) searchQuery = ''
             const employers = await this.adminRepository.getAllEmployers(page, limit, searchQuery)
             const employersCount = await this.adminRepository.getEmployersCount(searchQuery)
-            return {employers,employersCount}
+            return {
+                status: 200,
+                message: 'success',
+                data:{employers,employersCount}
+            }
         } catch (error) {
             console.log(error)
-            return null
+            throw new Error('Error occured')
         }
     }
 
-    async getAllJobseekers(page: number, limit: number, searchQuery: string | undefined): Promise<IJobseekersAndCount | null>{
+    async getAllJobseekers(page: number, limit: number, searchQuery: string | undefined): Promise<IApiRes<IJobseekersAndCount | null>>{
         try {
             if (isNaN(page)) page = 1
             if (isNaN(limit)) limit = 10
             if (!searchQuery) searchQuery = ''
             const jobseekers = await this.adminRepository.getAllJobseekers(page, limit, searchQuery)
             const jobseekersCount = await this.adminRepository.getJobseekersCount(searchQuery)
-            return {jobseekers,jobseekersCount}
+            return {
+                status: 200,
+                message: 'success',
+                data:{jobseekers,jobseekersCount}
+            }
         } catch (error) {
             console.log(error)
-            return null
+            throw new Error('Error occured')
         }
     }
 
