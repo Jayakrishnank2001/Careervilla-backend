@@ -10,7 +10,7 @@ export interface AdminAuthResponse {
       token?: string; 
     };
 }
-  
+
 export interface IJobseekersAndCount{
   jobseekers: Jobseeker[],
   jobseekersCount:number
@@ -19,4 +19,12 @@ export interface IJobseekersAndCount{
 export interface IEmployersAndCount{
   employers: Employer[],
   employersCount:number
+}
+
+export interface AdminResponse{
+  status: number,
+  data: {
+    success: boolean
+    message: string
+  }
 }

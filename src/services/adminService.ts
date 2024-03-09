@@ -1,8 +1,9 @@
 import AdminRepository from "../repositories/adminRepository";
 import { createJWT } from "../utils/jwtUtils";
-import { AdminAuthResponse, IEmployersAndCount, IJobseekersAndCount } from "../interfaces/serviceInterfaces/adminService";
+import { AdminAuthResponse, AdminResponse, IEmployersAndCount, IJobseekersAndCount } from "../interfaces/serviceInterfaces/adminService";
 import Admin from "../interfaces/entityInterfaces/admin";
 import { IApiRes } from "../interfaces/common/common";
+import SubscriptionPlan from "../interfaces/entityInterfaces/subscriptionPlan";
 
 class AdminService {
     constructor(
@@ -92,6 +93,94 @@ class AdminService {
             await this.adminRepository.blockJobseeker(jobseekerId)
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    async createPlan(planData: SubscriptionPlan): Promise<AdminResponse>{
+        try {
+            const planExist = await this.adminRepository.planExists(planData)
+            if (!planExist) {
+                const newPlan = await this.adminRepository.savePlan(planData)
+                return {
+                    status: 200,
+                    data: {
+                        success: true,
+                        message:'Plan created successfully'
+                    }
+                }
+            } else {
+                return {
+                    status: 200,
+                    data: {
+                        success: false,
+                        message:'Plan Already Exists'
+                    }
+                }
+            }
+        } catch (error) {
+            console.log(error)
+            throw new Error('Internal server error')
+        }
+    }
+
+    async editPlan(planId: string, updates: Partial<SubscriptionPlan>): Promise<AdminResponse>{
+        try {
+            const updatedPlan = await this.adminRepository.updatePlan(planId, updates)
+            if (updatedPlan) {
+                return {
+                    status: 200,
+                    data: {
+                        success: true,
+                        message:'Plan updated successfully'
+                    }
+                }
+            } else {
+                return {
+                    status: 404,
+                    data: {
+                        success: false,
+                        message:'Plan not found'
+                    }
+                }
+            }
+        } catch (error) {
+            console.log(error)
+            throw new Error('Internal server error')
+        }
+    }
+
+    async deletePlan(planId: string): Promise<AdminResponse>{
+        try {
+            const isDeleted = await this.adminRepository.deletePlan(planId)
+            if (isDeleted) {
+                return {
+                    status: 200,
+                    data: {
+                        success: true,
+                        message:'Plan deleted Successfully'
+                    }
+                }
+            } else {
+                return {
+                    status: 404,
+                    data: {
+                        success: false,
+                        message:'Plan not found'
+                    }
+                }
+            }
+        } catch (error) {
+            console.log(error)
+            throw new Error('Internal server error')
+        }
+    }
+
+    async getPlans(): Promise<SubscriptionPlan[]>{
+        try {
+            return this.adminRepository.getAllPlans()
+        } catch (error) {
+            console.log(error)
+            throw new Error('Internal server error')
         }
     }
 

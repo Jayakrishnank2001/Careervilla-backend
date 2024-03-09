@@ -29,6 +29,7 @@ class AdminController {
       }
     } catch (error) {
       console.log(error);
+      res.status(500).json({error:'Internal server error'})
     }
   }
   async getAllEmployers(req: Request, res: Response) {
@@ -40,6 +41,7 @@ class AdminController {
       res.status(200).json(data)
     } catch (error) {
       console.log(error)
+      res.status(500).json({error:'Internal server error'})
     }
   }
 
@@ -52,6 +54,7 @@ class AdminController {
       res.status(200).json(data)
     } catch (error) {
       console.log(error)
+      res.status(500).json({error:'Internal server error'})
     }
   }
 
@@ -64,6 +67,7 @@ class AdminController {
       })
     } catch (error) {
       console.log(error)
+      res.status(500).json({error:'Internal server error'})
     }
   }
 
@@ -76,6 +80,51 @@ class AdminController {
       })
     } catch (error) {
       console.log(error)
+      res.status(500).json({error:'Internal server error'})
+    }
+  }
+
+  async createPlan(req: Request, res: Response) {
+    try {
+      const planData = req.body
+      const newPlan = await this.adminService.createPlan(planData.data)
+      res.status(newPlan.status).json(newPlan)
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({error:'Internal server error'})
+    }
+  }
+
+  async editPlan(req: Request, res: Response) {
+    try {
+      const { planId } = req.params
+      const updates = req.body
+      const updatedPlan = await this.adminService.editPlan(planId, updates.data)
+      res.status(updatedPlan.status).json(updatedPlan)
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({error:'Internal server error'})
+    }
+  }
+  
+  async deletePlan(req: Request, res: Response) {
+    try {
+      const { planId } = req.params
+      const deleteResult = await this.adminService.deletePlan(planId)
+      res.status(deleteResult.status).json(deleteResult)
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({error:'Internal server error'})
+    }
+  }
+
+  async getPlans(req: Request, res: Response) {
+    try {
+      const plans = await this.adminService.getPlans()
+      res.status(200).json(plans)
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({error:'Internal server error'})
     }
   }
 
