@@ -1,6 +1,7 @@
 import Employer from "../interfaces/entityInterfaces/employer";
 import IEmployerRepository from "../interfaces/repositoryInterfaces/employerRepository";
 import EmployerModel from "../models/employerModel";
+import SubscriptionPlanModel, { SubscriptionPlanInterface } from "../models/subscriptionPlanModel";
 
 class EmployerRepository implements IEmployerRepository {
 
@@ -36,6 +37,16 @@ class EmployerRepository implements IEmployerRepository {
         } catch (error) {
             console.error(error)
             return false
+        }
+    }
+
+    async showPlans(): Promise<SubscriptionPlanInterface[]> {
+        try {
+            const plans = await SubscriptionPlanModel.find().exec()
+            return plans.map((plan) => plan.toObject())
+        } catch (error) {
+            console.error(error)
+            return []
         }
     }
 

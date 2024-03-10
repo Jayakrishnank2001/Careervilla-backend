@@ -12,11 +12,6 @@ interface IAdminRepository {
   getJobseekersCount(searchQuery: string): Promise<number>
   blockEmployer(employerId: string): Promise<void>
   blockJobseeker(jobseekerId: string): Promise<void>
-  savePlan(plan: SubscriptionPlan): Promise<SubscriptionPlan | null>
-  updatePlan(planId: string, updates: Partial<SubscriptionPlan>): Promise<SubscriptionPlan | null>
-  deletePlan(planId: string): Promise<boolean>
-  getAllPlans(): Promise<SubscriptionPlan[]>
-  planExists(plan:SubscriptionPlan):Promise<boolean>
   
 }
 
