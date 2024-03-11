@@ -8,7 +8,6 @@ class JobseekerController {
 
     async jobseekerLogin(req: Request, res: Response) {
         const user = req.body
-        console.log(user)
         try {
             const loginStatus = await this.jobseekerService.jobseekerLogin(user)
             if (loginStatus && loginStatus.data && typeof loginStatus.data == 'object' && 'token' in loginStatus.data) {
