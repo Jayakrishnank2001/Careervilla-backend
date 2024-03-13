@@ -34,7 +34,7 @@ class JobseekerController {
             if (!emailExists) {
                 req.app.locals.jobseekerData = jobseeker;
                 req.app.locals.email = jobseeker.jobseekerData.email
-                const otp = await generateAndSendOTP(jobseeker.email);
+                const otp = await generateAndSendOTP(jobseeker.jobseekerData.email);
                 req.app.locals.otp = otp;
             
                 const expirationMinutes = 1;
@@ -65,15 +65,9 @@ class JobseekerController {
                 if (isNewRegistration) {
                     const savedUser = await this.jobseekerService.saveJobseeker(savedJobseeker.jobseekerData)
                     req.app.locals = {}
-                    res.status(200).json({
-                        userId: savedUser.data,
-                        message: 'User registerd successfully'
-                    })
+                    res.status(200).json(savedUser)
                 } else {
-                    res.status(200).json({
-                        success: true,
-                        message: 'OTP verification successful'
-                    })
+                    res.status(200).json()
                 }
             } else {
                 res.status(400).json({ message: 'Incorrect OTP' })

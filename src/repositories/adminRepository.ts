@@ -5,8 +5,6 @@ import EmployerModel from "../models/employerModel";
 import Employer from "../interfaces/entityInterfaces/employer";
 import JobseekerModel from "../models/jobseekerModel";
 import Jobseeker from "../interfaces/entityInterfaces/jobseeker";
-import SubscriptionPlan from "../interfaces/entityInterfaces/subscriptionPlan";
-import SubscriptionPlanModel from "../models/subscriptionPlanModel";
 
 
 class AdminRepository implements IAdminRepository {

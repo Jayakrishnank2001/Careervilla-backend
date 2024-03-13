@@ -11,7 +11,7 @@ export interface JobInterface extends Document{
     jobType: string,
     experience: string,
     gender: string,
-    applicationDeadline: Date,
+    applicationDeadline: string,
     addressId:ObjectId
 }
 

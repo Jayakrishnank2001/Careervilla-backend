@@ -50,6 +50,19 @@ class EmployerRepository implements IEmployerRepository {
         }
     }
 
+    async updateCompanyId(employerId: string, companyId: string): Promise<Employer | null> {
+        try {
+            const updatedEmployer = await EmployerModel.findByIdAndUpdate(
+                employerId,
+                {companyId:companyId},
+                { new: true }
+            )
+            return updatedEmployer as Employer
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    }
 
 
 

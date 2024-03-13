@@ -1,6 +1,8 @@
+import { Date, ObjectId } from "mongoose"
+
 interface Job{
     id?: string,
-    company_Id?: string,
+    companyId?: ObjectId,
     jobTitle?: string,
     jobDescription?: string,
     email?:string,
@@ -10,7 +12,7 @@ interface Job{
     experience?: string,
     gender?: string,
     applicationDeadline?: string,
-    address_Id?:string
+    addressId?: ObjectId;
 }
 
 export default Job

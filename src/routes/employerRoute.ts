@@ -8,6 +8,13 @@ import { employerAuthMiddleware } from '../middlewares/employerAuth'
 import SubscriptionRepository from '../repositories/subscriptionRepository'
 import SubscriptionService from '../services/subscriptionService'
 import SubscriptionController from '../controllers/subscriptionController'
+import CompanyRepository from '../repositories/companyRepository'
+import CompanyService from '../services/companyService'
+import CompanyController from '../controllers/companyController'
+import AddressRepository from '../repositories/addressRepository'
+import JobRepository from '../repositories/jobRepository'
+import JobService from '../services/jobService'
+import JobController from '../controllers/jobController'
 
 const employerRouter = express.Router()
 
@@ -30,6 +37,25 @@ const subscriptionService = new SubscriptionService(subscriptionRepository)
 const subscriptionController = new SubscriptionController(subscriptionService)
 
 employerRouter.get('/subscription-plans', employerAuthMiddleware, async (req, res) => subscriptionController.getPlans(req, res))
+
+
+const companyRepository = new CompanyRepository()
+const addressRepository=new AddressRepository()
+const companyService = new CompanyService(companyRepository,addressRepository,employerRepository)
+const companyController = new CompanyController(companyService)
+
+employerRouter.post('/addCompany/:employerId', async (req, res) => companyController.saveCompany(req, res))
+
+
+
+const jobRepository = new JobRepository()
+const jobService = new JobService(jobRepository,companyRepository,addressRepository)
+const jobController = new JobController(jobService)
+
+employerRouter.post('/addJob', employerAuthMiddleware, async (req, res) => jobController.saveJob(req, res))
+
+
+
 
 
 

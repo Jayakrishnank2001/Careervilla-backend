@@ -8,6 +8,7 @@ export interface EmployerInterface extends Document {
     location: string | null,
     phoneNumber: string,
     isBlocked: boolean,
+    isSubscribed:boolean,
     password: string,
     companyId: ObjectId
 }
@@ -35,6 +36,10 @@ const employerSchema: Schema = new Schema({
     isBlocked: {
         type: Boolean,
         default: false
+    },
+    isSubscribed: {
+        type: Boolean,
+        default:false
     },
     password: {
         type: String,

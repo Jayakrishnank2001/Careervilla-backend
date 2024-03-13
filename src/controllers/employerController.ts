@@ -63,15 +63,9 @@ class EmployerController {
         if (isNewRegistration) {
           const savedUser = await this.employerService.saveEmployer(savedEmployer.employerData)
           req.app.locals={}
-          res.status(200).json({
-            userId: savedUser.data,
-            message: 'User Registered Successfully'
-          })
+          res.status(200).json(savedUser)
         } else {
-          res.status(200).json({
-            success:true,
-            message: 'OTP verification successful'
-          })
+          res.status(200).json()
         }
       } else {
         res.status(400).json({ message: 'Incorrect OTP' })

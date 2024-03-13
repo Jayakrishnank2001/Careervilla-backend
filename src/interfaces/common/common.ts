@@ -10,3 +10,43 @@ export interface IApiRes<T extends AllResTypes> {
     message: string,
     data: T
 }
+
+export interface ICompany{
+    id?: string,
+    companyName?: string,
+    website?: string,
+    companySize?: string,
+    industry?: string,
+    email?: string,
+    foundedYear?: number,
+    description?: string,
+    logo?: string
+    address: {
+        id?:string,
+        address?: string,
+        state?: string,
+        city?: string,
+        country?:string
+    }
+}
+
+export interface IJob{
+    id?: string,
+    companyName:string,
+    jobDescription?: string,
+    email?: string,
+    jobType?: string,
+    salary?: string,
+    specialisms?: string,
+    experience?: string,
+    gender?: string,
+    industry?: string,
+    applicationDeadline?: string,
+    address: {
+        id:string,
+        address?: string,
+        state?: string,
+        city?: string,
+        country?:string
+    }
+}
