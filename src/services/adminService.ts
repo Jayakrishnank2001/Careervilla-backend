@@ -1,13 +1,12 @@
 import AdminRepository from "../repositories/adminRepository";
 import { createJWT } from "../utils/jwtUtils";
-import { AdminAuthResponse, IEmployersAndCount, IJobseekersAndCount } from "../interfaces/serviceInterfaces/IAdminService";
+import { AdminAuthResponse, IAdminService, IEmployersAndCount, IJobseekersAndCount } from "../interfaces/serviceInterfaces/IAdminService";
 import { IApiRes } from "../interfaces/common/ICommon";
 import { STATUS_CODES } from '../constants/httpStatusCodes';
 
 const { UNAUTHORIZED,OK } = STATUS_CODES
 
-
-class AdminService {
+class AdminService implements IAdminService{
     constructor(
         private adminRepository: AdminRepository,
         private createJWT: createJWT

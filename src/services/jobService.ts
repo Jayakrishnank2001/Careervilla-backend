@@ -1,5 +1,5 @@
 import { IJob } from "../interfaces/common/ICommon";
-import { IJobRes } from "../interfaces/serviceInterfaces/IJobService";
+import { IJobRes, IJobService } from "../interfaces/serviceInterfaces/IJobService";
 import AddressRepository from "../repositories/addressRepository";
 import CompanyRepository from "../repositories/companyRepository";
 import JobRepository from "../repositories/jobRepository";
@@ -7,7 +7,7 @@ import { STATUS_CODES } from '../constants/httpStatusCodes';
 
 const { OK } = STATUS_CODES
 
-class JobService {
+class JobService implements IJobService{
     constructor(private jobRepository: JobRepository,
         private companyRepository: CompanyRepository,
         private addressRepository: AddressRepository) { }

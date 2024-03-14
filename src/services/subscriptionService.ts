@@ -2,12 +2,12 @@ import SubscriptionPlan from "../interfaces/entityInterfaces/ISubscriptionPlan";
 import { AdminResponse } from "../interfaces/serviceInterfaces/IAdminService";
 import SubscriptionRepository from "../repositories/subscriptionRepository";
 import { STATUS_CODES } from '../constants/httpStatusCodes';
+import { ISubscriptionService } from "../interfaces/serviceInterfaces/ISubscriptionService";
 
 const { OK, NOT_FOUND } = STATUS_CODES
 
-class SubscriptionService{
+class SubscriptionService implements ISubscriptionService{
     constructor(private subscriptionRepository: SubscriptionRepository) { }
-
 
     async createPlan(planData: SubscriptionPlan): Promise<AdminResponse>{
         try {

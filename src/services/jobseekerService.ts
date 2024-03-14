@@ -1,14 +1,14 @@
 import JobseekerRepository from "../repositories/jobseekerRepository";
 import { createJWT } from "../utils/jwtUtils";
 import Encrypt from "../utils/hashPassword";
-import { JobseekerAuthResponse } from "../interfaces/serviceInterfaces/IJobseekerService";
+import { IJobseekerService, JobseekerAuthResponse } from "../interfaces/serviceInterfaces/IJobseekerService";
 import Jobseeker from "../interfaces/entityInterfaces/IJobseeker";
 import { STATUS_CODES } from '../constants/httpStatusCodes';
 
 const { UNAUTHORIZED, OK } = STATUS_CODES
 
 
-class JobseekerService {
+class JobseekerService implements IJobseekerService{
   constructor(
     private jobseekerRepository: JobseekerRepository,
     private createJWT: createJWT,

@@ -1,6 +1,6 @@
 import Employer from "../interfaces/entityInterfaces/IEmployer";
 import EmployerRepository from "../repositories/employerRepository";
-import { EmployerAuthResponse } from "../interfaces/serviceInterfaces/IEmployerService";
+import { EmployerAuthResponse, IEmployerService } from "../interfaces/serviceInterfaces/IEmployerService";
 import Encrypt from "../utils/hashPassword";
 import { createJWT } from "../utils/jwtUtils";
 import { STATUS_CODES } from '../constants/httpStatusCodes';
@@ -8,7 +8,7 @@ import { STATUS_CODES } from '../constants/httpStatusCodes';
 const { UNAUTHORIZED, OK } = STATUS_CODES
 
 
-class EmployerService {
+class EmployerService implements IEmployerService{
   constructor(
     private employerRepository: EmployerRepository,
     private createJWT: createJWT,

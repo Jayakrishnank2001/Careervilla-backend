@@ -1,5 +1,5 @@
 import { ICompany } from "../interfaces/common/ICommon";
-import { ICompanyRes } from "../interfaces/serviceInterfaces/ICompanyService";
+import { ICompanyRes, ICompanyService } from "../interfaces/serviceInterfaces/ICompanyService";
 import AddressRepository from "../repositories/addressRepository";
 import CompanyRepository from "../repositories/companyRepository";
 import EmployerRepository from "../repositories/employerRepository";
@@ -7,7 +7,7 @@ import { STATUS_CODES } from '../constants/httpStatusCodes';
 
 const { OK } = STATUS_CODES
 
-class CompanyService {
+class CompanyService implements ICompanyService{
     constructor(private companyRepository: CompanyRepository,
         private addressRepository: AddressRepository,
         private employerRepository: EmployerRepository) { }
