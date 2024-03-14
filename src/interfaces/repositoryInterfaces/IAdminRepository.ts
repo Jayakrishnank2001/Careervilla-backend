@@ -1,6 +1,6 @@
-import Admin from "../entityInterfaces/admin";
-import Employer from "../entityInterfaces/employer";
-import Jobseeker from "../entityInterfaces/jobseeker";
+import Admin from "../entityInterfaces/IAdmin";
+import Employer from "../entityInterfaces/IEmployer";
+import Jobseeker from "../entityInterfaces/IJobseeker";
 
 interface IAdminRepository {
   adminLogin(username: string, password: string): Promise<Admin | null>;

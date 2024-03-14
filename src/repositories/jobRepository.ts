@@ -1,5 +1,5 @@
-import Job from "../interfaces/entityInterfaces/job";
-import IJobRepository from "../interfaces/repositoryInterfaces/jobRepository";
+import Job from "../interfaces/entityInterfaces/IJob";
+import IJobRepository from "../interfaces/repositoryInterfaces/IJobRepository";
 import JobModel from "../models/jobModel";
 
 

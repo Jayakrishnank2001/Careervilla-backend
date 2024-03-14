@@ -1,9 +1,11 @@
 import AdminRepository from "../repositories/adminRepository";
 import { createJWT } from "../utils/jwtUtils";
-import { AdminAuthResponse, AdminResponse, IEmployersAndCount, IJobseekersAndCount } from "../interfaces/serviceInterfaces/adminService";
-import Admin from "../interfaces/entityInterfaces/admin";
-import { IApiRes } from "../interfaces/common/common";
-import SubscriptionPlan from "../interfaces/entityInterfaces/subscriptionPlan";
+import { AdminAuthResponse, IEmployersAndCount, IJobseekersAndCount } from "../interfaces/serviceInterfaces/IAdminService";
+import { IApiRes } from "../interfaces/common/ICommon";
+import { STATUS_CODES } from '../constants/httpStatusCodes';
+
+const { UNAUTHORIZED,OK } = STATUS_CODES
+
 
 class AdminService {
     constructor(
@@ -21,7 +23,7 @@ class AdminService {
                     role:'admin'
                 });
                 return {
-                    status: 200,
+                    status: OK,
                     data: {
                         success: true,
                         message: "Authentication successful",
@@ -31,7 +33,7 @@ class AdminService {
                 } as const;
             } else {
                 return {
-                    status: 401,
+                    status: UNAUTHORIZED,
                     data: {
                         success: false,
                         message: "Authenticaion failed",
@@ -52,7 +54,7 @@ class AdminService {
             const employers = await this.adminRepository.getAllEmployers(page, limit, searchQuery)
             const employersCount = await this.adminRepository.getEmployersCount(searchQuery)
             return {
-                status: 200,
+                status: OK,
                 message: 'success',
                 data:{employers,employersCount}
             }
@@ -70,7 +72,7 @@ class AdminService {
             const jobseekers = await this.adminRepository.getAllJobseekers(page, limit, searchQuery)
             const jobseekersCount = await this.adminRepository.getJobseekersCount(searchQuery)
             return {
-                status: 200,
+                status: OK,
                 message: 'success',
                 data:{jobseekers,jobseekersCount}
             }

@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import Hashpassword from '../interfaces/entityInterfaces/hashPassword'
+import Hashpassword from '../interfaces/entityInterfaces/IHashPassword'
 
 class Encrypt implements Hashpassword {
     async createHash(password: string): Promise<string> {

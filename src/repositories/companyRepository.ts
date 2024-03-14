@@ -1,5 +1,5 @@
-import Company from "../interfaces/entityInterfaces/company";
-import ICompanyRepository from "../interfaces/repositoryInterfaces/companyRepository";
+import Company from "../interfaces/entityInterfaces/ICompany";
+import ICompanyRepository from "../interfaces/repositoryInterfaces/ICompanyRepository";
 import CompanyModel from "../models/companyModel";
 
 class CompanyRepository implements ICompanyRepository{

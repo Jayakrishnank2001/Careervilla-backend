@@ -1,10 +1,10 @@
 import AdminModel from "../models/adminModel";
-import IAdminRepository from "../interfaces/repositoryInterfaces/adminRepository";
-import Admin from "../interfaces/entityInterfaces/admin";
+import IAdminRepository from "../interfaces/repositoryInterfaces/IAdminRepository";
+import Admin from "../interfaces/entityInterfaces/IAdmin";
 import EmployerModel from "../models/employerModel";
-import Employer from "../interfaces/entityInterfaces/employer";
+import Employer from "../interfaces/entityInterfaces/IEmployer";
 import JobseekerModel from "../models/jobseekerModel";
-import Jobseeker from "../interfaces/entityInterfaces/jobseeker";
+import Jobseeker from "../interfaces/entityInterfaces/IJobseeker";
 
 
 class AdminRepository implements IAdminRepository {

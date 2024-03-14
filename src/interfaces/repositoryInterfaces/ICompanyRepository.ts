@@ -1,4 +1,4 @@
-import Company from "../entityInterfaces/company"
+import Company from "../entityInterfaces/ICompany"
 
 
 interface ICompanyRepository {

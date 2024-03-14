@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import JobService from "../services/jobService";
+import { STATUS_CODES } from '../constants/httpStatusCodes';
 
-
-
+const { INTERNAL_SERVER_ERROR } = STATUS_CODES
 
 class JobController{
     constructor(private jobService: JobService) { }
@@ -15,7 +15,7 @@ class JobController{
             res.status(newJob.status).json(newJob)
         } catch (error) {
             console.log(error)
-            res.status(500).json({ error: 'Internal server error' })
+            res.status(INTERNAL_SERVER_ERROR).json({ error: 'Internal server error' })
         }
     }
 

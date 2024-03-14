@@ -1,10 +1,11 @@
-import { ICompany } from "../interfaces/common/common";
-import { ICompanyRes } from "../interfaces/serviceInterfaces/companyService";
+import { ICompany } from "../interfaces/common/ICommon";
+import { ICompanyRes } from "../interfaces/serviceInterfaces/ICompanyService";
 import AddressRepository from "../repositories/addressRepository";
 import CompanyRepository from "../repositories/companyRepository";
 import EmployerRepository from "../repositories/employerRepository";
+import { STATUS_CODES } from '../constants/httpStatusCodes';
 
-
+const { OK } = STATUS_CODES
 
 class CompanyService {
     constructor(private companyRepository: CompanyRepository,
@@ -17,7 +18,7 @@ class CompanyService {
             const savedCompany = (savedAddress && savedAddress.id) ? await this.companyRepository.saveCompany(companyData, savedAddress.id) : null
             const updatedEmployer = (savedCompany?.id) ? await this.employerRepository.updateCompanyId(employerId, savedCompany?.id) : null
             return {
-                status: 200,
+                status: OK,
                 data: {
                     success: true,
                     message: 'Company saved successfully'

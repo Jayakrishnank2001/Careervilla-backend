@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import SubscriptionService from "../services/subscriptionService";
+import { STATUS_CODES } from '../constants/httpStatusCodes';
 
-
-
+const { OK, INTERNAL_SERVER_ERROR } = STATUS_CODES
 
 class SubscriptionController {
 
@@ -15,7 +15,7 @@ class SubscriptionController {
             res.status(newPlan.status).json(newPlan)
         } catch (error) {
             console.log(error)
-            res.status(500).json({ error: 'Internal server error' })
+            res.status(INTERNAL_SERVER_ERROR).json({ error: 'Internal server error' })
         }
     }
 
@@ -27,7 +27,7 @@ class SubscriptionController {
             res.status(updatedPlan.status).json(updatedPlan)
         } catch (error) {
             console.log(error)
-            res.status(500).json({ error: 'Internal server error' })
+            res.status(INTERNAL_SERVER_ERROR).json({ error: 'Internal server error' })
         }
     }
 
@@ -38,17 +38,17 @@ class SubscriptionController {
             res.status(deleteResult.status).json(deleteResult)
         } catch (error) {
             console.log(error)
-            res.status(500).json({ error: 'Internal server error' })
+            res.status(INTERNAL_SERVER_ERROR).json({ error: 'Internal server error' })
         }
     }
 
     async getPlans(req: Request, res: Response) {
         try {
             const plans = await this.subscriptionService.getPlans()
-            res.status(200).json(plans)
+            res.status(OK).json(plans)
         } catch (error) {
             console.log(error)
-            res.status(500).json({ error: 'Internal server error' })
+            res.status(INTERNAL_SERVER_ERROR).json({ error: 'Internal server error' })
         }
     }
 

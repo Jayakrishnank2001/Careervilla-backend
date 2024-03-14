@@ -1,8 +1,12 @@
 import JobseekerRepository from "../repositories/jobseekerRepository";
 import { createJWT } from "../utils/jwtUtils";
 import Encrypt from "../utils/hashPassword";
-import { JobseekerAuthResponse } from "../interfaces/serviceInterfaces/jobseekerService";
-import Jobseeker from "../interfaces/entityInterfaces/jobseeker";
+import { JobseekerAuthResponse } from "../interfaces/serviceInterfaces/IJobseekerService";
+import Jobseeker from "../interfaces/entityInterfaces/IJobseeker";
+import { STATUS_CODES } from '../constants/httpStatusCodes';
+
+const { UNAUTHORIZED, OK } = STATUS_CODES
+
 
 class JobseekerService {
   constructor(
@@ -11,24 +15,22 @@ class JobseekerService {
     private encrypt: Encrypt
   ) { }
 
-  async jobseekerLogin(user: any): Promise<JobseekerAuthResponse | undefined> {
+  async jobseekerLogin(email:string,password:string): Promise<JobseekerAuthResponse | undefined> {
     try {
-      const jobseeker = await this.jobseekerRepository.emailExistCheck(
-        user.email
-      );
+      const jobseeker = await this.jobseekerRepository.emailExistCheck(email);
       if (jobseeker) {
         if (jobseeker.isBlocked) {
           return {
-            status: 401,
+            status: UNAUTHORIZED,
             data: {
               success: false,
               message: "You have been blocked",
             },
           };
         }
-        if (jobseeker.password && user.password) {
+        if (jobseeker.password && password) {
           const passwordMatch = await this.encrypt.compare(
-            user.password,
+            password,
             jobseeker.password
           );
           if (passwordMatch) {
@@ -38,7 +40,7 @@ class JobseekerService {
               role: 'jobseeker'
             });
             return {
-              status: 200,
+              status: OK,
               data: {
                 success: true,
                 message: "Authentication successful",
@@ -48,7 +50,7 @@ class JobseekerService {
             } as const;
           } else {
             return {
-              status: 401,
+              status: UNAUTHORIZED,
               data: {
                 success: false,
                 message: "Authentication failed.",
@@ -58,7 +60,7 @@ class JobseekerService {
         }
       } else {
         return {
-          status: 401,
+          status: UNAUTHORIZED,
           data: {
             success: false,
             message: "Authentication failed",
@@ -87,7 +89,7 @@ class JobseekerService {
       jobseekerData.password=hashPassword
       const jobseeker = await this.jobseekerRepository.saveJobseeker(jobseekerData)
       return {
-        status: 200,
+        status: OK,
         data: {
           success: true,
           message: 'Success',

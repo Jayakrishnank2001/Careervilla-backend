@@ -1,9 +1,9 @@
-import SubscriptionPlan from "../interfaces/entityInterfaces/subscriptionPlan";
-import { AdminResponse } from "../interfaces/serviceInterfaces/adminService";
+import SubscriptionPlan from "../interfaces/entityInterfaces/ISubscriptionPlan";
+import { AdminResponse } from "../interfaces/serviceInterfaces/IAdminService";
 import SubscriptionRepository from "../repositories/subscriptionRepository";
+import { STATUS_CODES } from '../constants/httpStatusCodes';
 
-
-
+const { OK, NOT_FOUND } = STATUS_CODES
 
 class SubscriptionService{
     constructor(private subscriptionRepository: SubscriptionRepository) { }
@@ -13,9 +13,9 @@ class SubscriptionService{
         try {
             const planExist = await this.subscriptionRepository.planExists(planData)
             if (!planExist) {
-                const newPlan = await this.subscriptionRepository.savePlan(planData)
+                await this.subscriptionRepository.savePlan(planData)
                 return {
-                    status: 200,
+                    status: OK,
                     data: {
                         success: true,
                         message:'Plan created successfully'
@@ -23,7 +23,7 @@ class SubscriptionService{
                 }
             } else {
                 return {
-                    status: 200,
+                    status: OK,
                     data: {
                         success: false,
                         message:'Plan Already Exists'
@@ -41,7 +41,7 @@ class SubscriptionService{
             const updatedPlan = await this.subscriptionRepository.updatePlan(planId, updates)
             if (updatedPlan) {
                 return {
-                    status: 200,
+                    status: OK,
                     data: {
                         success: true,
                         message:'Plan updated successfully'
@@ -49,7 +49,7 @@ class SubscriptionService{
                 }
             } else {
                 return {
-                    status: 404,
+                    status: NOT_FOUND,
                     data: {
                         success: false,
                         message:'Plan not found'
@@ -67,7 +67,7 @@ class SubscriptionService{
             const isDeleted = await this.subscriptionRepository.deletePlan(planId)
             if (isDeleted) {
                 return {
-                    status: 200,
+                    status: OK,
                     data: {
                         success: true,
                         message:'Plan deleted Successfully'
@@ -75,7 +75,7 @@ class SubscriptionService{
                 }
             } else {
                 return {
-                    status: 404,
+                    status: NOT_FOUND,
                     data: {
                         success: false,
                         message:'Plan not found'

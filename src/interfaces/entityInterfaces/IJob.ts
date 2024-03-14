@@ -1,4 +1,4 @@
-import { Date, ObjectId } from "mongoose"
+import { ObjectId } from "mongoose"
 
 interface Job{
     id?: string,

@@ -1,5 +1,5 @@
-import Employer from "../entityInterfaces/employer";
-import Jobseeker from "../entityInterfaces/jobseeker";
+import Employer from "../entityInterfaces/IEmployer";
+import Jobseeker from "../entityInterfaces/IJobseeker";
 
 export interface AdminAuthResponse {
     status: number;

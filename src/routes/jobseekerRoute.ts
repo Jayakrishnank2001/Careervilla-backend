@@ -1,5 +1,4 @@
 import express from 'express'
-import { jobseekerAuthMiddleware } from '../middlewares/jobseekerAuth'
 import JobseekerController from '../controllers/jobseekerController'
 import JobseekerService from '../services/jobseekerService'
 import JobseekerRepository from '../repositories/jobseekerRepository'

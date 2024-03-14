@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
-import Jobseeker from "../interfaces/entityInterfaces/jobseeker";
 import JobseekerService from "../services/jobseekerService";
 import { generateAndSendOTP } from "../utils/otpGenerator";
+import { STATUS_CODES } from '../constants/httpStatusCodes';
+
+const { OK, INTERNAL_SERVER_ERROR, UNAUTHORIZED, BAD_REQUEST } = STATUS_CODES
 
 class JobseekerController {
     constructor(private jobseekerService: JobseekerService) { }
@@ -9,7 +11,7 @@ class JobseekerController {
     async jobseekerLogin(req: Request, res: Response) {
         const user = req.body
         try {
-            const loginStatus = await this.jobseekerService.jobseekerLogin(user)
+            const loginStatus = await this.jobseekerService.jobseekerLogin(user.email,user.password)
             if (loginStatus && loginStatus.data && typeof loginStatus.data == 'object' && 'token' in loginStatus.data) {
                 res.cookie('jobseekerJWT', loginStatus.data.token, {
                     httpOnly: true,
@@ -19,7 +21,7 @@ class JobseekerController {
                 })
                 res.status(loginStatus.status).json(loginStatus)
             } else {
-                res.status(401).json(loginStatus)
+                res.status(UNAUTHORIZED).json(loginStatus)
             }
         } catch (error) {
             console.log(error)
@@ -42,17 +44,17 @@ class JobseekerController {
                     delete req.app.locals.otp;
                 }, expirationMinutes * 60 * 1000);
             
-                res.status(200).json({
+                res.status(OK).json({
                     userId: null,
                     success: true,
                     message: 'OTP sent for verification',
                 });
             } else {
-                res.status(400).json({ message: 'Email already exists' });
+                res.status(BAD_REQUEST).json({ message: 'Email already exists' });
             }
         } catch (error) {
             console.log(error)
-            res.status(500).json({ message: 'Internal Server Error' })
+            res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal Server Error' })
         }
     }
 
@@ -65,16 +67,16 @@ class JobseekerController {
                 if (isNewRegistration) {
                     const savedUser = await this.jobseekerService.saveJobseeker(savedJobseeker.jobseekerData)
                     req.app.locals = {}
-                    res.status(200).json(savedUser)
+                    res.status(OK).json(savedUser)
                 } else {
-                    res.status(200).json()
+                    res.status(OK).json()
                 }
             } else {
-                res.status(400).json({ message: 'Incorrect OTP' })
+                res.status(BAD_REQUEST).json({ message: 'Incorrect OTP' })
             }
         } catch (error) {
             console.error(error)
-            res.status(500).json({ message: 'Internal server error.' })
+            res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error.' })
         }
     }
 
@@ -90,16 +92,16 @@ class JobseekerController {
                 setTimeout(() => {
                     delete req.app.locals.otp
                 }, expirationMinutes * 60 * 1000)
-                res.status(200).json({
+                res.status(OK).json({
                     success: true,
                     message: 'OTP send for verification'
                 })
             } else {
-                res.status(400).json({ message: 'Invalid Email' })
+                res.status(BAD_REQUEST).json({ message: 'Invalid Email' })
             }
         } catch (error) {
             console.log(error)
-            res.status(500).json({ message: 'Internal server error' })
+            res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
         }
     }
 
@@ -112,13 +114,13 @@ class JobseekerController {
             setTimeout(() => {
                 delete req.app.locals.otp
             }, expirationMinutes * 60 * 1000)
-            res.status(200).json({
+            res.status(OK).json({
                 success: true,
                 message: 'New OTP sent successfully'
             })
         } catch (error) {
             console.error(error)
-            res.status(500).json({ message: 'Internal server error' })
+            res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
         }
     }
 
@@ -127,21 +129,21 @@ class JobseekerController {
             const { newPassword, confirmPassword } = req.body
             const email = req.app.locals.email
             if (newPassword !== confirmPassword) {
-                return res.status(400).json({ message: 'Passwords do not match.' })
+                return res.status(BAD_REQUEST).json({ message: 'Passwords do not match.' })
             }
             const success = await this.jobseekerService.resetPassword(email, newPassword)
             req.app.locals = {}
             if (success) {
-                return res.status(200).json({
+                return res.status(OK).json({
                     success: true,
                     message: 'Password reset successful'
                 })
             } else {
-                return res.status(500).json({ message: 'Internal server error' })
+                return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
             }
         } catch (error) {
             console.error(error)
-            return res.status(500).json({ message: 'Internal server error' })
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
         }
     }
 

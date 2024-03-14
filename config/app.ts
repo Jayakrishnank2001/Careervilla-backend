@@ -9,7 +9,7 @@ import employerRouter from '../src/routes/employerRoute'
 export const createServer = () => {
     try {
         const app = express()
-        const httpServer = http.createServer(app)
+        http.createServer(app)
         app.use(express.json())
         app.use(express.urlencoded({ extended: true }))
         app.use(cookieParser())

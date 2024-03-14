@@ -1,4 +1,4 @@
-import SubscriptionPlan from "../entityInterfaces/subscriptionPlan"
+import SubscriptionPlan from "../entityInterfaces/ISubscriptionPlan"
 
 
 interface ISubscriptionRepository{

@@ -1,4 +1,4 @@
-import Job from "../entityInterfaces/job"
+import Job from "../entityInterfaces/IJob"
 
 
 interface IJobRepository{

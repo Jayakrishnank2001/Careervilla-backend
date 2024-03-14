@@ -1,5 +1,5 @@
 import { SubscriptionPlanInterface } from "../../models/subscriptionPlanModel"
-import Employer from "../entityInterfaces/employer"
+import Employer from "../entityInterfaces/IEmployer"
 
 interface IEmployerRepository {
     emailExistCheck(email: string): Promise<Employer | null>

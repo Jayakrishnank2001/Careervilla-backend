@@ -1,10 +1,11 @@
-import { IJob } from "../interfaces/common/common";
-import { IJobRes } from "../interfaces/serviceInterfaces/jobService";
+import { IJob } from "../interfaces/common/ICommon";
+import { IJobRes } from "../interfaces/serviceInterfaces/IJobService";
 import AddressRepository from "../repositories/addressRepository";
 import CompanyRepository from "../repositories/companyRepository";
 import JobRepository from "../repositories/jobRepository";
+import { STATUS_CODES } from '../constants/httpStatusCodes';
 
-
+const { OK } = STATUS_CODES
 
 class JobService {
     constructor(private jobRepository: JobRepository,
@@ -17,7 +18,7 @@ class JobService {
             const savedAddress = (company) ? await this.addressRepository.saveAddress(jobData.address) : null
             const savedJob = (company && company.id && savedAddress?.id) ? await this.jobRepository.saveJob(jobData, company?.id, savedAddress?.id) : null
             return {
-                status: 200,
+                status: OK,
                 data: {
                     success: true,
                     message:'Job created successfully'

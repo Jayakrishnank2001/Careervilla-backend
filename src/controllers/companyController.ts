@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import CompanyService from "../services/companyService";
+import { STATUS_CODES } from '../constants/httpStatusCodes';
 
+const { INTERNAL_SERVER_ERROR } = STATUS_CODES
 
 
 class CompanyController{
@@ -14,7 +16,7 @@ class CompanyController{
             res.status(newCompany.status).json(newCompany)
         } catch (error) {
             console.log(error)
-            res.status(500).json({ error: 'Internal server error' })
+            res.status(INTERNAL_SERVER_ERROR).json({ error: 'Internal server error' })
         }
     }
 

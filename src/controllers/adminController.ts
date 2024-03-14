@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
-import Admin from "../interfaces/entityInterfaces/admin";
 import AdminService from "../services/adminService";
+import { STATUS_CODES } from '../constants/httpStatusCodes';
+
+const { OK, INTERNAL_SERVER_ERROR } = STATUS_CODES
 
 class AdminController {
   constructor(private adminService: AdminService) { }
@@ -29,7 +31,7 @@ class AdminController {
       }
     } catch (error) {
       console.log(error);
-      res.status(500).json({error:'Internal server error'})
+      res.status(INTERNAL_SERVER_ERROR).json({error:'Internal server error'})
     }
   }
   async getAllEmployers(req: Request, res: Response) {
@@ -38,10 +40,10 @@ class AdminController {
       const limit = parseInt(req.query.limit as string)
       const searchQuery = req.query.searchQuery as string | undefined
       const data = await this.adminService.getAllEmployers(page, limit, searchQuery)
-      res.status(200).json(data)
+      res.status(OK).json(data)
     } catch (error) {
       console.log(error)
-      res.status(500).json({error:'Internal server error'})
+      res.status(INTERNAL_SERVER_ERROR).json({error:'Internal server error'})
     }
   }
 
@@ -51,36 +53,36 @@ class AdminController {
       const limit = parseInt(req.query.limit as string)
       const searchQuery = req.query.searchQuery as string | undefined
       const data = await this.adminService.getAllJobseekers(page, limit, searchQuery)
-      res.status(200).json(data)
+      res.status(OK).json(data)
     } catch (error) {
       console.log(error)
-      res.status(500).json({error:'Internal server error'})
+      res.status(INTERNAL_SERVER_ERROR).json({error:'Internal server error'})
     }
   }
 
   async blockEmployer(req: Request, res: Response) {
     try {
-      const data = await this.adminService.blockEmployer(req.params.employerId as string)
-      res.status(200).json({
+      await this.adminService.blockEmployer(req.params.employerId as string)
+      res.status(OK).json({
         success: true,
         message:'blocked/unblocked employer successfully'
       })
     } catch (error) {
       console.log(error)
-      res.status(500).json({error:'Internal server error'})
+      res.status(INTERNAL_SERVER_ERROR).json({error:'Internal server error'})
     }
   }
 
   async blockJobseeker(req: Request, res: Response) {
     try {
-      const data = await this.adminService.blockJobseeker(req.params.jobseekerId as string)
-      res.status(200).json({
+      await this.adminService.blockJobseeker(req.params.jobseekerId as string)
+      res.status(OK).json({
         success: true,
         message:'blocked/unblocked jobseeker successfully'
       })
     } catch (error) {
       console.log(error)
-      res.status(500).json({error:'Internal server error'})
+      res.status(INTERNAL_SERVER_ERROR).json({error:'Internal server error'})
     }
   }
 

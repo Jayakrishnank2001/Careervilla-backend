@@ -1,5 +1,5 @@
-import SubscriptionPlan from "../interfaces/entityInterfaces/subscriptionPlan";
-import ISubscriptionRepository from "../interfaces/repositoryInterfaces/subscriptionRepository";
+import SubscriptionPlan from "../interfaces/entityInterfaces/ISubscriptionPlan";
+import ISubscriptionRepository from "../interfaces/repositoryInterfaces/ISubscriptionRepository";
 import SubscriptionPlanModel from "../models/subscriptionPlanModel";
 
 

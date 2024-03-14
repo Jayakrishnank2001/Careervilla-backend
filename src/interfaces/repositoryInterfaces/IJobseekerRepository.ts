@@ -1,4 +1,4 @@
-import Jobseeker from "../entityInterfaces/jobseeker";
+import Jobseeker from "../entityInterfaces/IJobseeker";
 
 
 interface IJobseekerRepository {

@@ -1,4 +1,4 @@
-import Address from "../entityInterfaces/address";
+import Address from "../entityInterfaces/IAddress";
 
 interface IAddressRepository{
     saveAddress(addressData: Address): Promise<Address | null>

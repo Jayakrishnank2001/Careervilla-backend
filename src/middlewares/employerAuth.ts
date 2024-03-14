@@ -1,15 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../utils/jwtUtils';
+import { STATUS_CODES } from '../constants/httpStatusCodes';
 
-export const employerAuthMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+const { UNAUTHORIZED, FORBIDDEN } = STATUS_CODES
+
+export const employerAuthMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const token = req.header('Authorization')?.split(' ')[1];
     if (!token) {
-        res.status(401).json({ message: 'Unauthorized' });
+        res.status(UNAUTHORIZED).json({ message: 'Unauthorized' });
         return
     }
     const employer = verifyToken(token);
     if (!employer) {
-        res.status(403).json({ message: 'Forbidden' });
+        res.status(FORBIDDEN).json({ message: 'Forbidden' });
         return
     }
     (req as any).employer = employer;

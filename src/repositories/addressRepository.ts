@@ -1,5 +1,5 @@
-import Address from "../interfaces/entityInterfaces/address";
-import IAddressRepository from "../interfaces/repositoryInterfaces/addressRepository";
+import Address from "../interfaces/entityInterfaces/IAddress";
+import IAddressRepository from "../interfaces/repositoryInterfaces/IAddressRepository";
 import AddressModel from "../models/addressModel";
 
 

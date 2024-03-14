@@ -1,5 +1,5 @@
-import Employer from "../interfaces/entityInterfaces/employer";
-import IEmployerRepository from "../interfaces/repositoryInterfaces/employerRepository";
+import Employer from "../interfaces/entityInterfaces/IEmployer";
+import IEmployerRepository from "../interfaces/repositoryInterfaces/IEmployerRepository";
 import EmployerModel from "../models/employerModel";
 import SubscriptionPlanModel, { SubscriptionPlanInterface } from "../models/subscriptionPlanModel";
 

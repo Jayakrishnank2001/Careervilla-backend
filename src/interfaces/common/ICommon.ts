@@ -1,6 +1,6 @@
-import Employer from "../entityInterfaces/employer"
-import Jobseeker from "../entityInterfaces/jobseeker"
-import { IEmployersAndCount, IJobseekersAndCount } from "../serviceInterfaces/adminService"
+import Employer from "../entityInterfaces/IEmployer"
+import Jobseeker from "../entityInterfaces/IJobseeker"
+import { IEmployersAndCount, IJobseekersAndCount } from "../serviceInterfaces/IAdminService"
 
 export type AllResTypes = IJobseekersAndCount | IEmployersAndCount | Jobseeker | Jobseeker[] | Employer | Employer[] | null
 

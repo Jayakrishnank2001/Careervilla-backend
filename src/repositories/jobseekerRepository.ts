@@ -1,5 +1,5 @@
-import Jobseeker from "../interfaces/entityInterfaces/jobseeker";
-import IJobseekerRepository from "../interfaces/repositoryInterfaces/jobseekerRepository";
+import Jobseeker from "../interfaces/entityInterfaces/IJobseeker";
+import IJobseekerRepository from "../interfaces/repositoryInterfaces/IJobseekerRepository";
 import JobseekerModel from "../models/jobseekerModel";
 
 

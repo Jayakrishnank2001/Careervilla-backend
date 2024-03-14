@@ -1,8 +1,12 @@
-import Employer from "../interfaces/entityInterfaces/employer";
+import Employer from "../interfaces/entityInterfaces/IEmployer";
 import EmployerRepository from "../repositories/employerRepository";
-import { EmployerAuthResponse } from "../interfaces/serviceInterfaces/employerService";
+import { EmployerAuthResponse } from "../interfaces/serviceInterfaces/IEmployerService";
 import Encrypt from "../utils/hashPassword";
 import { createJWT } from "../utils/jwtUtils";
+import { STATUS_CODES } from '../constants/httpStatusCodes';
+
+const { UNAUTHORIZED, OK } = STATUS_CODES
+
 
 class EmployerService {
   constructor(
@@ -11,22 +15,22 @@ class EmployerService {
     private encrypt: Encrypt
   ) {}
 
-  async employerLogin(user: any): Promise<EmployerAuthResponse | undefined> {
+  async employerLogin(email:string,password:string): Promise<EmployerAuthResponse | undefined> {
     try {
-      const employer = await this.employerRepository.emailExistCheck(user.email);
+      const employer = await this.employerRepository.emailExistCheck(email);
       if (employer) {
         if (employer.isBlocked) {
           return {
-            status: 401,
+            status: UNAUTHORIZED,
             data: {
               success: false,
               message: "You have been blocked",
             },
           };
         }
-        if (employer.password && user.password) {
+        if (employer.password && password) {
           const passwordMatch = await this.encrypt.compare(
-            user.password,
+            password,
             employer.password
           );
           if (passwordMatch) {
@@ -36,7 +40,7 @@ class EmployerService {
               role:'employer'
             });
             return {
-              status: 200,
+              status: OK,
               data: {
                 success: true,
                 message: "Authentication successful",
@@ -46,7 +50,7 @@ class EmployerService {
             } as const;
           } else {
             return {
-              status: 401,
+              status: UNAUTHORIZED,
               data: {
                 success: false,
                 message: "Authentication failed",
@@ -56,7 +60,7 @@ class EmployerService {
         }
       } else {
         return {
-          status: 401,
+          status: UNAUTHORIZED,
           data: {
             success: false,
             message: "Authentication failed",
@@ -85,7 +89,7 @@ class EmployerService {
       employerData.password = hashPassword
       const employer = await this.employerRepository.saveEmployer(employerData)
       return {
-        status: 200,
+        status: OK,
         data: {
           success: true,
           message: 'Success',
