@@ -138,6 +138,29 @@ class EmployerController {
     }
   }
 
+  async googleLogin(req: Request, res: Response) {
+    try {
+      const user = req.body
+      const loginStatus = await this.employerService.googleLogin(user.email, user.firstName, user.image)
+      if (loginStatus) {
+        res.status(loginStatus.status).json(loginStatus)
+      }
+    } catch (error) {
+      console.error(error)
+      return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+    }
+  }
+
+  async getEmployerDetails(req: Request, res: Response) {
+    try {
+      const employerId=req.params.employerId
+      const employerData = await this.employerService.getEmployerData(employerId)
+      res.status(OK).json(employerData)
+    } catch (error) {
+      console.error(error)
+      return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+    }
+  }
 
 
 

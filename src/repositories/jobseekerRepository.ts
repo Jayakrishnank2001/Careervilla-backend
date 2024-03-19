@@ -40,6 +40,16 @@ class JobseekerRepository implements IJobseekerRepository {
       }
    }
 
+   async getJobseekerData(jobseekerId: string): Promise<Jobseeker | null> {
+      try {
+         const jobseeker = await JobseekerModel.findById(jobseekerId)
+         return jobseeker as Jobseeker
+      } catch (error) {
+         console.error(Error)
+         return null
+      }
+   }
+
 
 
 

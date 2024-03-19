@@ -11,7 +11,7 @@ class JobseekerController {
     async jobseekerLogin(req: Request, res: Response) {
         const user = req.body
         try {
-            const loginStatus = await this.jobseekerService.jobseekerLogin(user.email,user.password)
+            const loginStatus = await this.jobseekerService.jobseekerLogin(user.email, user.password)
             if (loginStatus && loginStatus.data && typeof loginStatus.data == 'object' && 'token' in loginStatus.data) {
                 res.cookie('jobseekerJWT', loginStatus.data.token, {
                     httpOnly: true,
@@ -38,12 +38,12 @@ class JobseekerController {
                 req.app.locals.email = jobseeker.jobseekerData.email
                 const otp = await generateAndSendOTP(jobseeker.jobseekerData.email);
                 req.app.locals.otp = otp;
-            
+
                 const expirationMinutes = 1;
                 setTimeout(() => {
                     delete req.app.locals.otp;
                 }, expirationMinutes * 60 * 1000);
-            
+
                 res.status(OK).json({
                     userId: null,
                     success: true,
@@ -141,6 +141,30 @@ class JobseekerController {
             } else {
                 return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
             }
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
+
+    async googleLogin(req: Request, res: Response) {
+        try {
+            const user = req.body
+            const loginStatus = await this.jobseekerService.googleLogin(user.email, user.firstName, user.image)
+            if (loginStatus) {
+                res.status(loginStatus.status).json(loginStatus)
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
+
+    async getJobseekerDetails(req: Request, res: Response) {
+        try {
+            const jobseekerId = req.params.jobseekerId
+            const jobseekerData = await this.jobseekerService.getJobseekerData(jobseekerId)
+            res.status(OK).json(jobseekerData)
         } catch (error) {
             console.error(error)
             return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })

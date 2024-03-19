@@ -22,11 +22,9 @@ const jobseekerSchema: Schema = new Schema({
     },
     lastName: {
         type: String,
-        required: true
     },
     password: {
         type: String,
-        required: true
     },
     email: {
         type: String,
@@ -35,7 +33,6 @@ const jobseekerSchema: Schema = new Schema({
     },
     phoneNumber: {
         type: String,
-        required: true
     },
     isBlocked: {
         type: Boolean,

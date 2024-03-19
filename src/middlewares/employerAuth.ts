@@ -17,7 +17,7 @@ export const employerAuthMiddleware = async (req: Request, res: Response, next: 
         res.status(FORBIDDEN).json({ message: 'Forbidden' });
         return
     } else if (employerData?.isBlocked == true) {
-        res.status(UNAUTHORIZED).json({ message: 'Unauthorized' })
+        res.status(UNAUTHORIZED).json({ message: 'Your account has been blocked by admin !' })
         return
     }
     (req as any).employer = employer;

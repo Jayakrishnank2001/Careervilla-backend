@@ -8,7 +8,8 @@ export interface EmployerInterface extends Document {
     location: string | null,
     phoneNumber: string,
     isBlocked: boolean,
-    isSubscribed:boolean,
+    isSubscribed: boolean,
+    image:string | null
     password: string,
     companyId: ObjectId
 }
@@ -20,7 +21,6 @@ const employerSchema: Schema = new Schema({
     },
     lastName: {
         type: String,
-        required: true
     },
     email: {
         type: String,
@@ -31,7 +31,6 @@ const employerSchema: Schema = new Schema({
     },
     phoneNumber: {
         type: String,
-        required: true
     },
     isBlocked: {
         type: Boolean,
@@ -41,9 +40,11 @@ const employerSchema: Schema = new Schema({
         type: Boolean,
         default:false
     },
+    image: {
+        type: String,
+    },
     password: {
         type: String,
-        required: true
     },
     companyId: {
         type: mongoose.Schema.Types.ObjectId,

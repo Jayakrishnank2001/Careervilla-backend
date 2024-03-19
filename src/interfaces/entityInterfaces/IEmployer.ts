@@ -6,8 +6,9 @@ interface Employer {
     location?: string,
     phoneNumber?: string,
     isBlocked?: boolean,
-    isSubscribed?:boolean,
-    password: string,
+    isSubscribed?: boolean,
+    image?:string,
+    password?: string,
     company_Id?: string
 }
 

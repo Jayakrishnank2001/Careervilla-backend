@@ -2,7 +2,7 @@ interface Jobseeker {
     id?: string,
     firstName?: string,
     lastName?: string,
-    password: string,
+    password?: string,
     email?: string,
     phoneNumber?: string,
     isBlocked?: boolean,

@@ -25,11 +25,13 @@ const employerService = new EmployerService(employerRepository, jwtCreate, encry
 const employerController = new EmployerController(employerService)
 
 employerRouter.post('/login', async (req, res) => employerController.employerLogin(req, res))
+employerRouter.post('/googleLogin', async (req, res) => employerController.googleLogin(req, res))
 employerRouter.post('/signup', async (req, res) => employerController.employerSignup(req, res))
 employerRouter.post('/verifyOTP', async (req, res) => employerController.verifyOTP(req, res))
 employerRouter.post('/forgotPassword', async (req, res) => employerController.forgotPassword(req, res))
 employerRouter.post('/resendOTP', async (req, res) => employerController.resendOTP(req, res))
 employerRouter.post('/resetPassword', async (req, res) => employerController.resetPassword(req, res))
+employerRouter.get('/getDetails/:employerId', employerAuthMiddleware, async (req, res) => employerController.getEmployerDetails(req, res))
 
 
 const subscriptionRepository = new SubscriptionRepository()
