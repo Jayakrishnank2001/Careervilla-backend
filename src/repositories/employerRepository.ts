@@ -31,7 +31,7 @@ class EmployerRepository implements IEmployerRepository {
             const updatedEmployer = await EmployerModel.findOneAndUpdate(
                 { email: email },
                 { password: newPassword },
-                {new:true}
+                { new: true }
             )
             return !!updatedEmployer
         } catch (error) {
@@ -54,7 +54,7 @@ class EmployerRepository implements IEmployerRepository {
         try {
             const updatedEmployer = await EmployerModel.findByIdAndUpdate(
                 employerId,
-                {companyId:companyId},
+                { companyId: companyId },
                 { new: true }
             )
             return updatedEmployer as Employer
@@ -74,6 +74,15 @@ class EmployerRepository implements IEmployerRepository {
         }
     }
 
+    async updatePlanExpiration(employerId: string, newExpirationDate: Date): Promise<Employer | null> {
+        try {
+            const employer = EmployerModel.findByIdAndUpdate(employerId, { planExpiresAt: newExpirationDate,isSubscribed:true })
+            return employer as Employer
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    }
 
 
 

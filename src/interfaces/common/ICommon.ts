@@ -11,7 +11,7 @@ export interface IApiRes<T extends AllResTypes> {
     data: T
 }
 
-export interface ICompany{
+export interface ICompany {
     id?: string,
     companyName?: string,
     website?: string,
@@ -22,17 +22,17 @@ export interface ICompany{
     description?: string,
     logo?: string
     address: {
-        id?:string,
+        id?: string,
         address?: string,
         state?: string,
         city?: string,
-        country?:string
+        country?: string
     }
 }
 
-export interface IJob{
+export interface IJob {
     id?: string,
-    companyName:string,
+    companyName: string,
     jobDescription?: string,
     email?: string,
     jobType?: string,
@@ -42,11 +42,22 @@ export interface IJob{
     gender?: string,
     industry?: string,
     applicationDeadline?: string,
-    address: {
-        id:string,
-        address?: string,
-        state?: string,
-        city?: string,
-        country?:string
-    }
+    address?: string,
+    state?: string,
+    city?: string,
+    country?: string
+
+}
+
+export interface paymentToken {
+    id: string,
+    email: string
+}
+
+export interface IResponse{
+    status: number;
+    data: {
+      success: boolean;
+      message: string;
+    };
 }

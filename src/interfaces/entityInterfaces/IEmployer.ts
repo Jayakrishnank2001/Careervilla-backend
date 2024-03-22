@@ -7,6 +7,7 @@ interface Employer {
     phoneNumber?: string,
     isBlocked?: boolean,
     isSubscribed?: boolean,
+    planExpiresAt?:string,
     image?:string,
     password?: string,
     company_Id?: string

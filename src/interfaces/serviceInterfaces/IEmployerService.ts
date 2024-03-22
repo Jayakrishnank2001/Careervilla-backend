@@ -17,6 +17,7 @@ export interface EmployerAuthResponse {
     data: {
       success: boolean;
       message: string;
+      data?:Employer,
       userId?: string;
       token?: string; 
     };

@@ -5,6 +5,14 @@ import JobseekerRepository from '../repositories/jobseekerRepository'
 import { createJWT } from '../utils/jwtUtils'
 import Encrypt from '../utils/hashPassword'
 import { jobseekerAuthMiddleware } from '../middlewares/jobseekerAuth'
+import JobRepository from '../repositories/jobRepository'
+import JobService from '../services/jobService'
+import CompanyRepository from '../repositories/companyRepository'
+import AddressRepository from '../repositories/addressRepository'
+import JobController from '../controllers/jobController'
+import JobApplicationRepository from '../repositories/jobApplicationRepository'
+import JobApplicationService from '../services/jobApplicationService'
+import JobApplicationController from '../controllers/jobApplicationController'
 
 const jobseekerRouter = express.Router()
 
@@ -22,6 +30,25 @@ jobseekerRouter.post('/forgotPassword', async(req,res)=>jobseekerController.forg
 jobseekerRouter.post('/resendOTP', async (req, res) => jobseekerController.resendOTP(req, res))
 jobseekerRouter.post('/resetPassword', async (req, res) => jobseekerController.resetPassword(req, res))
 jobseekerRouter.get('/getDetails/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.getJobseekerDetails(req, res))
+
+
+const jobRepository = new JobRepository()
+const companyRepository = new CompanyRepository()
+const addressRepository=new AddressRepository()
+const jobService = new JobService(jobRepository, companyRepository, addressRepository)
+const jobController = new JobController(jobService)
+
+jobseekerRouter.get('/jobs', async (req, res) => jobController.getAllJobs(req, res))
+
+
+const jobApplicationRepository = new JobApplicationRepository()
+const jobApplicationService = new JobApplicationService(jobApplicationRepository)
+const jobApplicationController = new JobApplicationController(jobApplicationService)
+
+jobseekerRouter.post('/applyJob', jobseekerAuthMiddleware, async (req, res) => jobApplicationController.applyJob(req, res))
+
+
+
 
 
 

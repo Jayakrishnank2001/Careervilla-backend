@@ -8,7 +8,7 @@ interface IEmployerRepository {
     showPlans(): Promise<SubscriptionPlanInterface[]>
     updateCompanyId(employerId: string, companyId: string): Promise<Employer | null>
     getEmployerData(employerId: string): Promise<Employer | null>
-    
+    updatePlanExpiration(employerId: string, newExpirationDate: Date): Promise<Employer | null>
 
 }
 

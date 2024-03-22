@@ -35,10 +35,11 @@ employerRouter.get('/getDetails/:employerId', employerAuthMiddleware, async (req
 
 
 const subscriptionRepository = new SubscriptionRepository()
-const subscriptionService = new SubscriptionService(subscriptionRepository)
+const subscriptionService = new SubscriptionService(subscriptionRepository,employerRepository)
 const subscriptionController = new SubscriptionController(subscriptionService)
 
 employerRouter.get('/subscription-plans', employerAuthMiddleware, async (req, res) => subscriptionController.getPlans(req, res))
+employerRouter.post('/payment/:employerId', employerAuthMiddleware, async (req, res) => subscriptionController.makePayment(req, res))
 
 
 const companyRepository = new CompanyRepository()

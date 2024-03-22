@@ -4,29 +4,39 @@ import AddressRepository from "../repositories/addressRepository";
 import CompanyRepository from "../repositories/companyRepository";
 import JobRepository from "../repositories/jobRepository";
 import { STATUS_CODES } from '../constants/httpStatusCodes';
+import Job from "../interfaces/entityInterfaces/IJob";
 
 const { OK } = STATUS_CODES
 
-class JobService implements IJobService{
+class JobService implements IJobService {
     constructor(private jobRepository: JobRepository,
         private companyRepository: CompanyRepository,
         private addressRepository: AddressRepository) { }
-    
-    async saveJob(jobData: IJob): Promise<IJobRes>{
+
+    async saveJob(jobData: IJob): Promise<IJobRes> {
         try {
             const company = await this.companyRepository.isCompanyExists(jobData.companyName)
-            const savedAddress = (company) ? await this.addressRepository.saveAddress(jobData.address) : null
-            const savedJob = (company && company.id && savedAddress?.id) ? await this.jobRepository.saveJob(jobData, company?.id, savedAddress?.id) : null
+            const savedAddress = (company) ? await this.addressRepository.saveAddress(jobData) : null
+            const savedJob = (company && company.id && savedAddress?.id) ? await this.jobRepository.saveJob(jobData, company.id, savedAddress.id) : null
             return {
                 status: OK,
                 data: {
                     success: true,
-                    message:'Job created successfully'
+                    message: 'Job created successfully'
                 }
             }
         } catch (error) {
             console.log(error);
             throw new Error("Internal server error");
+        }
+    }
+
+    async getAllJobs(): Promise<Job[]> {
+        try {
+            return await this.jobRepository.getAllJobs()
+        } catch (error) {
+            console.log(error)
+            throw new Error('Internal server error')
         }
     }
 }

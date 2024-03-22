@@ -44,6 +44,7 @@ class EmployerService implements IEmployerService {
               data: {
                 success: true,
                 message: "Authentication successful",
+                data:employer,
                 userId: employer.id,
                 token: token,
               },
@@ -132,6 +133,7 @@ class EmployerService implements IEmployerService {
             data: {
               success: true,
               message: "Authentication successful",
+              data:newEmployer,
               userId: newEmployer.id,
               token: token,
             },
@@ -157,6 +159,7 @@ class EmployerService implements IEmployerService {
           data: {
             success: true,
             message: "Authentication successful",
+            data:employer,
             userId: employer.id,
             token: token,
           },

@@ -7,6 +7,7 @@ import { createJWT } from "../utils/jwtUtils";
 import SubscriptionRepository from "../repositories/subscriptionRepository";
 import SubscriptionService from "../services/subscriptionService";
 import SubscriptionController from "../controllers/subscriptionController";
+import EmployerRepository from "../repositories/employerRepository";
 
 const adminRouter = express.Router();
 
@@ -23,7 +24,8 @@ adminRouter.patch('/jobseekers/block/:jobseekerId', adminAuthMiddleware, async (
 
 
 const subscriptionRepository = new SubscriptionRepository()
-const subscriptionService = new SubscriptionService(subscriptionRepository)
+const employerRepository=new EmployerRepository()
+const subscriptionService = new SubscriptionService(subscriptionRepository,employerRepository)
 const subscriptionController = new SubscriptionController(subscriptionService)
 
 adminRouter.post('/create-plan', adminAuthMiddleware, async (req, res) => subscriptionController.createPlan(req, res))

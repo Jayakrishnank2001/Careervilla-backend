@@ -44,6 +44,7 @@ class JobseekerService implements IJobseekerService {
               data: {
                 success: true,
                 message: "Authentication successful",
+                data:jobseeker,
                 userId: jobseeker.id,
                 token: token,
               },
@@ -132,6 +133,7 @@ class JobseekerService implements IJobseekerService {
             data: {
               success: true,
               message: "Authentication successful",
+              data: newJobseeker,
               userId: newJobseeker.id,
               token: token,
             },
@@ -156,6 +158,7 @@ class JobseekerService implements IJobseekerService {
           data: {
             success: true,
             message: "Authentication successful",
+            data:jobseeker,
             userId: jobseeker.id,
             token: token,
           },
