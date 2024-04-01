@@ -11,6 +11,7 @@ interface Job{
     jobType?: string,
     experience?: string,
     gender?: string,
+    isBlocked?:boolean,
     applicationDeadline?: string,
     addressId?: ObjectId;
 }

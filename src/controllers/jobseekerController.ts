@@ -171,14 +171,106 @@ class JobseekerController {
         }
     }
 
+    async changePassword(req: Request, res: Response) {
+        try {
+            const { jobseekerEmail, newPassword, confirmPassword } = req.body
+            if (newPassword !== confirmPassword) {
+                return res.status(BAD_REQUEST).json({ message: 'Passwords do not match.' })
+            }
+            const success = await this.jobseekerService.resetPassword(jobseekerEmail, newPassword)
+            if (success) {
+                return res.status(OK).json({
+                    success: true,
+                    message: 'Password reset successful'
+                })
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
 
+    async updatePhoneNumber(req: Request, res: Response) {
+        try {
+            const phoneNumber = req.body.phoneNumber
+            const jobseekerId = req.params.jobseekerId
+            const updateNumber = await this.jobseekerService.updatePhoneNumber(jobseekerId, phoneNumber)
+            if (updateNumber) {
+                res.status(updateNumber.status).json(updateNumber)
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
 
+    async updateLocation(req: Request, res: Response) {
+        try {
+            const location = req.body.location
+            const jobseekerId = req.params.jobseekerId
+            const updateLocation = await this.jobseekerService.updateLocation(jobseekerId, location)
+            if (updateLocation) {
+                res.status(updateLocation.status).json(updateLocation)
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
 
+    async updatePhoto(req: Request, res: Response) {
+        try {
+            const url = req.body.url
+            const jobseekerId = req.params.jobseekerId
+            const updatePhoto = await this.jobseekerService.updatePhoto(jobseekerId, url)
+            if (updatePhoto) {
+                res.status(updatePhoto.status).json(updatePhoto)
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
 
+    async addResume(req: Request, res: Response) {
+        try {
+            const url = req.body.url
+            const jobseekerId = req.params.jobseekerId
+            const addResume = await this.jobseekerService.addResume(jobseekerId, url)
+            if (addResume) {
+                res.status(addResume.status).json(addResume)
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
 
+    async deleteResume(req: Request, res: Response) {
+        try {
+            const jobseekerId = req.params.jobseekerId
+            const deleteResume = await this.jobseekerService.deleteResume(jobseekerId)
+            if (deleteResume) {
+                res.status(deleteResume.status).json(deleteResume)
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
 
-
-
+    async saveJob(req: Request, res: Response) {
+        try {
+            const jobseeker = await this.jobseekerService.saveJob(req.body.jobseekerId, req.body.jobId)
+            if (jobseeker) {
+                res.status(jobseeker?.status).json(jobseeker)
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
+  
 
 
 

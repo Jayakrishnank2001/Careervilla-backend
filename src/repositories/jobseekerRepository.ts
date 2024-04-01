@@ -5,9 +5,9 @@ import JobseekerModel from "../models/jobseekerModel";
 
 class JobseekerRepository implements IJobseekerRepository {
 
-   async emailExistCheck(email: string): Promise<Jobseeker | null>{
+   async emailExistCheck(email: string): Promise<Jobseeker | null> {
       try {
-         const jobseekerFound = await JobseekerModel.findOne({ email:email })
+         const jobseekerFound = await JobseekerModel.findOne({ email: email })
          return jobseekerFound as Jobseeker
       } catch (error) {
          console.error(error)
@@ -31,7 +31,7 @@ class JobseekerRepository implements IJobseekerRepository {
          const updatedJobseeker = await JobseekerModel.findOneAndUpdate(
             { email: email },
             { password: newPassword },
-            { new:true}
+            { new: true }
          )
          return !!updatedJobseeker
       } catch (error) {
@@ -50,11 +50,79 @@ class JobseekerRepository implements IJobseekerRepository {
       }
    }
 
+   async updatePhoneNumber(jobseekerId: string, phoneNumber: string): Promise<Jobseeker | null> {
+      try {
+         const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId, { phoneNumber: phoneNumber }, { new: true })
+         return jobseeker as Jobseeker
+      } catch (error) {
+         console.error(error)
+         return null
+      }
+   }
+
+   async updateLocation(jobseekerId: string, location: string): Promise<Jobseeker | null> {
+      try {
+         const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId, { location: location }, { new: true })
+         return jobseeker as Jobseeker
+      } catch (error) {
+         console.error(error)
+         return null
+      }
+   }
+
+   async updatePhoto(jobseekerId: string, url: string): Promise<Jobseeker | null> {
+      try {
+         const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId, { image: url }, { new: true })
+         return jobseeker as Jobseeker
+      } catch (error) {
+         console.error(error)
+         return null
+      }
+   }
+
+   async addResume(jobseekerId: string, url: string): Promise<Jobseeker | null> {
+      try {
+         const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId, { resume: url }, { new: true })
+         return jobseeker as Jobseeker
+      } catch (error) {
+         console.error(error)
+         return null
+      }
+   }
+
+   async deleteResume(jobseekerId: string): Promise<Jobseeker | null> {
+      try {
+         const jobseeker = await JobseekerModel.findById(jobseekerId)
+         if (!jobseeker) {
+            return null
+         }
+         jobseeker.resume = undefined
+         const updatedJobseeker = await jobseeker.save()
+         return updatedJobseeker as Jobseeker
+      } catch (error) {
+         console.error(error)
+         return null
+      }
+   }
+
+   async saveJob(jobseekerId: string, jobId: string): Promise<Jobseeker | null> {
+      try {
+         const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId,
+            { $push: { savedJobs: { jobId: jobId } } },
+            { new: true }
+         )
+         return jobseeker as Jobseeker
+      } catch (error) {
+         console.error(error)
+         return null
+      }
+   }
 
 
 
 
-   
+
+
 }
 
 export default JobseekerRepository

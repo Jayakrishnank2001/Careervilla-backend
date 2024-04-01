@@ -9,6 +9,10 @@ interface IEmployerRepository {
     updateCompanyId(employerId: string, companyId: string): Promise<Employer | null>
     getEmployerData(employerId: string): Promise<Employer | null>
     updatePlanExpiration(employerId: string, newExpirationDate: Date): Promise<Employer | null>
+    updatePhoneNumber(employerId: string, phoneNumber: string): Promise<Employer | null>
+    updateLocation(employerId: string, location: string): Promise<Employer | null>
+    updatePhoto(employerId: string, url: string): Promise<Employer | null>
+    
 
 }
 

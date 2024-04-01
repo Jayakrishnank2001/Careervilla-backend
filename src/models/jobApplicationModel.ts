@@ -27,7 +27,7 @@ const jobApplicationSchema: Schema = new Schema({
     },
     status: {
         type: String,
-        default:'pending'
+        default:'Pending'
     }
 })
 

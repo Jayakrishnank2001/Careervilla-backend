@@ -4,6 +4,7 @@ import Encrypt from "../utils/hashPassword";
 import { IJobseekerService, JobseekerAuthResponse } from "../interfaces/serviceInterfaces/IJobseekerService";
 import Jobseeker from "../interfaces/entityInterfaces/IJobseeker";
 import { STATUS_CODES } from '../constants/httpStatusCodes';
+import { IResponse } from "../interfaces/common/ICommon";
 
 const { UNAUTHORIZED, OK } = STATUS_CODES
 
@@ -180,6 +181,113 @@ class JobseekerService implements IJobseekerService {
     }
   }
 
+  async updatePhoneNumber(jobseekerId: string, phoneNumber: string): Promise<IResponse | undefined> {
+    try {
+      const jobseeker = await this.jobseekerRepository.updatePhoneNumber(jobseekerId, phoneNumber)
+      if (jobseeker) {
+        return {
+          status: STATUS_CODES.OK,
+          data: {
+            success: true,
+            message:'Phone Number Updated Successfully'
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async updateLocation(jobseekerId: string, location: string): Promise<IResponse | undefined> {
+    try {
+      const jobseeker = await this.jobseekerRepository.updateLocation(jobseekerId, location)
+      if (jobseeker) {
+        return {
+          status: STATUS_CODES.OK,
+          data: {
+            success: true,
+            message:'Location Updated Successfully'
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async updatePhoto(jobseekerId: string, url: string): Promise<IResponse | undefined> {
+    try {
+      const jobseeker = await this.jobseekerRepository.updatePhoto(jobseekerId, url)
+      if (jobseeker) {
+        return {
+          status: STATUS_CODES.OK,
+          data: {
+            success: true,
+            message:'Profile Photo Updated Successfully'
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async addResume(jobseekerId: string, url: string): Promise<IResponse | undefined> {
+    try {
+      const jobseeker = await this.jobseekerRepository.addResume(jobseekerId, url)
+      if (jobseeker) {
+        return {
+          status: STATUS_CODES.OK,
+          data: {
+            success: true,
+            message:'Resume added successfully'
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async deleteResume(jobseekerId: string): Promise<IResponse | undefined> {
+    try {
+      const jobseeker = await this.jobseekerRepository.deleteResume(jobseekerId)
+      if (jobseeker) {
+        return {
+          status: STATUS_CODES.OK,
+          data: {
+            success: true,
+            message:'Resume deleted successfully'
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async saveJob(jobseekerId: string, jobId: string): Promise<IResponse | undefined> {
+    try {
+      const jobseeker = await this.jobseekerRepository.saveJob(jobseekerId, jobId)
+      if (jobseeker) {
+        return {
+          status: STATUS_CODES.OK,
+          data: {
+            success: true,
+            message:'Job saved successfully'
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
 
 
 

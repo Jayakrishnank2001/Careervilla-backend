@@ -23,12 +23,26 @@ class JobRepository implements IJobRepository {
 
     async getAllJobs(): Promise<Job[]> {
         try {
-            const jobs = await JobModel.find().populate('companyId').populate('addressId').exec()
+            const jobs = await JobModel.find({isBlocked:false}).populate('companyId').populate('addressId').exec()
             return jobs.map((job) => job.toObject())
         } catch (error) {
             console.error(error)
             return []
         }
     }
+
+    async blockReportedJob(jobId: string): Promise<void> {
+        try {
+            const job = await JobModel.findById({ _id: jobId })
+            if (job !== null) {
+                job.isBlocked = !job.isBlocked
+                await job.save()
+            }
+        } catch (error) {
+            throw new Error('Error occured')
+        }
+    }
+
+    
 }
 export default JobRepository

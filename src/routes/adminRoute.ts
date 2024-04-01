@@ -8,6 +8,10 @@ import SubscriptionRepository from "../repositories/subscriptionRepository";
 import SubscriptionService from "../services/subscriptionService";
 import SubscriptionController from "../controllers/subscriptionController";
 import EmployerRepository from "../repositories/employerRepository";
+import ReportedJobRepository from "../repositories/reportedJobRepository";
+import ReportedJobService from "../services/reportedJobService";
+import ReportedJobController from "../controllers/reportedJobcontroller";
+import JobRepository from "../repositories/jobRepository";
 
 const adminRouter = express.Router();
 
@@ -33,6 +37,15 @@ adminRouter.put('/update-plan/:planId', adminAuthMiddleware, async (req, res) =>
 adminRouter.delete('/delete-plan/:planId', adminAuthMiddleware, async (req, res) => subscriptionController.deletePlan(req, res))
 adminRouter.get('/subscription-plans', adminAuthMiddleware, async (req, res) => subscriptionController.getPlans(req, res))
 
+
+const reportedJobRepository = new ReportedJobRepository()
+const jobRepository=new JobRepository()
+const reportedJobService = new ReportedJobService(reportedJobRepository,jobRepository)
+const reportedJobController = new ReportedJobController(reportedJobService)
+
+adminRouter.get('/reportedJobs', adminAuthMiddleware, async (req, res) => reportedJobController.getAllReportedJobs(req, res))
+adminRouter.patch('/block-reportedJob', adminAuthMiddleware, async (req, res) => reportedJobController.blockReportedJob(req, res))
+adminRouter.get('/reportedJob-details/:jobId', adminAuthMiddleware, async (req, res) => reportedJobController.reportedJobDetails(req, res))
 
 
 export default adminRouter;

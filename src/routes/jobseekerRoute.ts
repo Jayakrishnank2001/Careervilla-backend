@@ -13,6 +13,9 @@ import JobController from '../controllers/jobController'
 import JobApplicationRepository from '../repositories/jobApplicationRepository'
 import JobApplicationService from '../services/jobApplicationService'
 import JobApplicationController from '../controllers/jobApplicationController'
+import ReportedJobRepository from '../repositories/reportedJobRepository'
+import ReportedJobService from '../services/reportedJobService'
+import ReportedJobController from '../controllers/reportedJobcontroller'
 
 const jobseekerRouter = express.Router()
 
@@ -30,6 +33,14 @@ jobseekerRouter.post('/forgotPassword', async(req,res)=>jobseekerController.forg
 jobseekerRouter.post('/resendOTP', async (req, res) => jobseekerController.resendOTP(req, res))
 jobseekerRouter.post('/resetPassword', async (req, res) => jobseekerController.resetPassword(req, res))
 jobseekerRouter.get('/getDetails/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.getJobseekerDetails(req, res))
+jobseekerRouter.post('/changePassword', jobseekerAuthMiddleware, async (req, res) => jobseekerController.changePassword(req, res))
+jobseekerRouter.post('/changePhoneNumber/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.updatePhoneNumber(req, res))
+jobseekerRouter.post('/changeLocation/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.updateLocation(req, res))
+jobseekerRouter.post('/updatePhoto/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.updatePhoto(req, res))
+jobseekerRouter.post('/addResume/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.addResume(req, res))
+jobseekerRouter.delete('/deleteResume/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.deleteResume(req, res))
+jobseekerRouter.post('/saveJob', jobseekerAuthMiddleware, async (req, res) => jobseekerController.saveJob(req, res))
+
 
 
 const jobRepository = new JobRepository()
@@ -46,6 +57,13 @@ const jobApplicationService = new JobApplicationService(jobApplicationRepository
 const jobApplicationController = new JobApplicationController(jobApplicationService)
 
 jobseekerRouter.post('/applyJob', jobseekerAuthMiddleware, async (req, res) => jobApplicationController.applyJob(req, res))
+
+
+const reportedJobRepository = new ReportedJobRepository()
+const reportedJobService = new ReportedJobService(reportedJobRepository,jobRepository)
+const reportedJobController = new ReportedJobController(reportedJobService)
+
+jobseekerRouter.post('/reportJob', jobseekerAuthMiddleware, async (req, res) => reportedJobController.reportJob(req, res))
 
 
 

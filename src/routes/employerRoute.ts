@@ -32,6 +32,10 @@ employerRouter.post('/forgotPassword', async (req, res) => employerController.fo
 employerRouter.post('/resendOTP', async (req, res) => employerController.resendOTP(req, res))
 employerRouter.post('/resetPassword', async (req, res) => employerController.resetPassword(req, res))
 employerRouter.get('/getDetails/:employerId', employerAuthMiddleware, async (req, res) => employerController.getEmployerDetails(req, res))
+employerRouter.post('/changePassword', employerAuthMiddleware, async (req, res) => employerController.changePassword(req, res))
+employerRouter.post('/changePhoneNumber/:employerId', employerAuthMiddleware, async (req, res) => employerController.updatePhoneNumber(req, res))
+employerRouter.post('/changeLocation/:employerId', employerAuthMiddleware, async (req, res) => employerController.updateLocation(req, res))
+employerRouter.post('/updatePhoto/:employerId', employerAuthMiddleware, async (req, res) => employerController.updatePhoto(req, res))
 
 
 const subscriptionRepository = new SubscriptionRepository()

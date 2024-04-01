@@ -66,7 +66,7 @@ class EmployerRepository implements IEmployerRepository {
 
     async getEmployerData(employerId: string): Promise<Employer | null> {
         try {
-            const employer = await EmployerModel.findById(employerId)
+            const employer = await EmployerModel.findById(employerId).populate('companyId').exec()
             return employer as Employer
         } catch (error) {
             console.error(error)
@@ -77,6 +77,36 @@ class EmployerRepository implements IEmployerRepository {
     async updatePlanExpiration(employerId: string, newExpirationDate: Date): Promise<Employer | null> {
         try {
             const employer = EmployerModel.findByIdAndUpdate(employerId, { planExpiresAt: newExpirationDate,isSubscribed:true })
+            return employer as Employer
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    }
+
+    async updatePhoneNumber(employerId: string, phoneNumber: string): Promise<Employer | null> {
+        try {
+            const employer =await EmployerModel.findByIdAndUpdate(employerId, { phoneNumber: phoneNumber }, { new: true })
+            return employer as Employer
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    }
+
+    async updateLocation(employerId: string, location: string): Promise<Employer | null> {
+        try {
+            const employer = await EmployerModel.findByIdAndUpdate(employerId, { location: location }, { new: true })
+            return employer as Employer
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    }
+
+    async updatePhoto(employerId: string, url: string): Promise<Employer | null> {
+        try {
+            const employer = await EmployerModel.findByIdAndUpdate(employerId, { image: url }, { new: true })
             return employer as Employer
         } catch (error) {
             console.error(error)

@@ -4,6 +4,7 @@ import { EmployerAuthResponse, IEmployerService } from "../interfaces/serviceInt
 import Encrypt from "../utils/hashPassword";
 import { createJWT } from "../utils/jwtUtils";
 import { STATUS_CODES } from '../constants/httpStatusCodes';
+import { IResponse } from "../interfaces/common/ICommon";
 
 const { UNAUTHORIZED, OK } = STATUS_CODES
 
@@ -175,6 +176,60 @@ class EmployerService implements IEmployerService {
     try {
       const employer = await this.employerRepository.getEmployerData(employerId)
       return employer
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async updatePhoneNumber(employerId: string, phoneNumber: string): Promise<IResponse | undefined> {
+    try {
+      const employer = await this.employerRepository.updatePhoneNumber(employerId, phoneNumber)
+      if (employer) {
+        return {
+          status: STATUS_CODES.OK,
+          data: {
+            success: true,
+            message:'Phone Number Updated Successfully'
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async updateLocation(employerId: string, location: string): Promise<IResponse | undefined> {
+    try {
+      const employer = await this.employerRepository.updateLocation(employerId, location)
+      if (employer) {
+        return {
+          status: STATUS_CODES.OK,
+          data: {
+            success: true,
+            message:'Location Updated successfully'
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async updatePhoto(employerId: string, url: string): Promise<IResponse | undefined> {
+    try {
+      const employer = await this.employerRepository.updatePhoto(employerId, url)
+      if (employer) {
+        return {
+          status: STATUS_CODES.OK,
+          data: {
+            success: true,
+            message:'Profile Photo updated successfully'
+          }
+        }
+      }
     } catch (error) {
       console.log(error)
       throw new Error('Internal server error')

@@ -1,8 +1,10 @@
 import Employer from "../entityInterfaces/IEmployer"
 import Jobseeker from "../entityInterfaces/IJobseeker"
+import ReportedJob from "../entityInterfaces/IReportedJob"
 import { IEmployersAndCount, IJobseekersAndCount } from "../serviceInterfaces/IAdminService"
+import { IReportedJobsAndCount } from "../serviceInterfaces/IReportedJobService"
 
-export type AllResTypes = IJobseekersAndCount | IEmployersAndCount | Jobseeker | Jobseeker[] | Employer | Employer[] | null
+export type AllResTypes = IJobseekersAndCount | IEmployersAndCount | Jobseeker | Jobseeker[] | Employer | Employer[] | null | ReportedJob[] | IReportedJobsAndCount
 
 
 export interface IApiRes<T extends AllResTypes> {
@@ -60,4 +62,9 @@ export interface IResponse{
       success: boolean;
       message: string;
     };
+}
+
+export interface IRes{
+    success: boolean,
+    message:string
 }

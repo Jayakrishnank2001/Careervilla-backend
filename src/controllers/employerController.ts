@@ -162,6 +162,67 @@ class EmployerController {
     }
   }
 
+  async changePassword(req: Request, res: Response) {
+    try {
+      const { employerEmail, newPassword, confirmPassword } = req.body
+      if (newPassword !== confirmPassword) {
+        return res.status(BAD_REQUEST).json({ message: 'Passwords do not match.' })
+      }
+      const success = await this.employerService.resetPassword(employerEmail, newPassword)
+      if (success) {
+        return res.status(OK).json({
+          success: true,
+          message: 'Password reset successful'
+        })
+      }
+    } catch (error) {
+      console.error(error)
+      return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+    }
+  }
+
+  async updatePhoneNumber(req: Request, res: Response) {
+    try {
+      const phoneNumber = req.body.phoneNumber
+      const employerId = req.params.employerId
+      const updateNumber = await this.employerService.updatePhoneNumber(employerId, phoneNumber)
+      if (updateNumber) {
+        res.status(updateNumber.status).json(updateNumber)
+      }
+    } catch (error) {
+      console.error(error)
+      return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+    }
+  }
+
+  async updateLocation(req: Request, res: Response) {
+    try {
+      const location = req.body.location
+      const employerId = req.params.employerId
+      const updateLocation = await this.employerService.updateLocation(employerId, location)
+      if (updateLocation) {
+        res.status(updateLocation.status).json(updateLocation)
+      }
+    } catch (error) {
+      console.error(error)
+      return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+    }
+  }
+
+  async updatePhoto(req: Request, res: Response) {
+    try {
+      const url = req.body.url
+      const employerId = req.params.employerId
+      const updatePhoto = await this.employerService.updatePhoto(employerId, url)
+      if (updatePhoto) {
+        res.status(updatePhoto.status).json(updatePhoto)
+      }
+    } catch (error) {
+      console.error(error)
+      return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+    }
+  }
+
 
 
 

@@ -11,6 +11,7 @@ export interface JobInterface extends Document{
     jobType: string,
     experience: string,
     gender: string,
+    isBlocked:boolean,
     applicationDeadline: string,
     addressId:ObjectId
 }
@@ -44,6 +45,10 @@ const jobSchema: Schema = new Schema({
     },
     gender: {
         type:String
+    },
+    isBlocked: {
+        type: Boolean,
+        default:false
     },
     applicationDeadline: {
         type:Date

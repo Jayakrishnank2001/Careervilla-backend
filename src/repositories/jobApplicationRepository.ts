@@ -1,6 +1,6 @@
 import JobApplication from "../interfaces/entityInterfaces/IJobApplication";
 import IJobApplicationRepository from "../interfaces/repositoryInterfaces/IJobApplicationRepository";
-import JobApplicationModel from "../models/jobApplication";
+import JobApplicationModel from "../models/jobApplicationModel";
 
 
 class JobApplicationRepository implements IJobApplicationRepository{
