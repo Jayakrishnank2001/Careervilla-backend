@@ -5,12 +5,10 @@ import JobApplicationModel from "../models/jobApplicationModel";
 
 class JobApplicationRepository implements IJobApplicationRepository{
 
-    async applyJob(resume:string,jobId:string,jobseekerId:string): Promise<JobApplication | null> {
+    async applyJob(data:JobApplication): Promise<JobApplication | null> {
         try {
             const Application = new JobApplicationModel({
-                jobId: jobId,
-                jobseekerId: jobseekerId,
-                resume: resume,
+                ...data,
                 createdAt:new Date()
             })
             const savedApplication = await Application.save()

@@ -9,8 +9,8 @@ export interface EmployerInterface extends Document {
     phoneNumber: string,
     isBlocked: boolean,
     isSubscribed: boolean,
-    planExpiresAt:string,
-    image:string | null
+    planExpiresAt: string,
+    image: string | null
     password: string,
     companyId: ObjectId
 }
@@ -39,10 +39,10 @@ const employerSchema: Schema = new Schema({
     },
     isSubscribed: {
         type: Boolean,
-        default:false
+        default: false
     },
     planExpiresAt: {
-        type:Date
+        type: Date
     },
     image: {
         type: String,

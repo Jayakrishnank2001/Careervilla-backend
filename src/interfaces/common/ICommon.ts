@@ -23,13 +23,10 @@ export interface ICompany {
     foundedYear?: number,
     description?: string,
     logo?: string
-    address: {
-        id?: string,
-        address?: string,
-        state?: string,
-        city?: string,
-        country?: string
-    }
+    address?: string,
+    state?: string,
+    city?: string,
+    country?: string
 }
 
 export interface IJob {
@@ -56,15 +53,15 @@ export interface paymentToken {
     email: string
 }
 
-export interface IResponse{
+export interface IResponse {
     status: number;
     data: {
-      success: boolean;
-      message: string;
+        success: boolean;
+        message: string;
     };
 }
 
-export interface IRes{
+export interface IRes {
     success: boolean,
-    message:string
+    message: string
 }

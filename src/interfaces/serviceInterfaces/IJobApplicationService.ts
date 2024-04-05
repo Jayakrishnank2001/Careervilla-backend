@@ -1,6 +1,7 @@
-import { IResponse } from "../common/ICommon";
+import { IRes } from "../common/ICommon";
+import JobApplication from "../entityInterfaces/IJobApplication";
 
 export interface IJobApplicationService{
-    applyJob(resume:string,jobId:string,jobseekerId:string):Promise<IResponse>
+    applyJob(data:JobApplication):Promise<IRes>
 } 
 

@@ -4,7 +4,7 @@ import Job from "../entityInterfaces/IJob";
 export interface IJobService{
   saveJob(jobData: IJob): Promise<IJobRes>
   getAllJobs():Promise<Job[]>
-
+  
 
 }
 

@@ -33,13 +33,17 @@ jobseekerRouter.post('/forgotPassword', async(req,res)=>jobseekerController.forg
 jobseekerRouter.post('/resendOTP', async (req, res) => jobseekerController.resendOTP(req, res))
 jobseekerRouter.post('/resetPassword', async (req, res) => jobseekerController.resetPassword(req, res))
 jobseekerRouter.get('/getDetails/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.getJobseekerDetails(req, res))
-jobseekerRouter.post('/changePassword', jobseekerAuthMiddleware, async (req, res) => jobseekerController.changePassword(req, res))
-jobseekerRouter.post('/changePhoneNumber/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.updatePhoneNumber(req, res))
-jobseekerRouter.post('/changeLocation/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.updateLocation(req, res))
-jobseekerRouter.post('/updatePhoto/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.updatePhoto(req, res))
+jobseekerRouter.put('/changePassword', jobseekerAuthMiddleware, async (req, res) => jobseekerController.changePassword(req, res))
+jobseekerRouter.put('/changePhoneNumber/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.updatePhoneNumber(req, res))
+jobseekerRouter.put('/changeLocation/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.updateLocation(req, res))
+jobseekerRouter.put('/updatePhoto/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.updatePhoto(req, res))
 jobseekerRouter.post('/addResume/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.addResume(req, res))
 jobseekerRouter.delete('/deleteResume/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.deleteResume(req, res))
 jobseekerRouter.post('/saveJob', jobseekerAuthMiddleware, async (req, res) => jobseekerController.saveJob(req, res))
+jobseekerRouter.post('/unsaveJob', jobseekerAuthMiddleware, async (req, res) => jobseekerController.unsaveJob(req, res))
+jobseekerRouter.get('/savedJobs/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.getSavedJobs(req, res))
+jobseekerRouter.get('/appliedJobs/:jobseekerId',jobseekerAuthMiddleware,async(req,res)=>jobseekerController.getAppliedJobs(req,res))
+
 
 
 
@@ -53,10 +57,10 @@ jobseekerRouter.get('/jobs', async (req, res) => jobController.getAllJobs(req, r
 
 
 const jobApplicationRepository = new JobApplicationRepository()
-const jobApplicationService = new JobApplicationService(jobApplicationRepository)
+const jobApplicationService = new JobApplicationService(jobApplicationRepository,jobseekerRepository)
 const jobApplicationController = new JobApplicationController(jobApplicationService)
 
-jobseekerRouter.post('/applyJob', jobseekerAuthMiddleware, async (req, res) => jobApplicationController.applyJob(req, res))
+jobseekerRouter.post('/apply-job', jobseekerAuthMiddleware, async (req, res) => jobApplicationController.applyJob(req, res))
 
 
 const reportedJobRepository = new ReportedJobRepository()

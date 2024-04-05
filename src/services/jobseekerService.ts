@@ -5,6 +5,7 @@ import { IJobseekerService, JobseekerAuthResponse } from "../interfaces/serviceI
 import Jobseeker from "../interfaces/entityInterfaces/IJobseeker";
 import { STATUS_CODES } from '../constants/httpStatusCodes';
 import { IResponse } from "../interfaces/common/ICommon";
+import Job from "../interfaces/entityInterfaces/IJob";
 
 const { UNAUTHORIZED, OK } = STATUS_CODES
 
@@ -288,6 +289,47 @@ class JobseekerService implements IJobseekerService {
       throw new Error('Internal server error')
     }
   }
+
+  async unsaveJob(jobseekerId: string, jobId: string): Promise<IResponse | undefined> {
+    try {
+      const jobseeker = await this.jobseekerRepository.unsaveJob(jobseekerId, jobId)
+      if (jobseeker) {
+        return {
+          status: STATUS_CODES.OK,
+          data: {
+            success: true,
+            message:'Job unsaved successfully'
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async getSavedJobs(jobseekerId: string): Promise<Job[]> {
+    try {
+      const savedJobs = await this.jobseekerRepository.getSavedJobs(jobseekerId)
+      return savedJobs
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async getAppliedJobs(jobseekerId: string): Promise<Job[]> {
+    try {
+      const appliedJobs = await this.jobseekerRepository.getAppliedJobs(jobseekerId)
+      return appliedJobs
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+
+  
 
 
 

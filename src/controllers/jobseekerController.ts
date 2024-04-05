@@ -270,6 +270,42 @@ class JobseekerController {
             return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
         }
     }
+
+    async unsaveJob(req: Request, res: Response) {
+        try {
+            const jobseeker = await this.jobseekerService.unsaveJob(req.body.jobseekerId, req.body.jobId)
+            if (jobseeker) {
+                res.status(jobseeker?.status).json(jobseeker)
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
+
+    async getSavedJobs(req: Request, res: Response) {
+        try {
+            const savedJobs = await this.jobseekerService.getSavedJobs(req.params.jobseekerId)
+            if (savedJobs) {
+                res.status(STATUS_CODES.OK).json(savedJobs)
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
+
+    async getAppliedJobs(req: Request, res: Response) {
+        try {
+            const appliedJobs = await this.jobseekerService.getAppliedJobs(req.params.jobseekerId)
+            if (appliedJobs) {
+                res.status(STATUS_CODES.OK).json(appliedJobs)
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
   
 
 

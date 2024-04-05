@@ -1,6 +1,8 @@
+import { ObjectId } from "mongoose";
 import Jobseeker from "../interfaces/entityInterfaces/IJobseeker";
 import IJobseekerRepository from "../interfaces/repositoryInterfaces/IJobseekerRepository";
 import JobseekerModel from "../models/jobseekerModel";
+import Job from "../interfaces/entityInterfaces/IJob";
 
 
 class JobseekerRepository implements IJobseekerRepository {
@@ -115,6 +117,58 @@ class JobseekerRepository implements IJobseekerRepository {
       } catch (error) {
          console.error(error)
          return null
+      }
+   }
+
+   async unsaveJob(jobseekerId: string, jobId: string): Promise<Jobseeker | null> {
+      try {
+         const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId,
+            { $pull: { savedJobs: { jobId: jobId } } },
+            { new: true }
+         )
+         return jobseeker as Jobseeker
+      } catch (error) {
+         console.error(error)
+         return null
+      }
+   }
+
+   async applyJob(jobseekerId: ObjectId, jobId: ObjectId): Promise<Jobseeker | null> {
+      try {
+         const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId,
+            { $push: { appliedJobs: { jobId: jobId } } },
+            { new: true }
+         )
+         return jobseeker as Jobseeker
+      } catch (error) {
+         console.error(error)
+         return null
+      }
+   }
+
+   async getSavedJobs(jobseekerId: string): Promise<Job[]> {
+      try {
+         const jobseeker = await JobseekerModel.findById(jobseekerId).populate('savedJobs.jobId')
+         if (!jobseeker) {
+            return []
+         }
+         return jobseeker?.savedJobs.map(savedJob => savedJob.jobId) as Job[]
+      } catch (error) {
+         console.error(error)
+         throw new Error()
+      }
+   }
+
+   async getAppliedJobs(jobseekerId: string): Promise<Job[]> {
+      try {
+         const jobseeker = await JobseekerModel.findById(jobseekerId).populate('appliedJobs.jobId')
+         if (!jobseeker) {
+            return []
+         }
+         return jobseeker.appliedJobs.map(appliedJob=>appliedJob.jobId) as Job[]
+      } catch (error) {
+         console.error(error)
+         return []
       }
    }
 

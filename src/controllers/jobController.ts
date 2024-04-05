@@ -8,7 +8,6 @@ class JobController {
     async saveJob(req: Request, res: Response) {
         try {
             const jobData = req.body
-            console.log(jobData)
             const newJob = await this.jobService.saveJob(jobData)
             res.status(newJob.status).json(newJob)
         } catch (error) {

@@ -1,4 +1,6 @@
+import { ObjectId } from "mongoose";
 import Jobseeker from "../entityInterfaces/IJobseeker";
+import Job from "../entityInterfaces/IJob";
 
 interface IJobseekerRepository {
     emailExistCheck(email: string): Promise<Jobseeker | null>
@@ -11,7 +13,12 @@ interface IJobseekerRepository {
     addResume(jobseekerId: string, url: string): Promise<Jobseeker | null>
     deleteResume(jobseekerId: string): Promise<Jobseeker | null>
     saveJob(jobseekerId: string, jobId: string): Promise<Jobseeker | null>
-
+    unsaveJob(jobseekerId: string, jobId: string): Promise<Jobseeker | null>
+    applyJob(jobseekerId: ObjectId, jobId: ObjectId): Promise<Jobseeker | null>
+    getSavedJobs(jobseekerId: string): Promise<Job[]>
+    getAppliedJobs(jobseekerId: string): Promise<Job[]>
+    
+    
 }
 
 export default IJobseekerRepository

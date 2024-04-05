@@ -1,33 +1,42 @@
 import mongoose, { Document, ObjectId, Schema } from "mongoose";
 
-export interface JobApplicationInterface extends Document{
+export interface JobApplicationInterface extends Document {
     _id: ObjectId,
     jobseekerId: ObjectId,
     jobId: ObjectId,
     createdAt: string,
     resume: string,
-    status:string
+    status: string,
+    qualification: string,
+    experience:number
 }
 
 const jobApplicationSchema: Schema = new Schema({
     jobseekerId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Jobseeker'
+        ref: 'Jobseeker'
     },
     createdAt: {
-        types: Date,
-        
+        type: Date,
+        default: Date.now
+
     },
     resume: {
-        types: String,
+        type: String,
     },
     jobId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Job'
+        ref: 'Job'
     },
     status: {
         type: String,
-        default:'Pending'
+        default: 'Pending'
+    },
+    qualification: {
+        type: String
+    },
+    experience: {
+        type:Number
     }
 })
 

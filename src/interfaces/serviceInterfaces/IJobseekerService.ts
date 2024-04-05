@@ -1,4 +1,5 @@
 import { IResponse } from "../common/ICommon";
+import Job from "../entityInterfaces/IJob";
 import Jobseeker from "../entityInterfaces/IJobseeker";
 
 
@@ -15,8 +16,11 @@ export interface IJobseekerService{
   addResume(jobseekerId: string, url: string): Promise<IResponse | undefined>
   deleteResume(jobseekerId: string): Promise<IResponse | undefined>
   saveJob(jobseekerId: string, jobId: string): Promise<IResponse | undefined>
-  
+  unsaveJob(jobseekerId: string, jobId: string): Promise<IResponse | undefined>
+  getSavedJobs(jobseekerId: string): Promise<Job[]>
+  getAppliedJobs(jobseekerId: string): Promise<Job[]>
 
+  
 }
 
 

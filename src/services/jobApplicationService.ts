@@ -1,23 +1,23 @@
 import { IJobApplicationService } from "../interfaces/serviceInterfaces/IJobApplicationService";
 import { STATUS_CODES } from "../constants/httpStatusCodes";
 import JobApplicationRepository from "../repositories/jobApplicationRepository";
-import { IResponse } from "../interfaces/common/ICommon";
+import { IRes } from "../interfaces/common/ICommon";
+import JobApplication from "../interfaces/entityInterfaces/IJobApplication";
+import JobseekerRepository from "../repositories/jobseekerRepository";
 
 class JobApplicationService implements IJobApplicationService {
 
-    constructor(private jobApplicationRepository: JobApplicationRepository) { }
+    constructor(private jobApplicationRepository: JobApplicationRepository,
+        private jobseekerRepository: JobseekerRepository) { }
 
-    async applyJob(resume: string, jobId: string, jobseekerId: string): Promise<IResponse> {
+    async applyJob(data: JobApplication): Promise<IRes> {
         try {
-            await this.jobApplicationRepository.applyJob(resume, jobId, jobseekerId)
+            await this.jobApplicationRepository.applyJob(data)
+            await this.jobseekerRepository.applyJob(data.jobseekerId, data.jobId)
             return {
-                status: STATUS_CODES.OK,
-                data: {
-                    success: true,
-                    message: 'Successfully applied for the Job'
-                }
+                success: true,
+                message: 'Successfully applied for the Job'
             }
-
         } catch (error) {
             console.log(error);
             throw new Error("Internal server error");

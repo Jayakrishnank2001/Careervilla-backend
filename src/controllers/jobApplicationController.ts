@@ -8,11 +8,9 @@ class JobApplicationController{
     
     async applyJob(req: Request, res: Response) {
         try {
-            const jobseekerId = req.body.jobseekerId
-            const jobId = req.body.jobId
-            const resume = req.body.resume
-            const jobApplied = await this.jobApplicationService.applyJob(resume, jobId, jobseekerId)
-            res.status(jobApplied.status).json(jobApplied.data)
+            const data = req.body
+            const jobApplied = await this.jobApplicationService.applyJob(data)
+            res.status(STATUS_CODES.OK).json(jobApplied)
         } catch (error) {
             console.log(error)
             res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ error: 'Internal server error' })

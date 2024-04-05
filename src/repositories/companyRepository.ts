@@ -28,6 +28,36 @@ class CompanyRepository implements ICompanyRepository{
         }
     }
 
+    async getCompanyDetails(companyId: string): Promise<Company | null> {
+        try {
+            const company = await CompanyModel.findById(companyId).populate('addressId')
+            return company
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    }
+
+    async updateCompanyLogo(companyId: string, url: string): Promise<Company | null> {
+        try {
+            const company = await CompanyModel.findByIdAndUpdate(companyId, { logo: url }, { new: true })
+            return company
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    }
+
+    async updateCompanyDetails(companyData:Company, companyId: string): Promise<Company | null> {
+        try {
+            const company = await CompanyModel.findByIdAndUpdate(companyId, { ...companyData }, { new: true })
+            return company
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    }
+
 }
 
 export default CompanyRepository
