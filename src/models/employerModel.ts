@@ -1,4 +1,5 @@
 import mongoose, { Document, ObjectId, Schema } from "mongoose";
+import { PostedJob } from "../interfaces/entityInterfaces/IEmployer";
 
 export interface EmployerInterface extends Document {
     _id: ObjectId,
@@ -12,7 +13,8 @@ export interface EmployerInterface extends Document {
     planExpiresAt: string,
     image: string | null
     password: string,
-    companyId: ObjectId
+    companyId: ObjectId,
+    postedJobs:PostedJob[]
 }
 
 const employerSchema: Schema = new Schema({
@@ -53,7 +55,13 @@ const employerSchema: Schema = new Schema({
     companyId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Company'
-    }
+    },
+    postedJobs: [
+        {
+            jobId: { type: mongoose.Schema.Types.ObjectId, ref: 'Job' },
+            postedAt: { type: Date, default: Date.now }
+        }
+    ]
 })
 
 const EmployerModel = mongoose.model<EmployerInterface>('Employer', employerSchema)

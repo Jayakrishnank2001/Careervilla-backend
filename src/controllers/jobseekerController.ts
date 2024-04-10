@@ -306,6 +306,18 @@ class JobseekerController {
             return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
         }
     }
+
+    async withdrawApplication(req: Request, res: Response) {
+        try {
+            const withdrawApplication = await this.jobseekerService.withdrawApplication(req.body.jobId, req.body.jobseekerId)
+            if (withdrawApplication) {
+                res.status(withdrawApplication.status).json(withdrawApplication)
+            }
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
   
 
 

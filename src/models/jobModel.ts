@@ -13,7 +13,9 @@ export interface JobInterface extends Document{
     gender: string,
     isBlocked:boolean,
     applicationDeadline: string,
-    addressId:ObjectId
+    addressId: ObjectId,
+    status: string,
+    postedBy:ObjectId
 }
 
 const jobSchema: Schema = new Schema({
@@ -56,6 +58,14 @@ const jobSchema: Schema = new Schema({
     addressId: {
         type: mongoose.Schema.Types.ObjectId,
         ref:'Address'
+    },
+    status: {
+        type: String,
+        default:'Active'
+    },
+    postedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Employer'
     }
 })
 

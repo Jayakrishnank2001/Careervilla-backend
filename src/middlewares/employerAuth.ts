@@ -12,6 +12,10 @@ export const employerAuthMiddleware = async (req: Request, res: Response, next: 
         return
     }
     const employer = verifyToken(token);
+    if (employer == null) {
+        res.status(STATUS_CODES.UNAUTHORIZED).json({ message: 'Unauthorized' })
+        return
+    }
     const employerData = await EmployerModel.findOne({ email: employer.email })
     if (!employer) {
         res.status(FORBIDDEN).json({ message: 'Forbidden' });

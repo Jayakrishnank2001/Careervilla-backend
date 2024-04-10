@@ -15,6 +15,9 @@ import AddressRepository from '../repositories/addressRepository'
 import JobRepository from '../repositories/jobRepository'
 import JobService from '../services/jobService'
 import JobController from '../controllers/jobController'
+import NotificationRepository from '../repositories/notificationRepository'
+import NotificationService from '../services/notificationService'
+import NotificationController from '../controllers/notificationController'
 
 const employerRouter = express.Router()
 
@@ -36,6 +39,7 @@ employerRouter.put('/changePassword', employerAuthMiddleware, async (req, res) =
 employerRouter.put('/changePhoneNumber/:employerId', employerAuthMiddleware, async (req, res) => employerController.updatePhoneNumber(req, res))
 employerRouter.put('/changeLocation/:employerId', employerAuthMiddleware, async (req, res) => employerController.updateLocation(req, res))
 employerRouter.put('/updatePhoto/:employerId', employerAuthMiddleware, async (req, res) => employerController.updatePhoto(req, res))
+employerRouter.get('/postedJobs/:employerId', employerAuthMiddleware, async (req, res) => employerController.getPostedJobs(req, res))
 
 
 const subscriptionRepository = new SubscriptionRepository()
@@ -58,10 +62,18 @@ employerRouter.put('/updateCompany', employerAuthMiddleware, async (req, res) =>
 
 
 const jobRepository = new JobRepository()
-const jobService = new JobService(jobRepository,companyRepository,addressRepository)
+const jobService = new JobService(jobRepository,companyRepository,addressRepository,employerRepository)
 const jobController = new JobController(jobService)
 
-employerRouter.post('/addJob', employerAuthMiddleware, async (req, res) => jobController.saveJob(req, res))
+employerRouter.post('/addJob/:employerId', employerAuthMiddleware, async (req, res) => jobController.saveJob(req, res))
+
+
+const notificationRepository = new NotificationRepository()
+const notificationService = new NotificationService(notificationRepository)
+const notificationController = new NotificationController(notificationService)
+
+employerRouter.get('/notifications/:employerId', employerAuthMiddleware, async (req, res) => notificationController.getNotifications(req, res))
+
 
 
 

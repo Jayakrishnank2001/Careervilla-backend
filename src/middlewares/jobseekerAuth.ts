@@ -12,6 +12,10 @@ export const jobseekerAuthMiddleware = async (req: Request, res: Response, next:
         return
     }
     const jobseeker = verifyToken(token);
+    if (jobseeker == null) {
+        res.status(STATUS_CODES.UNAUTHORIZED).json({ message: 'Unauthorized' })
+        return
+    }
     const jobseekerData=await JobseekerModel.findOne({email:jobseeker.email})
     if (!jobseeker) {
         res.status(FORBIDDEN).json({ message: 'Forbidden' });

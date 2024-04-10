@@ -223,6 +223,18 @@ class EmployerController {
     }
   }
 
+  async getPostedJobs(req: Request, res: Response) {
+    try {
+      const postedJobs = await this.employerService.getPostedJobs(req.params.employerId)
+      if (postedJobs) {
+        res.status(STATUS_CODES.OK).json(postedJobs)
+      }
+    } catch (error) {
+      console.error(error)
+      return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+    }
+  }
+
 
 
 

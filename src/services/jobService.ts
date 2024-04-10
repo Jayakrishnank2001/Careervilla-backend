@@ -5,19 +5,22 @@ import CompanyRepository from "../repositories/companyRepository";
 import JobRepository from "../repositories/jobRepository";
 import { STATUS_CODES } from '../constants/httpStatusCodes';
 import Job from "../interfaces/entityInterfaces/IJob";
+import EmployerRepository from "../repositories/employerRepository";
 
 const { OK } = STATUS_CODES
 
 class JobService implements IJobService {
     constructor(private jobRepository: JobRepository,
         private companyRepository: CompanyRepository,
-        private addressRepository: AddressRepository) { }
+        private addressRepository: AddressRepository,
+        private employerRepository: EmployerRepository) { }
 
-    async saveJob(jobData: IJob): Promise<IJobRes> {
+    async saveJob(jobData: IJob,employerId:string): Promise<IJobRes> {
         try {
             const company = await this.companyRepository.isCompanyExists(jobData.companyName)
             const savedAddress = (company) ? await this.addressRepository.saveAddress(jobData) : null
-            const savedJob = (company && company.id && savedAddress?.id) ? await this.jobRepository.saveJob(jobData, company.id, savedAddress.id) : null
+            const savedJob = (company && company.id && savedAddress?.id) ? await this.jobRepository.saveJob(jobData, company.id, savedAddress.id,employerId) : null
+            await this.employerRepository.postJob(employerId,savedJob?.id)
             return {
                 status: OK,
                 data: {

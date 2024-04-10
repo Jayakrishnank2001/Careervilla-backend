@@ -1,3 +1,5 @@
+import { ObjectId } from "mongoose";
+
 interface Employer {
     id?: string,
     firstName?: string,
@@ -11,7 +13,12 @@ interface Employer {
     image?:string,
     password?: string,
     company_Id?: string
+    appliedJobs?:PostedJob[]
 }
-
 export default Employer
+
+export interface PostedJob {
+    jobId: ObjectId;
+    postedAt: Date;
+}
 

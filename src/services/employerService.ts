@@ -5,6 +5,7 @@ import Encrypt from "../utils/hashPassword";
 import { createJWT } from "../utils/jwtUtils";
 import { STATUS_CODES } from '../constants/httpStatusCodes';
 import { IResponse } from "../interfaces/common/ICommon";
+import Job from "../interfaces/entityInterfaces/IJob";
 
 const { UNAUTHORIZED, OK } = STATUS_CODES
 
@@ -230,6 +231,16 @@ class EmployerService implements IEmployerService {
           }
         }
       }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async getPostedJobs(employerId: string): Promise<Job[]> {
+    try {
+      const postedJobs = await this.employerRepository.getPostedJobs(employerId)
+      return postedJobs
     } catch (error) {
       console.log(error)
       throw new Error('Internal server error')

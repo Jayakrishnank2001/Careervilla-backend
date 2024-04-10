@@ -14,6 +14,8 @@ interface Job{
     isBlocked?:boolean,
     applicationDeadline?: string,
     addressId?: ObjectId;
+    status?: string,
+    postedBy?:ObjectId
 }
 
 export default Job

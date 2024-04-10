@@ -1,4 +1,4 @@
-import { IJob } from "../interfaces/common/ICommon";
+import { ObjectId } from "mongoose";
 import Job from "../interfaces/entityInterfaces/IJob";
 import IJobRepository from "../interfaces/repositoryInterfaces/IJobRepository";
 import JobModel from "../models/jobModel";
@@ -6,11 +6,12 @@ import JobModel from "../models/jobModel";
 
 
 class JobRepository implements IJobRepository {
-    async saveJob(jobData: Job, companyId: string, addressId: string,): Promise<Job | null> {
+    async saveJob(jobData: Job, companyId: string, addressId: string, employerId: string): Promise<Job | null> {
         try {
             const newJob = new JobModel({
                 addressId: addressId,
                 companyId: companyId,
+                postedBy: employerId,
                 ...jobData
             })
             const savedJob = await newJob.save()
@@ -23,7 +24,7 @@ class JobRepository implements IJobRepository {
 
     async getAllJobs(): Promise<Job[]> {
         try {
-            const jobs = await JobModel.find({isBlocked:false}).populate('companyId').populate('addressId').exec()
+            const jobs = await JobModel.find({ isBlocked: false }).populate('companyId').populate('addressId').exec()
             return jobs.map((job) => job.toObject())
         } catch (error) {
             console.error(error)
@@ -43,6 +44,16 @@ class JobRepository implements IJobRepository {
         }
     }
 
-    
+    async findJobById(jobId: ObjectId): Promise<Job | null> {
+        try {
+            const job = await JobModel.findById(jobId)
+            return job
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    }
+
+
 }
 export default JobRepository

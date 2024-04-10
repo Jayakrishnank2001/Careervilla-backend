@@ -6,6 +6,8 @@ import Jobseeker from "../interfaces/entityInterfaces/IJobseeker";
 import { STATUS_CODES } from '../constants/httpStatusCodes';
 import { IResponse } from "../interfaces/common/ICommon";
 import Job from "../interfaces/entityInterfaces/IJob";
+import { ObjectId } from "mongoose";
+import JobApplicationRepository from "../repositories/jobApplicationRepository";
 
 const { UNAUTHORIZED, OK } = STATUS_CODES
 
@@ -14,7 +16,8 @@ class JobseekerService implements IJobseekerService {
   constructor(
     private jobseekerRepository: JobseekerRepository,
     private createJWT: createJWT,
-    private encrypt: Encrypt
+    private encrypt: Encrypt,
+    private jobApplicationRepository:JobApplicationRepository,
   ) { }
 
   async jobseekerLogin(email: string, password: string): Promise<JobseekerAuthResponse | undefined> {
@@ -290,7 +293,7 @@ class JobseekerService implements IJobseekerService {
     }
   }
 
-  async unsaveJob(jobseekerId: string, jobId: string): Promise<IResponse | undefined> {
+  async unsaveJob(jobseekerId: ObjectId, jobId: ObjectId): Promise<IResponse | undefined> {
     try {
       const jobseeker = await this.jobseekerRepository.unsaveJob(jobseekerId, jobId)
       if (jobseeker) {
@@ -322,6 +325,23 @@ class JobseekerService implements IJobseekerService {
     try {
       const appliedJobs = await this.jobseekerRepository.getAppliedJobs(jobseekerId)
       return appliedJobs
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async withdrawApplication(jobId: string, jobseekerId: string): Promise<IResponse | undefined> {
+    try {
+      await this.jobseekerRepository.withdrawApplication(jobId, jobseekerId)
+      await this.jobApplicationRepository.withdrawJobApplication(jobId, jobseekerId)
+      return {
+        status: STATUS_CODES.OK,
+        data: {
+          success: true,
+          message:'Job Application Withdrawn'
+        }
+      }
     } catch (error) {
       console.log(error)
       throw new Error('Internal server error')

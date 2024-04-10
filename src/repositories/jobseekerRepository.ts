@@ -120,7 +120,7 @@ class JobseekerRepository implements IJobseekerRepository {
       }
    }
 
-   async unsaveJob(jobseekerId: string, jobId: string): Promise<Jobseeker | null> {
+   async unsaveJob(jobseekerId: ObjectId, jobId: ObjectId): Promise<Jobseeker | null> {
       try {
          const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId,
             { $pull: { savedJobs: { jobId: jobId } } },
@@ -133,7 +133,7 @@ class JobseekerRepository implements IJobseekerRepository {
       }
    }
 
-   async applyJob(jobseekerId: ObjectId, jobId: ObjectId): Promise<Jobseeker | null> {
+   async appliedJob(jobseekerId: ObjectId, jobId: ObjectId): Promise<Jobseeker | null> {
       try {
          const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId,
             { $push: { appliedJobs: { jobId: jobId } } },
@@ -172,6 +172,18 @@ class JobseekerRepository implements IJobseekerRepository {
       }
    }
 
+   async withdrawApplication(jobId: string, jobseekerId: string): Promise<Jobseeker | null> {
+      try {
+         const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId,
+            { $pull: { appliedJobs: { jobId: jobId } } },
+            { new: true }
+         )
+         return jobseeker as Jobseeker
+      } catch (error) {
+         console.error(error)
+         return null
+      }
+   }
 
 
 

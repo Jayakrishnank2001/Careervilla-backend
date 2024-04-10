@@ -1,4 +1,5 @@
 import Employer from "../interfaces/entityInterfaces/IEmployer";
+import Job from "../interfaces/entityInterfaces/IJob";
 import IEmployerRepository from "../interfaces/repositoryInterfaces/IEmployerRepository";
 import EmployerModel from "../models/employerModel";
 import SubscriptionPlanModel, { SubscriptionPlanInterface } from "../models/subscriptionPlanModel";
@@ -76,7 +77,7 @@ class EmployerRepository implements IEmployerRepository {
 
     async updatePlanExpiration(employerId: string, newExpirationDate: Date): Promise<Employer | null> {
         try {
-            const employer = EmployerModel.findByIdAndUpdate(employerId, { planExpiresAt: newExpirationDate,isSubscribed:true })
+            const employer = EmployerModel.findByIdAndUpdate(employerId, { planExpiresAt: newExpirationDate, isSubscribed: true })
             return employer as Employer
         } catch (error) {
             console.error(error)
@@ -86,7 +87,7 @@ class EmployerRepository implements IEmployerRepository {
 
     async updatePhoneNumber(employerId: string, phoneNumber: string): Promise<Employer | null> {
         try {
-            const employer =await EmployerModel.findByIdAndUpdate(employerId, { phoneNumber: phoneNumber }, { new: true })
+            const employer = await EmployerModel.findByIdAndUpdate(employerId, { phoneNumber: phoneNumber }, { new: true })
             return employer as Employer
         } catch (error) {
             console.error(error)
@@ -111,6 +112,32 @@ class EmployerRepository implements IEmployerRepository {
         } catch (error) {
             console.error(error)
             return null
+        }
+    }
+
+    async postJob(employerId: string, jobId: string | undefined): Promise<Employer | null> {
+        try {
+            const employer = await EmployerModel.findByIdAndUpdate(employerId,
+                { $push: { postedJobs: { jobId: jobId } } },
+                { new: true }
+            )
+            return employer as Employer
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    }
+
+    async getPostedJobs(employerId: string): Promise<Job[]> {
+        try {
+            const employer = await EmployerModel.findById(employerId).populate('postedJobs.jobId')
+            if (!employer) {
+                return []
+            }
+            return employer.postedJobs.map(postedJob => postedJob.jobId) as Job[]
+        } catch (error) {
+            console.error(error)
+            return []
         }
     }
 

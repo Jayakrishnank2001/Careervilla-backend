@@ -1,5 +1,6 @@
 import { IResponse } from "../common/ICommon";
 import Employer from "../entityInterfaces/IEmployer";
+import Job from "../entityInterfaces/IJob";
 
 
 export interface IEmployerService{
@@ -12,7 +13,8 @@ export interface IEmployerService{
   updatePhoneNumber(employerId: string, phoneNumber: string): Promise<IResponse | undefined>
   updateLocation(employerId: string, location: string): Promise<IResponse | undefined>
   updatePhoto(employerId: string, url: string): Promise<IResponse | undefined>
-
+  getPostedJobs(employerId: string): Promise<Job[]>
+  
 }
 
 

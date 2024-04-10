@@ -11,6 +11,10 @@ export const adminAuthMiddleware = (req: Request, res: Response, next: NextFunct
         return
     }
     const admin = verifyToken(token);
+    if (admin == null) {
+        res.status(STATUS_CODES.UNAUTHORIZED).json({ message: 'Unauthorized' })
+        return
+    }
     if (!admin) {
         res.status(FORBIDDEN).json({ message: 'Forbidden' });
         return

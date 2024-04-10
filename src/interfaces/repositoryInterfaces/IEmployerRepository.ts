@@ -1,5 +1,6 @@
 import { SubscriptionPlanInterface } from "../../models/subscriptionPlanModel"
 import Employer from "../entityInterfaces/IEmployer"
+import Job from "../entityInterfaces/IJob"
 
 interface IEmployerRepository {
     emailExistCheck(email: string): Promise<Employer | null>
@@ -12,6 +13,8 @@ interface IEmployerRepository {
     updatePhoneNumber(employerId: string, phoneNumber: string): Promise<Employer | null>
     updateLocation(employerId: string, location: string): Promise<Employer | null>
     updatePhoto(employerId: string, url: string): Promise<Employer | null>
+    postJob(employerId: string, jobId: string | undefined): Promise<Employer | null>
+    getPostedJobs(employerId: string): Promise<Job[]>
     
 
 }

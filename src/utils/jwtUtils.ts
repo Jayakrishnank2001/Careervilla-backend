@@ -14,7 +14,8 @@ export const verifyToken = (token: string): any => {
     try {
         return jwt.verify(token, jwtSecret);
     } catch (error) {
-        return null;
+        console.error('Error verifying token:', error);
+        return null
     }
 };
 
