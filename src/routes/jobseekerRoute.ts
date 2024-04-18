@@ -18,6 +18,8 @@ import ReportedJobService from '../services/reportedJobService'
 import ReportedJobController from '../controllers/reportedJobcontroller'
 import EmployerRepository from '../repositories/employerRepository'
 import NotificationRepository from '../repositories/notificationRepository'
+import CompanyService from '../services/companyService'
+import CompanyController from '../controllers/companyController'
 
 const jobseekerRouter = express.Router()
 
@@ -72,6 +74,12 @@ const reportedJobService = new ReportedJobService(reportedJobRepository,jobRepos
 const reportedJobController = new ReportedJobController(reportedJobService)
 
 jobseekerRouter.post('/reportJob', jobseekerAuthMiddleware, async (req, res) => reportedJobController.reportJob(req, res))
+
+
+const companyService = new CompanyService(companyRepository,addressRepository,employerRepository)
+const companyController = new CompanyController(companyService)
+
+jobseekerRouter.get('/companies',jobseekerAuthMiddleware,async(req,res)=>companyController.getAllCompanies(req,res))
 
 
 

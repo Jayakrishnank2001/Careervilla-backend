@@ -5,9 +5,9 @@ import { STATUS_CODES } from '../constants/httpStatusCodes';
 const { INTERNAL_SERVER_ERROR } = STATUS_CODES
 
 
-class CompanyController{
+class CompanyController {
     constructor(private companyService: CompanyService) { }
-    
+
     async saveCompany(req: Request, res: Response) {
         try {
             const companyData = req.body
@@ -57,6 +57,18 @@ class CompanyController{
             res.status(INTERNAL_SERVER_ERROR).json({ error: 'Internal server error' })
         }
     }
+
+    async getAllCompanies(req: Request, res: Response) {
+        try {
+            const companies = await this.companyService.getAllCompanies()
+            res.status(STATUS_CODES.OK).json(companies)
+        } catch (error) {
+            console.log(error)
+            res.status(INTERNAL_SERVER_ERROR).json({ error: 'Internal server error' })
+        }
+    }
+
+    
 
 
 

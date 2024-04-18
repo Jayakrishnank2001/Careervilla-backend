@@ -24,7 +24,7 @@ class JobRepository implements IJobRepository {
 
     async getAllJobs(): Promise<Job[]> {
         try {
-            const jobs = await JobModel.find({ isBlocked: false }).populate('companyId').populate('addressId').exec()
+            const jobs = await JobModel.find({ isBlocked: false, status: 'Active' }).populate('companyId').populate('addressId').exec()
             return jobs.map((job) => job.toObject())
         } catch (error) {
             console.error(error)
@@ -46,13 +46,36 @@ class JobRepository implements IJobRepository {
 
     async findJobById(jobId: ObjectId): Promise<Job | null> {
         try {
-            const job = await JobModel.findById(jobId)
+            const job = await JobModel.findById(jobId).populate('companyId addressId')
             return job
         } catch (error) {
             console.error(error)
             return null
         }
     }
+
+    async updateJob(jobData: Job, jobId: string): Promise<Job | null> {
+        try {
+            const job = await JobModel.findByIdAndUpdate(jobId, { ...jobData }, { new: true })
+            return job
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    }
+
+    async updateJobStatus(jobId: string): Promise<void> {
+        try {
+            const job = await JobModel.findByIdAndUpdate(jobId)
+            if (job !== null) {
+                job.status = job.status == 'Active' ? 'Inactive' : 'Active'
+                await job.save()
+            }
+        } catch (error) {
+            throw new Error('Error occurred');
+        }
+    }
+
 
 
 }

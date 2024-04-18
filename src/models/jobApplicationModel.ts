@@ -30,7 +30,7 @@ const jobApplicationSchema: Schema = new Schema({
     },
     status: {
         type: String,
-        default: 'Pending'
+        enum:['Approved','Rejected']
     },
     qualification: {
         type: String

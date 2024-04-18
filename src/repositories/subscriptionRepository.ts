@@ -3,8 +3,6 @@ import ISubscriptionRepository from "../interfaces/repositoryInterfaces/ISubscri
 import SubscriptionPlanModel from "../models/subscriptionPlanModel";
 
 
-
-
 class SubscriptionRepository implements ISubscriptionRepository{
     
     async savePlan(plan: SubscriptionPlan): Promise<SubscriptionPlan | null> {

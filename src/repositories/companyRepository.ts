@@ -58,6 +58,16 @@ class CompanyRepository implements ICompanyRepository{
         }
     }
 
+    async getAllCompanies(): Promise<Company[]> {
+        try {
+            const companies = await CompanyModel.find().populate('addressId')
+            return companies.map((company) => company.toObject())
+        } catch (error) {
+            console.error(error)
+            return []
+        }
+    }
+
 }
 
 export default CompanyRepository

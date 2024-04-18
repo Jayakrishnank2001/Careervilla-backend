@@ -18,6 +18,10 @@ import JobController from '../controllers/jobController'
 import NotificationRepository from '../repositories/notificationRepository'
 import NotificationService from '../services/notificationService'
 import NotificationController from '../controllers/notificationController'
+import JobApplicationController from '../controllers/jobApplicationController'
+import JobApplicationRepository from '../repositories/jobApplicationRepository'
+import JobApplicationService from '../services/jobApplicationService'
+import JobseekerRepository from '../repositories/jobseekerRepository'
 
 const employerRouter = express.Router()
 
@@ -60,12 +64,16 @@ employerRouter.get('/companyDetails/:companyId', employerAuthMiddleware, async (
 employerRouter.post('/update-companyLogo', employerAuthMiddleware, async (req, res) => companyController.updateCompanyLogo(req, res))
 employerRouter.put('/updateCompany', employerAuthMiddleware, async (req, res) => companyController.updateCompanyDetails(req, res))
 
-
 const jobRepository = new JobRepository()
 const jobService = new JobService(jobRepository,companyRepository,addressRepository,employerRepository)
 const jobController = new JobController(jobService)
 
 employerRouter.post('/addJob/:employerId', employerAuthMiddleware, async (req, res) => jobController.saveJob(req, res))
+employerRouter.get('/get-jobDetails/:jobId', employerAuthMiddleware, async (req, res) => jobController.getJobDetails(req, res))
+employerRouter.put('/updateJob', employerAuthMiddleware, async (req, res) => jobController.updateJob(req, res))
+employerRouter.patch('/update-jobStatus/:jobId', employerAuthMiddleware, async (req, res) => jobController.updateJobStatus(req, res))
+
+
 
 
 const notificationRepository = new NotificationRepository()
@@ -75,7 +83,13 @@ const notificationController = new NotificationController(notificationService)
 employerRouter.get('/notifications/:employerId', employerAuthMiddleware, async (req, res) => notificationController.getNotifications(req, res))
 
 
+const jobApplicationRepository = new JobApplicationRepository()
+const jobseekerRepository=new JobseekerRepository()
+const jobApplicationService=new JobApplicationService(jobApplicationRepository,jobseekerRepository,jobRepository,notificationRepository)
+const jobApplicationController = new JobApplicationController(jobApplicationService)
 
+employerRouter.get('/job-applications/:jobId', employerAuthMiddleware, async (req, res) => jobApplicationController.getJobApplications(req, res))
+employerRouter.patch('/change-applicationStatus', employerAuthMiddleware, async (req, res) => jobApplicationController.changeApplicationStatus(req, res))
 
 
 

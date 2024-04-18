@@ -80,6 +80,15 @@ class CompanyService implements ICompanyService {
         }
     }
 
+    async getAllCompanies(): Promise<Company[]> {
+        try {
+            return await this.companyRepository.getAllCompanies()
+        } catch (error) {
+            console.log(error)
+            throw new Error('Internal server error')
+        }
+    }
+
 
 }
 export default CompanyService

@@ -8,8 +8,8 @@ class ReportedJobController {
 
     async reportJob(req: Request, res: Response) {
         try {
-            const data = req.body
-            const reportJob = await this.reportedJobService.reportJob(data)
+            const reportJobData = req.body
+            const reportJob = await this.reportedJobService.reportJob(reportJobData)
             if (reportJob) {
                 res.status(STATUS_CODES.OK).json(reportJob)
             }

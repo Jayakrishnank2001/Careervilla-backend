@@ -6,7 +6,9 @@ interface ICompanyRepository {
     isCompanyExists(companyName: string): Promise<Company | null>
     getCompanyDetails(companyId: string): Promise<Company | null>
     updateCompanyLogo(companyId: string, url: string): Promise<Company | null>
-    updateCompanyDetails(companyData:Company, companyId: string): Promise<Company | null>
+    updateCompanyDetails(companyData: Company, companyId: string): Promise<Company | null>
+    getAllCompanies(): Promise<Company[]>
+    
 
 }
 export default ICompanyRepository

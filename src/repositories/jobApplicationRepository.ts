@@ -1,15 +1,16 @@
+import { ObjectId } from "mongoose";
 import JobApplication from "../interfaces/entityInterfaces/IJobApplication";
 import IJobApplicationRepository from "../interfaces/repositoryInterfaces/IJobApplicationRepository";
 import JobApplicationModel from "../models/jobApplicationModel";
 
 
-class JobApplicationRepository implements IJobApplicationRepository{
+class JobApplicationRepository implements IJobApplicationRepository {
 
-    async applyJob(data:JobApplication): Promise<JobApplication | null> {
+    async applyJob(data: JobApplication): Promise<JobApplication | null> {
         try {
             const Application = new JobApplicationModel({
                 ...data,
-                createdAt:new Date()
+                createdAt: new Date()
             })
             const savedApplication = await Application.save()
             return savedApplication as JobApplication
@@ -28,7 +29,32 @@ class JobApplicationRepository implements IJobApplicationRepository{
             return null
         }
     }
-    
+
+    async getJobApplications(jobId: string, status: string): Promise<JobApplication[]> {
+        try {
+            if (status == 'undefined') {
+                return await JobApplicationModel.find({ jobId: jobId }).populate('jobseekerId')
+            } else {
+                return await JobApplicationModel.find({ jobId: jobId, status: status }).populate('jobseekerId')
+            }
+        } catch (error) {
+            console.error(error)
+            return []
+        }
+    }
+
+    async changeApplicationStatus(applicationId: string, status: string): Promise<void> {
+        try {
+            if (status === 'Approved') {
+                await JobApplicationModel.findByIdAndUpdate(applicationId, { status: 'Approved' })
+            } else if (status === 'Rejected') {
+                await JobApplicationModel.findByIdAndUpdate(applicationId, { status: 'Rejected' })
+            }
+        } catch (error) {
+            throw new Error('Error occured')
+        }
+    }
+
 }
 
 export default JobApplicationRepository
