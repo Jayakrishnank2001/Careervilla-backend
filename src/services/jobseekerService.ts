@@ -321,16 +321,6 @@ class JobseekerService implements IJobseekerService {
     }
   }
 
-  async getAppliedJobs(jobseekerId: string): Promise<Job[]> {
-    try {
-      const appliedJobs = await this.jobseekerRepository.getAppliedJobs(jobseekerId)
-      return appliedJobs
-    } catch (error) {
-      console.log(error)
-      throw new Error('Internal server error')
-    }
-  }
-
   async withdrawApplication(jobId: string, jobseekerId: string): Promise<IResponse | undefined> {
     try {
       await this.jobseekerRepository.withdrawApplication(jobId, jobseekerId)

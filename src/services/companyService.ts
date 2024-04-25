@@ -80,9 +80,10 @@ class CompanyService implements ICompanyService {
         }
     }
 
-    async getAllCompanies(): Promise<Company[]> {
+    async getAllCompanies(page:number,pageSize:number,searchQuery:string | undefined): Promise<Company[]> {
         try {
-            return await this.companyRepository.getAllCompanies()
+            if(!searchQuery) searchQuery=''
+            return await this.companyRepository.getAllCompanies(page,pageSize,searchQuery)
         } catch (error) {
             console.log(error)
             throw new Error('Internal server error')

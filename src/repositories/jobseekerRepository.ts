@@ -159,19 +159,6 @@ class JobseekerRepository implements IJobseekerRepository {
       }
    }
 
-   async getAppliedJobs(jobseekerId: string): Promise<Job[]> {
-      try {
-         const jobseeker = await JobseekerModel.findById(jobseekerId).populate('appliedJobs.jobId')
-         if (!jobseeker) {
-            return []
-         }
-         return jobseeker.appliedJobs.map(appliedJob=>appliedJob.jobId) as Job[]
-      } catch (error) {
-         console.error(error)
-         return []
-      }
-   }
-
    async withdrawApplication(jobId: string, jobseekerId: string): Promise<Jobseeker | null> {
       try {
          const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId,

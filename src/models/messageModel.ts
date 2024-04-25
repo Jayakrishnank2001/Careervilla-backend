@@ -1,31 +1,39 @@
 import mongoose, { ObjectId, Document, Schema } from "mongoose";
 
-export interface MessageInterface extends Document{
+export interface MessageInterface extends Document {
     _id: ObjectId,
-    jobseekerId: ObjectId,
-    employerId: ObjectId,
+    chatId: ObjectId,
+    senderId: ObjectId,
+    receiverId: ObjectId,
     message: string,
-    status:string,
+    status: string,
     time: string
 }
 
 const messageSchema: Schema = new Schema({
-    jobseekerId: {
+    chatId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Jobseeker'
+        ref: 'Chat',
+        required: true
     },
-    employerId: {
+    senderId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employer'
+        required: true
+    },
+    receiverId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
     },
     message: {
-        type:String
+        type: String
     },
     status: {
-        type:String
+        type: String,
+        default: 'unread'
     },
     time: {
-        type:String
+        type: Date,
+        default: Date.now
     }
 })
 

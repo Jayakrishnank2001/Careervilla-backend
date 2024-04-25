@@ -18,7 +18,10 @@ class JobController {
 
     async getAllJobs(req: Request, res: Response) {
         try {
-            const jobs = await this.jobService.getAllJobs()
+            const page = parseInt(req.query.page as string)
+            const pageSize = parseInt(req.query.pageSize as string)
+            const companyId = req.query.companyId as string
+            const jobs = await this.jobService.getAllJobs(page,pageSize,companyId)
             res.status(STATUS_CODES.OK).json(jobs)
         } catch (error) {
             console.log(error)

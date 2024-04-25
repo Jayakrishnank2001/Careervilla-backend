@@ -7,7 +7,7 @@ interface ICompanyRepository {
     getCompanyDetails(companyId: string): Promise<Company | null>
     updateCompanyLogo(companyId: string, url: string): Promise<Company | null>
     updateCompanyDetails(companyData: Company, companyId: string): Promise<Company | null>
-    getAllCompanies(): Promise<Company[]>
+    getAllCompanies(page:number,pageSize:number,searchQuery:string): Promise<Company[]>
     
 
 }

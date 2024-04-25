@@ -60,7 +60,10 @@ class CompanyController {
 
     async getAllCompanies(req: Request, res: Response) {
         try {
-            const companies = await this.companyService.getAllCompanies()
+            const page = parseInt(req.query.page as string)
+            const pageSize = parseInt(req.query.pageSize as string)
+            const searchQuery = req.query.searchQuery as string | undefined
+            const companies = await this.companyService.getAllCompanies(page, pageSize, searchQuery)
             res.status(STATUS_CODES.OK).json(companies)
         } catch (error) {
             console.log(error)
@@ -68,7 +71,7 @@ class CompanyController {
         }
     }
 
-    
+
 
 
 

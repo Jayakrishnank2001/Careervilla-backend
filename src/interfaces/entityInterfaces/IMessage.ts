@@ -1,10 +1,13 @@
+import { ObjectId } from "mongoose"
+
 interface Message{
     id?: string
-    jobseekerId?: string
-    employerId?: string
-    status?: string
+    chatId?: ObjectId,
+    senderId?: ObjectId,
+    receiverId?: ObjectId,
+    message?: string,
+    status?: string,
     time?: string
-    message?: string
 }
 
 export default Message

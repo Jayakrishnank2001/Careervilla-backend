@@ -1,7 +1,9 @@
+import { ObjectId } from "mongoose"
+
 interface Review {
     id?: string,
-    jobseekerId?: string,
-    companyId?: string,
+    jobseekerId?: ObjectId,
+    companyId?: ObjectId,
     rating?: number,
     createdAt?: string,
     comment?: string

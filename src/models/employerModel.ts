@@ -14,7 +14,8 @@ export interface EmployerInterface extends Document {
     image: string | null
     password: string,
     companyId: ObjectId,
-    postedJobs:PostedJob[]
+    postedJobs: PostedJob[]
+    planId: ObjectId
 }
 
 const employerSchema: Schema = new Schema({
@@ -61,7 +62,11 @@ const employerSchema: Schema = new Schema({
             jobId: { type: mongoose.Schema.Types.ObjectId, ref: 'Job' },
             postedAt: { type: Date, default: Date.now }
         }
-    ]
+    ],
+    planId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'SubscriptionPlan'
+    }
 })
 
 const EmployerModel = mongoose.model<EmployerInterface>('Employer', employerSchema)

@@ -13,7 +13,8 @@ interface Employer {
     image?:string,
     password?: string,
     company_Id?: string
-    appliedJobs?:PostedJob[]
+    appliedJobs?: PostedJob[]
+    planId?:ObjectId
 }
 export default Employer
 

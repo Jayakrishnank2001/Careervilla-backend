@@ -2,9 +2,9 @@ import Company from "../interfaces/entityInterfaces/ICompany";
 import ICompanyRepository from "../interfaces/repositoryInterfaces/ICompanyRepository";
 import CompanyModel from "../models/companyModel";
 
-class CompanyRepository implements ICompanyRepository{
+class CompanyRepository implements ICompanyRepository {
 
-    async saveCompany(companyData: Company,addressId:string): Promise<Company | null> {
+    async saveCompany(companyData: Company, addressId: string): Promise<Company | null> {
         try {
             const newCompany = new CompanyModel({
                 addressId: addressId,
@@ -48,7 +48,7 @@ class CompanyRepository implements ICompanyRepository{
         }
     }
 
-    async updateCompanyDetails(companyData:Company, companyId: string): Promise<Company | null> {
+    async updateCompanyDetails(companyData: Company, companyId: string): Promise<Company | null> {
         try {
             const company = await CompanyModel.findByIdAndUpdate(companyId, { ...companyData }, { new: true })
             return company
@@ -58,9 +58,16 @@ class CompanyRepository implements ICompanyRepository{
         }
     }
 
-    async getAllCompanies(): Promise<Company[]> {
+    async getAllCompanies(page: number, pageSize: number, searchQuery: string): Promise<Company[]> {
         try {
-            const companies = await CompanyModel.find().populate('addressId')
+            const regex = new RegExp(searchQuery, 'i')
+            const companies = await CompanyModel.find({
+                $or: [
+                    { companyName: { $regex: regex } }
+                ]
+            }).populate('addressId')
+                .skip((page - 1) * pageSize)
+                .limit(pageSize)
             return companies.map((company) => company.toObject())
         } catch (error) {
             console.error(error)

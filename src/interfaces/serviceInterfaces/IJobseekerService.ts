@@ -19,7 +19,6 @@ export interface IJobseekerService{
   saveJob(jobseekerId: string, jobId: string): Promise<IResponse | undefined>
   unsaveJob(jobseekerId: ObjectId, jobId: ObjectId): Promise<IResponse | undefined>
   getSavedJobs(jobseekerId: string): Promise<Job[]>
-  getAppliedJobs(jobseekerId: string): Promise<Job[]>
   withdrawApplication(jobId: string, jobseekerId: string): Promise<IResponse | undefined>
   
   

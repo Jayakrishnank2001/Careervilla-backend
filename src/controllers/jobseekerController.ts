@@ -295,18 +295,6 @@ class JobseekerController {
         }
     }
 
-    async getAppliedJobs(req: Request, res: Response) {
-        try {
-            const appliedJobs = await this.jobseekerService.getAppliedJobs(req.params.jobseekerId)
-            if (appliedJobs) {
-                res.status(STATUS_CODES.OK).json(appliedJobs)
-            }
-        } catch (error) {
-            console.error(error)
-            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
-        }
-    }
-
     async withdrawApplication(req: Request, res: Response) {
         try {
             const withdrawApplication = await this.jobseekerService.withdrawApplication(req.body.jobId, req.body.jobseekerId)

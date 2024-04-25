@@ -16,7 +16,6 @@ interface IJobseekerRepository {
     unsaveJob(jobseekerId: ObjectId, jobId: ObjectId): Promise<Jobseeker | null>
     appliedJob(jobseekerId: ObjectId, jobId: ObjectId): Promise<Jobseeker | null>
     getSavedJobs(jobseekerId: string): Promise<Job[]>
-    getAppliedJobs(jobseekerId: string): Promise<Job[]>
     withdrawApplication(jobId: string, jobseekerId: string): Promise<Jobseeker | null>
 
     

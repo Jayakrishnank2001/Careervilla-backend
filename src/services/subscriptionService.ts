@@ -12,7 +12,7 @@ dotenv.config()
 const { OK, NOT_FOUND } = STATUS_CODES
 
 class SubscriptionService implements ISubscriptionService {
-    constructor(private subscriptionRepository: SubscriptionRepository,private employerRepository:EmployerRepository) { }
+    constructor(private subscriptionRepository: SubscriptionRepository, private employerRepository: EmployerRepository) { }
 
     async createPlan(planData: SubscriptionPlan): Promise<AdminResponse> {
         try {
@@ -102,7 +102,7 @@ class SubscriptionService implements ISubscriptionService {
         }
     }
 
-    async makePayment(token: paymentToken,duration:string,employerId:string): Promise<boolean> {
+    async makePayment(token: paymentToken, duration: string, planId: string, employerId: string): Promise<boolean> {
         try {
             if (process.env.STRIPE_SECRET_KEY) {
                 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
@@ -117,12 +117,12 @@ class SubscriptionService implements ISubscriptionService {
                     currency: 'USD',
                     customer: (await customer).id
                 })
-                
+
             }
             const currentDate = new Date()
             const durationInMonths = parseInt(duration)
             const newExpirationDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + durationInMonths, currentDate.getDate());
-            const planExpiresAt=await this.employerRepository.updatePlanExpiration(employerId,newExpirationDate)
+            await this.employerRepository.updatePlanExpiration(employerId, newExpirationDate,planId)
             return true
         } catch (error) {
             console.log(error)

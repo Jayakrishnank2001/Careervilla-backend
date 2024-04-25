@@ -7,7 +7,7 @@ export interface ICompanyService{
   getCompanyDetails(companyId: string): Promise<Company | null>
   updateCompanyLogo(companyId: string, url: string): Promise<IResponse | undefined>
   updateCompanyDetails(companyData:ICompany,addressId:string,companyId:string): Promise<IResponse | undefined>
-  getAllCompanies():Promise<Company[]>
+  getAllCompanies(page:number,pageSize:number,searchQuery:string|undefined):Promise<Company[]>
     
 }
 

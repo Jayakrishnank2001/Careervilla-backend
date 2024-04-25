@@ -75,9 +75,9 @@ class EmployerRepository implements IEmployerRepository {
         }
     }
 
-    async updatePlanExpiration(employerId: string, newExpirationDate: Date): Promise<Employer | null> {
+    async updatePlanExpiration(employerId: string, newExpirationDate: Date, planId: string): Promise<Employer | null> {
         try {
-            const employer = EmployerModel.findByIdAndUpdate(employerId, { planExpiresAt: newExpirationDate, isSubscribed: true })
+            const employer = EmployerModel.findByIdAndUpdate(employerId, { planExpiresAt: newExpirationDate, isSubscribed: true, planId: planId })
             return employer as Employer
         } catch (error) {
             console.error(error)

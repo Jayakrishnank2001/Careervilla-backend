@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import SubscriptionService from "../services/subscriptionService";
 import { STATUS_CODES } from '../constants/httpStatusCodes';
 
-const { OK, INTERNAL_SERVER_ERROR,BAD_REQUEST } = STATUS_CODES
+const { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } = STATUS_CODES
 
 class SubscriptionController {
 
@@ -54,14 +54,13 @@ class SubscriptionController {
 
     async makePayment(req: Request, res: Response) {
         try {
-            const token = req.body.stripeToken
-            const duration = req.body.duration
+            const { stripeToken, duration, planId } = req.body
             const employerId = req.params.employerId
-            const success = await this.subscriptionService.makePayment(token,duration,employerId)
+            const success = await this.subscriptionService.makePayment(stripeToken, duration, planId, employerId)
             if (success) {
-                res.status(OK).json({data:'success'})
+                res.status(OK).json({ data: 'success' })
             } else {
-                res.status(BAD_REQUEST).json({data:'failure'})
+                res.status(BAD_REQUEST).json({ data: 'failure' })
             }
         } catch (error) {
             console.log(error)

@@ -35,9 +35,9 @@ class JobService implements IJobService {
         }
     }
 
-    async getAllJobs(): Promise<Job[]> {
+    async getAllJobs(page:number,pageSize:number,companyId:string): Promise<Job[]> {
         try {
-            return await this.jobRepository.getAllJobs()
+            return await this.jobRepository.getAllJobs(page,pageSize,companyId)
         } catch (error) {
             console.log(error)
             throw new Error('Internal server error')

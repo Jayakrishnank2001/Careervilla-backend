@@ -22,10 +22,22 @@ class JobRepository implements IJobRepository {
         }
     }
 
-    async getAllJobs(): Promise<Job[]> {
+    async getAllJobs(page: number, pageSize: number, companyId: string): Promise<Job[]> {
         try {
-            const jobs = await JobModel.find({ isBlocked: false, status: 'Active' }).populate('companyId').populate('addressId').exec()
-            return jobs.map((job) => job.toObject())
+            if (companyId == 'undefined') {
+                const jobs = await JobModel.find({ isBlocked: false, status: 'Active' }).populate('companyId').populate('addressId')
+                    .sort({ _id: -1 })
+                    .skip((page - 1) * pageSize)
+                    .limit(pageSize)
+                    .exec()
+                return jobs.map((job) => job.toObject())
+            } else {
+                const jobs = await JobModel.find({ isBlocked: false, status: 'Active', companyId: companyId }).populate('companyId').populate('addressId')
+                    .skip((page - 1) * pageSize)
+                    .limit(pageSize)
+                    .exec()
+                return jobs.map((job) => job.toObject())
+            }
         } catch (error) {
             console.error(error)
             return []
@@ -46,7 +58,7 @@ class JobRepository implements IJobRepository {
 
     async findJobById(jobId: ObjectId): Promise<Job | null> {
         try {
-            const job = await JobModel.findById(jobId).populate('companyId addressId')
+            const job = await JobModel.findById(jobId).populate('companyId addressId postedBy')
             return job
         } catch (error) {
             console.error(error)

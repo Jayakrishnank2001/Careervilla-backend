@@ -4,7 +4,7 @@ import Job from "../entityInterfaces/IJob"
 
 interface IJobRepository{
     saveJob(jobData: Job, addressId: string, companyId: string,employerId:string): Promise<Job | null>
-    getAllJobs(): Promise<Job[]>
+    getAllJobs(page:number,pageSize:number,companyId:string): Promise<Job[]>
     blockReportedJob(jobId: string): Promise<void>
     findJobById(jobId: ObjectId): Promise<Job | null>
     updateJob(jobData: Job, jobId: string): Promise<Job | null>

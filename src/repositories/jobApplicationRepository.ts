@@ -45,13 +45,18 @@ class JobApplicationRepository implements IJobApplicationRepository {
 
     async changeApplicationStatus(applicationId: string, status: string): Promise<void> {
         try {
-            if (status === 'Approved') {
-                await JobApplicationModel.findByIdAndUpdate(applicationId, { status: 'Approved' })
-            } else if (status === 'Rejected') {
-                await JobApplicationModel.findByIdAndUpdate(applicationId, { status: 'Rejected' })
-            }
+            await JobApplicationModel.findByIdAndUpdate(applicationId, { status: status })
         } catch (error) {
             throw new Error('Error occured')
+        }
+    }
+
+    async getAppliedJobsApplications(jobseekerId: string): Promise<JobApplication[]> {
+        try {
+            return await JobApplicationModel.find({ jobseekerId: jobseekerId }).populate('jobId') 
+        } catch (error) {
+            console.error(error)
+            return []
         }
     }
 

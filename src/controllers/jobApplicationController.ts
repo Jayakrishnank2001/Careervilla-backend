@@ -37,6 +37,16 @@ class JobApplicationController {
         }
     }
 
+    async getAppliedJobsApplications(req: Request, res: Response) {
+        try {
+            const applications = await this.jobApplicationService.getAppliedJobsApplications(req.params.jobseekerId)
+            res.status(STATUS_CODES.OK).json(applications)
+        } catch (error) {
+            console.log(error)
+            res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ error: 'Internal server error' })
+        }
+    }
+
 
 }
 

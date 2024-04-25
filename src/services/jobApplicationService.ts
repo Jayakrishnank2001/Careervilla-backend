@@ -59,5 +59,18 @@ class JobApplicationService implements IJobApplicationService {
         }
     }
 
+    async getAppliedJobsApplications(jobseekerId: string): Promise<JobApplication[]> {
+        try {
+            const applications = await this.jobApplicationRepository.getAppliedJobsApplications(jobseekerId)
+            return applications
+        } catch (error) {
+            console.log(error)
+            throw new Error('Internal server error')
+        }
+    }
+
+
+
+
 }
 export default JobApplicationService
