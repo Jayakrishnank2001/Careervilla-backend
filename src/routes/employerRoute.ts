@@ -22,6 +22,10 @@ import JobApplicationController from '../controllers/jobApplicationController'
 import JobApplicationRepository from '../repositories/jobApplicationRepository'
 import JobApplicationService from '../services/jobApplicationService'
 import JobseekerRepository from '../repositories/jobseekerRepository'
+import MessageRepository from '../repositories/messageRepository'
+import ChatRepository from '../repositories/chatRepository'
+import MessageService from '../services/messageService'
+import MessageController from '../controllers/messageController'
 
 const employerRouter = express.Router()
 
@@ -91,6 +95,14 @@ const jobApplicationController = new JobApplicationController(jobApplicationServ
 employerRouter.get('/job-applications/:jobId', employerAuthMiddleware, async (req, res) => jobApplicationController.getJobApplications(req, res))
 employerRouter.patch('/change-applicationStatus', employerAuthMiddleware, async (req, res) => jobApplicationController.changeApplicationStatus(req, res))
 
+
+const messageRepository = new MessageRepository()
+const chatRepository = new ChatRepository()
+const messageService = new MessageService(messageRepository, chatRepository)
+const messageController = new MessageController(messageService)
+
+employerRouter.get('/messages', employerAuthMiddleware, async (req, res) => messageController.getAllMessages(req, res))
+employerRouter.post('/send-message', employerAuthMiddleware, async (req, res) => messageController.sendMessage(req, res))
 
 
 

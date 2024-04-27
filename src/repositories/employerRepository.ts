@@ -67,7 +67,7 @@ class EmployerRepository implements IEmployerRepository {
 
     async getEmployerData(employerId: string): Promise<Employer | null> {
         try {
-            const employer = await EmployerModel.findById(employerId).populate('companyId').exec()
+            const employer = await EmployerModel.findById(employerId).populate('companyId planId').exec()
             return employer as Employer
         } catch (error) {
             console.error(error)
