@@ -47,6 +47,17 @@ class JobApplicationController {
         }
     }
 
+    async addRejectionReason(req: Request, res: Response) {
+        try {
+            const { applicationId, reason } = req.body
+            const reasonAdded = await this.jobApplicationService.addRejectionReason(applicationId, reason)
+            res.status(STATUS_CODES.OK).json(reasonAdded)
+        } catch (error) {
+            console.log(error)
+            res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ error: 'Internal server error' })
+        }
+    }
+
 
 }
 

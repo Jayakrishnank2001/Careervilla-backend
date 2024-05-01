@@ -6,6 +6,7 @@ export interface IJobApplicationService {
     getJobApplications(jobId: string, status: string): Promise<JobApplication[]>
     changeApplicationStatus(applicationId: string, status: string): Promise<IRes>
     getAppliedJobsApplications(jobseekerId: string): Promise<JobApplication[]>
+    addRejectionReason(applicationId: string, reason: string): Promise<IRes>
     
 }
 

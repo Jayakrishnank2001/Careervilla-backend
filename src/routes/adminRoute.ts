@@ -12,6 +12,9 @@ import ReportedJobRepository from "../repositories/reportedJobRepository";
 import ReportedJobService from "../services/reportedJobService";
 import ReportedJobController from "../controllers/reportedJobcontroller";
 import JobRepository from "../repositories/jobRepository";
+import IndustryRepository from "../repositories/industryRepository";
+import IndustryService from "../services/industryService";
+import IndustryController from "../controllers/industryController";
 
 const adminRouter = express.Router();
 
@@ -46,6 +49,17 @@ const reportedJobController = new ReportedJobController(reportedJobService)
 adminRouter.get('/reportedJobs', adminAuthMiddleware, async (req, res) => reportedJobController.getAllReportedJobs(req, res))
 adminRouter.patch('/block-reportedJob', adminAuthMiddleware, async (req, res) => reportedJobController.blockReportedJob(req, res))
 adminRouter.get('/reportedJob-details/:jobId', adminAuthMiddleware, async (req, res) => reportedJobController.reportedJobDetails(req, res))
+
+
+const industryRepository = new IndustryRepository()
+const industryService = new IndustryService(industryRepository)
+const industryController = new IndustryController(industryService)
+
+adminRouter.get('/industries', adminAuthMiddleware, async (req, res) => industryController.getAllIndustries(req, res))
+adminRouter.post('/add-industry', adminAuthMiddleware, async (req, res) => industryController.addIndustry(req, res))
+adminRouter.delete('/delete-industry/:industryId', adminAuthMiddleware, async (req, res) => industryController.deleteIndustry(req, res))
+adminRouter.put('/update-industry/:industryId', adminAuthMiddleware, async (req, res) => industryController.updateIndustry(req, res))
+
 
 
 export default adminRouter;

@@ -27,6 +27,9 @@ import MessageRepository from '../repositories/messageRepository'
 import MessageService from '../services/messageService'
 import MessageController from '../controllers/messageController'
 import ChatRepository from '../repositories/chatRepository'
+import IndustryRepository from '../repositories/industryRepository'
+import IndustryService from '../services/industryService'
+import IndustryController from '../controllers/industryController'
 
 const jobseekerRouter = express.Router()
 
@@ -106,10 +109,12 @@ jobseekerRouter.get('/messages', jobseekerAuthMiddleware, async (req, res) => me
 jobseekerRouter.post('/send-message', jobseekerAuthMiddleware, async (req, res) => messageController.sendMessage(req, res))
 
 
+const industryRepository = new IndustryRepository()
+const industryService = new IndustryService(industryRepository)
+const industryController = new IndustryController(industryService)
+ 
 
-
-
-
+jobseekerRouter.get('/industries', jobseekerAuthMiddleware, async (req, res) => industryController.getAllIndustries(req, res))
 
 
 

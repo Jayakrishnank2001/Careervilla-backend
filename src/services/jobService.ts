@@ -35,9 +35,12 @@ class JobService implements IJobService {
         }
     }
 
-    async getAllJobs(page:number,pageSize:number,companyId:string): Promise<Job[]> {
+    async getAllJobs(page: number, pageSize: number, companyId: string, jobTitle?: string | undefined, location?: string | undefined, experience?: string | undefined): Promise<Job[]> {
         try {
-            return await this.jobRepository.getAllJobs(page,pageSize,companyId)
+            if (!jobTitle) jobTitle = ''
+            if (!location) location = ''
+            if (!experience) experience = ''
+            return await this.jobRepository.getAllJobs(page, pageSize, companyId, jobTitle, location, experience)
         } catch (error) {
             console.log(error)
             throw new Error('Internal server error')
@@ -78,7 +81,7 @@ class JobService implements IJobService {
                 status: STATUS_CODES.OK,
                 data: {
                     success: true,
-                    message:'Status Updated'
+                    message: 'Status Updated'
                 }
             }
         } catch (error) {

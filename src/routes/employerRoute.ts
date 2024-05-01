@@ -26,6 +26,9 @@ import MessageRepository from '../repositories/messageRepository'
 import ChatRepository from '../repositories/chatRepository'
 import MessageService from '../services/messageService'
 import MessageController from '../controllers/messageController'
+import IndustryRepository from '../repositories/industryRepository'
+import IndustryService from '../services/industryService'
+import IndustryController from '../controllers/industryController'
 
 const employerRouter = express.Router()
 
@@ -94,6 +97,7 @@ const jobApplicationController = new JobApplicationController(jobApplicationServ
 
 employerRouter.get('/job-applications/:jobId', employerAuthMiddleware, async (req, res) => jobApplicationController.getJobApplications(req, res))
 employerRouter.patch('/change-applicationStatus', employerAuthMiddleware, async (req, res) => jobApplicationController.changeApplicationStatus(req, res))
+employerRouter.patch('/add-rejectionReason', employerAuthMiddleware, async (req, res) => jobApplicationController.addRejectionReason(req, res))
 
 
 const messageRepository = new MessageRepository()
@@ -103,6 +107,15 @@ const messageController = new MessageController(messageService)
 
 employerRouter.get('/messages', employerAuthMiddleware, async (req, res) => messageController.getAllMessages(req, res))
 employerRouter.post('/send-message', employerAuthMiddleware, async (req, res) => messageController.sendMessage(req, res))
+
+
+
+const industryRepository = new IndustryRepository()
+const industryService = new IndustryService(industryRepository)
+const industryController = new IndustryController(industryService)
+
+employerRouter.get('/industries', employerAuthMiddleware, async (req, res) => industryController.getAllIndustries(req, res))
+
 
 
 

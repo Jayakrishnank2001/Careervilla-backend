@@ -53,12 +53,26 @@ class JobApplicationRepository implements IJobApplicationRepository {
 
     async getAppliedJobsApplications(jobseekerId: string): Promise<JobApplication[]> {
         try {
-            return await JobApplicationModel.find({ jobseekerId: jobseekerId }).populate('jobId') 
+            return await JobApplicationModel.find({ jobseekerId: jobseekerId }).populate('jobId')
         } catch (error) {
             console.error(error)
             return []
         }
     }
+
+    async addRejectionReason(applicationId: string, reason: string): Promise<void> {
+        try {
+            await JobApplicationModel.findByIdAndUpdate(applicationId, { rejectionReason: reason })
+        } catch (error) {
+            throw new Error('Error occured')
+        }
+    }
+
+
+
+
+
+
 
 }
 

@@ -1,10 +1,16 @@
 import Employer from "../entityInterfaces/IEmployer"
+import Industry from "../entityInterfaces/IIndustry"
 import Jobseeker from "../entityInterfaces/IJobseeker"
 import ReportedJob from "../entityInterfaces/IReportedJob"
+import SubscriptionPlan from "../entityInterfaces/ISubscriptionPlan"
 import { IEmployersAndCount, IJobseekersAndCount } from "../serviceInterfaces/IAdminService"
+import { IIndustriesAndCount } from "../serviceInterfaces/IIndustryService"
 import { IReportedJobsAndCount } from "../serviceInterfaces/IReportedJobService"
+import { IPlansAndCount } from "../serviceInterfaces/ISubscriptionService"
 
-export type AllResTypes = IJobseekersAndCount | IEmployersAndCount | Jobseeker | Jobseeker[] | Employer | Employer[] | null | ReportedJob[] | IReportedJobsAndCount
+export type AllResTypes = IJobseekersAndCount | IEmployersAndCount | Jobseeker | Jobseeker[] | Employer | Employer[] | null | ReportedJob[] | IReportedJobsAndCount | 
+    Industry | Industry[] | IIndustriesAndCount | SubscriptionPlan | SubscriptionPlan[] | IPlansAndCount
+        
 
 
 export interface IApiRes<T extends AllResTypes> {

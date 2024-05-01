@@ -44,7 +44,10 @@ class SubscriptionController {
 
     async getPlans(req: Request, res: Response) {
         try {
-            const plans = await this.subscriptionService.getPlans()
+            const page = parseInt(req.query.page as string)
+            const limit = parseInt(req.query.limit as string)
+            const searchQuery = req.query.searchQuery as string | undefined
+            const plans = await this.subscriptionService.getAllPlans(page, limit, searchQuery)
             res.status(OK).json(plans)
         } catch (error) {
             console.log(error)

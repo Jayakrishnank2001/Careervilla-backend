@@ -24,8 +24,8 @@ class ReportedJobController {
             const page = parseInt(req.query.page as string)
             const limit = parseInt(req.query.limit as string)
             const searchQuery = req.query.searchQuery as string | undefined
-            const data = await this.reportedJobService.getAllReportedJobs(page, limit, searchQuery)
-            res.status(STATUS_CODES.OK).json(data)
+            const reportedJobs = await this.reportedJobService.getAllReportedJobs(page, limit, searchQuery)
+            res.status(STATUS_CODES.OK).json(reportedJobs)
         } catch (error) {
             console.log(error)
             res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error' })

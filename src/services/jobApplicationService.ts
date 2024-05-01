@@ -69,6 +69,19 @@ class JobApplicationService implements IJobApplicationService {
         }
     }
 
+    async addRejectionReason(applicationId: string, reason: string): Promise<IRes> {
+        try {
+            await this.jobApplicationRepository.addRejectionReason(applicationId, reason)
+            return {
+                success: true,
+                message: 'Rejection reason added'
+            }
+        } catch (error) {
+            console.log(error)
+            throw new Error('Internal server error')
+        }
+    }
+
 
 
 

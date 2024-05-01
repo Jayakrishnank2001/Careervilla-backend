@@ -2,10 +2,10 @@ import SubscriptionPlan from "../interfaces/entityInterfaces/ISubscriptionPlan";
 import { AdminResponse } from "../interfaces/serviceInterfaces/IAdminService";
 import SubscriptionRepository from "../repositories/subscriptionRepository";
 import { STATUS_CODES } from '../constants/httpStatusCodes';
-import { ISubscriptionService } from "../interfaces/serviceInterfaces/ISubscriptionService";
+import { IPlansAndCount, ISubscriptionService } from "../interfaces/serviceInterfaces/ISubscriptionService";
 import Stripe from 'stripe';
 import dotenv from 'dotenv'
-import { paymentToken } from "../interfaces/common/ICommon";
+import { IApiRes, paymentToken } from "../interfaces/common/ICommon";
 import EmployerRepository from "../repositories/employerRepository";
 dotenv.config()
 
@@ -93,12 +93,21 @@ class SubscriptionService implements ISubscriptionService {
         }
     }
 
-    async getPlans(): Promise<SubscriptionPlan[]> {
+    async getAllPlans(page: number, limit: number, searchQuery: string | undefined): Promise<IApiRes<IPlansAndCount | null>> {
         try {
-            return this.subscriptionRepository.getAllPlans()
+            if (isNaN(page)) page = 1
+            if (isNaN(limit)) limit = 10
+            if (!searchQuery) searchQuery = ''
+            const plans = await this.subscriptionRepository.getAllPlans(page, limit, searchQuery)
+            const plansCount = await this.subscriptionRepository.getPlansCount(searchQuery)
+            return {
+                status: STATUS_CODES.OK,
+                message: 'success',
+                data: { plans, plansCount }
+            }
         } catch (error) {
             console.log(error)
-            throw new Error('Internal server error')
+            throw new Error('Error occured')
         }
     }
 

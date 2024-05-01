@@ -6,6 +6,7 @@ interface IJobApplicationRepository {
     getJobApplications(jobId: string, status: string): Promise<JobApplication[]>
     changeApplicationStatus(applicationId: string, status: string): Promise<void>
     getAppliedJobsApplications(jobseekerId: string): Promise<JobApplication[]>
+    addRejectionReason(applicationId: string, reason: string): Promise<void>
     
 
 }

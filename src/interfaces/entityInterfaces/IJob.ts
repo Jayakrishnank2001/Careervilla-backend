@@ -17,5 +17,4 @@ interface Job{
     status?: string,
     postedBy?:ObjectId
 }
-
 export default Job

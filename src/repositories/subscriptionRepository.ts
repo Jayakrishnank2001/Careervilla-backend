@@ -36,13 +36,39 @@ class SubscriptionRepository implements ISubscriptionRepository{
         }
     }
 
-    async getAllPlans(): Promise<SubscriptionPlan[]> {
+    async getAllPlans(page: number, limit: number, searchQuery: string): Promise<SubscriptionPlan[]> {
         try {
-            const plans = await SubscriptionPlanModel.find().exec()
-            return plans.map((plan) => plan.toObject())
+            if (searchQuery === 'undefined') {
+                const result = await SubscriptionPlanModel.find()
+                return result as SubscriptionPlan[];
+            }
+            const regex = new RegExp(searchQuery, 'i');
+            const result = await SubscriptionPlanModel.find({
+                $or: [
+                    { planName: { $regex: regex } },
+                ]
+            })
+                .skip((page - 1) * limit)
+                .limit(limit)
+                .exec();
+            return result as SubscriptionPlan[];
         } catch (error) {
             console.error(error)
             return []
+        }
+    }
+
+    async getPlansCount(searchQuery: string): Promise<number> {
+        try {
+            const regex = new RegExp(searchQuery, 'i')
+            return await SubscriptionPlanModel.find({
+                $or: [
+                    { planName: { $regex: regex } },
+                ]
+            }).countDocuments()
+        } catch (error) {
+            console.error(error)
+            throw new Error('Error occured')
         }
     }
 
