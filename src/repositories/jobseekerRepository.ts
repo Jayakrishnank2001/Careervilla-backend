@@ -172,6 +172,56 @@ class JobseekerRepository implements IJobseekerRepository {
       }
    }
 
+   async addRecentWork(work: string, jobseekerId: string): Promise<Jobseeker | null> {
+      try {
+         const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId,
+            { $set: { 'qualifications.recentExperience': work } }
+         )
+         return jobseeker as Jobseeker
+      } catch (error) {
+         console.error(error)
+         return null
+      }
+   }
+
+   async addEducation(education: string, jobseekerId: string): Promise<Jobseeker | null> {
+      try {
+         const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId,
+            { $set: { 'qualifications.highestEducation': education } }
+         )
+         return jobseeker as Jobseeker
+      } catch (error) {
+         console.error(error)
+         return null
+      }
+   }
+
+   async addSalary(salary: string, jobseekerId: string): Promise<Jobseeker | null> {
+      try {
+         const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId,
+            { $set: { 'jobPreferences.minimumSalary': salary } }
+         )
+         return jobseeker as Jobseeker
+      } catch (error) {
+         console.error(error)
+         return null
+      }
+   }
+
+   async addJobTypes(jobTypes: [string], jobseekerId: string): Promise<Jobseeker | null> {
+      try {
+         const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId,
+            { $set: { 'jobPreferences.jobTypes': jobTypes } }
+         )
+         return jobseeker as Jobseeker
+      } catch (error) {
+         console.error(error)
+         return null
+      }
+   }
+
+
+
 
 
 

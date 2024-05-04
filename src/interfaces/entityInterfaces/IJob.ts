@@ -15,6 +15,16 @@ interface Job{
     applicationDeadline?: string,
     addressId?: ObjectId;
     status?: string,
-    postedBy?:ObjectId
+    postedBy?: ObjectId,
+    industry?:ObjectId
 }
 export default Job
+
+
+export interface searchQuery{
+    jobTitle: string
+    location: string
+    experience: string
+    industryName: string
+    jobType:string
+}

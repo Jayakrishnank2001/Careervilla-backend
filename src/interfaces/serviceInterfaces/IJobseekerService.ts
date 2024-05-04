@@ -1,5 +1,5 @@
 import { ObjectId } from "mongoose";
-import { IResponse } from "../common/ICommon";
+import { IRes, IResponse } from "../common/ICommon";
 import Job from "../entityInterfaces/IJob";
 import Jobseeker from "../entityInterfaces/IJobseeker";
 
@@ -20,7 +20,11 @@ export interface IJobseekerService{
   unsaveJob(jobseekerId: ObjectId, jobId: ObjectId): Promise<IResponse | undefined>
   getSavedJobs(jobseekerId: string): Promise<Job[]>
   withdrawApplication(jobId: string, jobseekerId: string): Promise<IResponse | undefined>
-  
+  addRecentWork(work: string, jobseekerId: string): Promise<IRes>
+  addEducation(education: string, jobseekerId: string): Promise<IRes>
+  addSalary(salary: string, jobseekerId: string): Promise<IRes>
+  addJobTypes(jobTypes: [string], jobseekerId: string): Promise<IRes>
+
   
 }
 

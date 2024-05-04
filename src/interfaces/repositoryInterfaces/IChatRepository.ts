@@ -2,7 +2,9 @@ import Chat from "../entityInterfaces/IChat"
 
 
 interface IChatRepository{
-    findOrCreateChat(senderId: string, receiverId: string): Promise<Chat>
+    findChatById(senderId: string, receiverId: string): Promise<Chat>
+    createChat(senderId: string, receiverId: string): Promise<Chat>
+    getAllChats(userId: string,role:string): Promise<Chat[]>
     
 
 

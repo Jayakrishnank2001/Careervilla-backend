@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose"
 import Employer from "../entityInterfaces/IEmployer"
 import Industry from "../entityInterfaces/IIndustry"
 import Jobseeker from "../entityInterfaces/IJobseeker"
@@ -45,7 +46,7 @@ export interface IJob {
     specialisms?: string,
     experience?: string,
     gender?: string,
-    industry?: string,
+    industryName: string,
     applicationDeadline?: string,
     address?: string,
     state?: string,

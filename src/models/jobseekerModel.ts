@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document, ObjectId } from "mongoose";
-import { AppliedJob, SavedJob } from "../interfaces/entityInterfaces/IJobseeker";
+import { AppliedJob, JobPreferences, Qualifications, SavedJob } from "../interfaces/entityInterfaces/IJobseeker";
 
 export interface JobseekerInterface extends Document {
     _id: ObjectId,
@@ -16,6 +16,8 @@ export interface JobseekerInterface extends Document {
     location: string | null
     savedJobs: SavedJob[];
     appliedJobs: AppliedJob[];
+    jobPreferences: JobPreferences
+    qualifications: Qualifications
 }
 
 const jobseekerSchema: Schema = new Schema({
@@ -67,7 +69,24 @@ const jobseekerSchema: Schema = new Schema({
             jobId: { type: mongoose.Schema.Types.ObjectId, ref: 'Job' },
             appliedAt: { type: Date, default: Date.now }
         }
-    ]
+    ],
+    jobPreferences: {
+        jobTitles: [String],
+        jobTypes: [String],
+        minimumSalary: {
+            type: String
+        }
+    },
+    qualifications: {
+        recentExperience: {
+            type: String
+        },
+        highestEducation: {
+            type: String
+        },
+        skills: [String],
+        languages: [String]
+    }
 })
 
 const JobseekerModel = mongoose.model<JobseekerInterface>('Jobseeker', jobseekerSchema)

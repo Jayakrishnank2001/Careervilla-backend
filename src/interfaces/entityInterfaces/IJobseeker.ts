@@ -15,7 +15,8 @@ interface Jobseeker {
     location?: string
     savedJobs?: SavedJob[];
     appliedJobs?: AppliedJob[];
-
+    jobPreferences?: JobPreferences
+    qualifications?: Qualifications
 }
 export default Jobseeker
 
@@ -29,3 +30,15 @@ export interface AppliedJob {
     appliedAt: Date;
 }
 
+export interface JobPreferences {
+    jobTitles?: [string]
+    jobTypes?: [string]
+    minimumSalary?: string
+}
+
+export interface Qualifications {
+    recentExperience?: string
+    highestEducation?: string
+    skills?: [string]
+    languages?: [string]
+}

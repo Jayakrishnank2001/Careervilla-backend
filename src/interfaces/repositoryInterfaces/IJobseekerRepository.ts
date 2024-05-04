@@ -17,7 +17,10 @@ interface IJobseekerRepository {
     appliedJob(jobseekerId: ObjectId, jobId: ObjectId): Promise<Jobseeker | null>
     getSavedJobs(jobseekerId: string): Promise<Job[]>
     withdrawApplication(jobId: string, jobseekerId: string): Promise<Jobseeker | null>
-
+    addRecentWork(work: string,jobseekerId:string): Promise<Jobseeker | null>
+    addEducation(education: string,jobseekerId:string): Promise<Jobseeker | null>
+    addSalary(salary: string,jobseekerId:string): Promise<Jobseeker | null>
+    addJobTypes(jobTypes: [string],jobseekerId:string): Promise<Jobseeker | null>
     
 }
 

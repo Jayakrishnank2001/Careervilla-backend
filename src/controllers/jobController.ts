@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import JobService from "../services/jobService";
 import { STATUS_CODES } from '../constants/httpStatusCodes';
+import { searchQuery } from "../interfaces/entityInterfaces/IJob";
 
 class JobController {
     constructor(private jobService: JobService) { }
@@ -21,10 +22,9 @@ class JobController {
             const page = parseInt(req.query.page as string)
             const pageSize = parseInt(req.query.pageSize as string)
             const companyId = req.query.companyId as string
-            const jobTitle = req.query.jobTitle as string
-            const location = req.query.location as string
-            const experience = req.query.experience as string
-            const jobs = await this.jobService.getAllJobs(page, pageSize, companyId, jobTitle, location, experience)
+            const { jobTitle, location, experience, industryName, jobType } = req.query as unknown as searchQuery
+            const searchQuery = { jobTitle, location, experience, industryName, jobType }
+            const jobs = await this.jobService.getAllJobs(page, pageSize, companyId, searchQuery)
             res.status(STATUS_CODES.OK).json(jobs)
         } catch (error) {
             console.log(error)

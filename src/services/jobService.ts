@@ -4,9 +4,10 @@ import AddressRepository from "../repositories/addressRepository";
 import CompanyRepository from "../repositories/companyRepository";
 import JobRepository from "../repositories/jobRepository";
 import { STATUS_CODES } from '../constants/httpStatusCodes';
-import Job from "../interfaces/entityInterfaces/IJob";
+import Job, { searchQuery } from "../interfaces/entityInterfaces/IJob";
 import EmployerRepository from "../repositories/employerRepository";
 import { ObjectId } from "mongoose";
+import IndustryRepository from "../repositories/industryRepository";
 
 const { OK } = STATUS_CODES
 
@@ -14,13 +15,15 @@ class JobService implements IJobService {
     constructor(private jobRepository: JobRepository,
         private companyRepository: CompanyRepository,
         private addressRepository: AddressRepository,
-        private employerRepository: EmployerRepository) { }
+        private employerRepository: EmployerRepository,
+        private industryRepository: IndustryRepository) { }
 
     async saveJob(jobData: IJob, employerId: string): Promise<IJobRes> {
         try {
             const company = await this.companyRepository.isCompanyExists(jobData.companyName)
             const savedAddress = (company) ? await this.addressRepository.saveAddress(jobData) : null
-            const savedJob = (company && company.id && savedAddress?.id) ? await this.jobRepository.saveJob(jobData, company.id, savedAddress.id, employerId) : null
+            const industry=await this.industryRepository.industryExists(jobData.industryName)
+            const savedJob = (company && company.id && savedAddress?.id && industry) ? await this.jobRepository.saveJob(jobData, company.id, savedAddress.id, employerId,industry.id) : null
             await this.employerRepository.postJob(employerId, savedJob?.id)
             return {
                 status: OK,
@@ -35,12 +38,14 @@ class JobService implements IJobService {
         }
     }
 
-    async getAllJobs(page: number, pageSize: number, companyId: string, jobTitle?: string | undefined, location?: string | undefined, experience?: string | undefined): Promise<Job[]> {
+    async getAllJobs(page: number, pageSize: number, companyId: string, searchQuery: searchQuery): Promise<Job[]> {
         try {
-            if (!jobTitle) jobTitle = ''
-            if (!location) location = ''
-            if (!experience) experience = ''
-            return await this.jobRepository.getAllJobs(page, pageSize, companyId, jobTitle, location, experience)
+            if (!searchQuery.jobTitle) searchQuery.jobTitle = ''
+            if (!searchQuery.location) searchQuery.location = ''
+            if (!searchQuery.experience) searchQuery.experience = ''
+            if (!searchQuery.industryName) searchQuery.industryName = ''
+            if (!searchQuery.jobType) searchQuery.jobType = ''
+            return await this.jobRepository.getAllJobs(page, pageSize, companyId, searchQuery)
         } catch (error) {
             console.log(error)
             throw new Error('Internal server error')
@@ -59,8 +64,11 @@ class JobService implements IJobService {
 
     async updateJob(jobData: IJob, jobId: string, addressId: string): Promise<IJobRes> {
         try {
-            const address = await this.addressRepository.updateAddress(addressId, jobData)
-            const job = await this.jobRepository.updateJob(jobData, jobId)
+            const industry = await this.industryRepository.industryExists(jobData.industryName)
+            await this.addressRepository.updateAddress(addressId, jobData)
+            if (industry) {
+                await this.jobRepository.updateJob(jobData, jobId,industry.id)
+            }
             return {
                 status: STATUS_CODES.OK,
                 data: {

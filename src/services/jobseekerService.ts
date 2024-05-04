@@ -4,7 +4,7 @@ import Encrypt from "../utils/hashPassword";
 import { IJobseekerService, JobseekerAuthResponse } from "../interfaces/serviceInterfaces/IJobseekerService";
 import Jobseeker from "../interfaces/entityInterfaces/IJobseeker";
 import { STATUS_CODES } from '../constants/httpStatusCodes';
-import { IResponse } from "../interfaces/common/ICommon";
+import { IRes, IResponse } from "../interfaces/common/ICommon";
 import Job from "../interfaces/entityInterfaces/IJob";
 import { ObjectId } from "mongoose";
 import JobApplicationRepository from "../repositories/jobApplicationRepository";
@@ -337,6 +337,59 @@ class JobseekerService implements IJobseekerService {
       throw new Error('Internal server error')
     }
   }
+
+  async addRecentWork(work: string, jobseekerId: string): Promise<IRes> {
+    try {
+      await this.jobseekerRepository.addRecentWork(work, jobseekerId)
+      return {
+        success: true,
+        message:'work experience added'
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async addEducation(education: string, jobseekerId: string): Promise<IRes> {
+    try {
+      await this.jobseekerRepository.addEducation(education, jobseekerId)
+      return {
+        success: true,
+        message:'education added'
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async addSalary(salary: string, jobseekerId: string): Promise<IRes> {
+    try {
+      await this.jobseekerRepository.addSalary(salary, jobseekerId)
+      return {
+        success: true,
+        message:'minimum salary added'
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async addJobTypes(jobTypes: [string], jobseekerId: string): Promise<IRes> {
+    try {
+      await this.jobseekerRepository.addJobTypes(jobTypes, jobseekerId)
+      return {
+        success: true,
+        message:'Job Types added'
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
 
 
   

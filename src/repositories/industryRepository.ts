@@ -41,19 +41,19 @@ class IndustryRepository implements IIndustryRepository {
         }
     }
 
-    async industryExists(industry: Industry): Promise<boolean> {
+    async industryExists(industryName: string): Promise<Industry|null> {
         try {
             let existingIndustry
-            const normalizedIndustryName = industry.industryName?.trim().toLowerCase();
+            const normalizedIndustryName = industryName?.trim().toLowerCase();
             if (normalizedIndustryName) {
                 existingIndustry = await IndustryModel.findOne({
                     industryName: { $regex: new RegExp(`^${normalizedIndustryName}$`, 'i') },
                 });
             }
-            return !!existingIndustry
+            return existingIndustry as Industry
         } catch (error) {
             console.error(error)
-            return false
+            return null
         }
     }
 
@@ -81,7 +81,7 @@ class IndustryRepository implements IIndustryRepository {
     async updateIndustry(industryId: string, updates: Partial<Industry>): Promise<Industry | null> {
         try {
             const updatedIndustry = await IndustryModel.findByIdAndUpdate(industryId, updates, { new: true })
-            return updatedIndustry
+            return updatedIndustry as Industry
         } catch (error) {
             console.error(error)
             return null

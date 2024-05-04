@@ -3,7 +3,7 @@ import mongoose, { ObjectId, Document, Schema } from "mongoose";
 export interface ChatInterface extends Document{
     _id: ObjectId,
     participants: ObjectId[],
-    createdAt:string
+    createdAt: string
 }
 
 const chatSchema: Schema = new Schema({

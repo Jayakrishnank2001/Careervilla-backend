@@ -1,3 +1,4 @@
+import Chat from "../interfaces/entityInterfaces/IChat";
 import Message from "../interfaces/entityInterfaces/IMessage";
 import IMessageRepository from "../interfaces/repositoryInterfaces/IMessageRepository";
 import MessageModel from "../models/messageModel";
@@ -25,6 +26,28 @@ class MessageRepository implements IMessageRepository {
         try {
             const messages = await MessageModel.find({ chatId: chatId }).sort({ time: 1 })
             return messages
+        } catch (error) {
+            console.log(error)
+            throw new Error()
+        }
+    }
+
+    async getLastMessage(chats: Chat[]): Promise<Chat[]> {
+        try {
+            const chatsWithLastMessage = await Promise.all(
+                chats.map(async (chat) => {
+                    const lastMessage = await MessageModel.findOne({
+                        chatId: chat.id
+                    })
+                        .sort({ time: -1 })
+                        .exec()
+                    return {
+                        ...chat,
+                        lastMessage
+                    }
+                })
+            )
+            return chatsWithLastMessage
         } catch (error) {
             console.log(error)
             throw new Error()

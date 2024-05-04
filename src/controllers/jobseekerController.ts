@@ -306,7 +306,47 @@ class JobseekerController {
             return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
         }
     }
-  
+
+    async addRecentWork(req: Request, res: Response) {
+        try {
+            const recentWork = await this.jobseekerService.addRecentWork(req.body.work, req.body.jobseekerId)
+            res.status(STATUS_CODES.OK).json(recentWork)
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
+
+    async addEducation(req: Request, res: Response) {
+        try {
+            const highestEducation = await this.jobseekerService.addEducation(req.body.education, req.body.jobseekerId)
+            res.status(STATUS_CODES.OK).json(highestEducation)
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
+
+    async addSalary(req: Request, res: Response) {
+        try {
+            const minimumSalary = await this.jobseekerService.addSalary(req.body.salary, req.body.jobseekerId)
+            res.status(STATUS_CODES.OK).json(minimumSalary)
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
+
+    async addJobTypes(req: Request, res: Response) {
+        try {
+            const jobTypes = await this.jobseekerService.addJobTypes(req.body.jobTypes, req.body.jobseekerId)
+            res.status(STATUS_CODES.OK).json(jobTypes)
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
+
 
 
 

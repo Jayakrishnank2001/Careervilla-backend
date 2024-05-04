@@ -30,7 +30,7 @@ class IndustryService implements IIndustryService {
 
     async addIndustry(industryData: Industry): Promise<AdminResponse> {
         try {
-            const industryExist = await this.industryRepository.industryExists(industryData)
+            const industryExist = await this.industryRepository.industryExists(industryData.industryName)
             if (!industryExist) {
                 await this.industryRepository.saveIndustry(industryData)
                 return {

@@ -58,6 +58,11 @@ jobseekerRouter.post('/saveJob', jobseekerAuthMiddleware, async (req, res) => jo
 jobseekerRouter.post('/unsaveJob', jobseekerAuthMiddleware, async (req, res) => jobseekerController.unsaveJob(req, res))
 jobseekerRouter.get('/savedJobs/:jobseekerId', jobseekerAuthMiddleware, async (req, res) => jobseekerController.getSavedJobs(req, res))
 jobseekerRouter.patch('/withdraw-application', jobseekerAuthMiddleware, async (req, res) => jobseekerController.withdrawApplication(req, res))
+jobseekerRouter.post('/add-recent-work', jobseekerAuthMiddleware, async (req, res) => jobseekerController.addRecentWork(req, res))
+jobseekerRouter.post('/add-education', jobseekerAuthMiddleware, async (req, res) => jobseekerController.addEducation(req, res))
+jobseekerRouter.post('/add-salary', jobseekerAuthMiddleware, async (req, res) => jobseekerController.addSalary(req, res))
+jobseekerRouter.post('/add-jobTypes', jobseekerAuthMiddleware, async (req, res) => jobseekerController.addJobTypes(req, res))
+
 
 
 
@@ -65,7 +70,8 @@ const jobRepository = new JobRepository()
 const companyRepository = new CompanyRepository()
 const addressRepository = new AddressRepository()
 const employerRepository = new EmployerRepository()
-const jobService = new JobService(jobRepository, companyRepository, addressRepository, employerRepository)
+const industryRepository = new IndustryRepository()
+const jobService = new JobService(jobRepository, companyRepository, addressRepository, employerRepository,industryRepository)
 const jobController = new JobController(jobService)
 
 jobseekerRouter.get('/jobs', async (req, res) => jobController.getAllJobs(req, res))
@@ -106,10 +112,9 @@ const messageService = new MessageService(messageRepository, chatRepository)
 const messageController = new MessageController(messageService)
 
 jobseekerRouter.get('/messages', jobseekerAuthMiddleware, async (req, res) => messageController.getAllMessages(req, res))
-jobseekerRouter.post('/send-message', jobseekerAuthMiddleware, async (req, res) => messageController.sendMessage(req, res))
+jobseekerRouter.get('/get-chats', jobseekerAuthMiddleware, async (req, res) => messageController.getAllChats(req, res))
 
 
-const industryRepository = new IndustryRepository()
 const industryService = new IndustryService(industryRepository)
 const industryController = new IndustryController(industryService)
  

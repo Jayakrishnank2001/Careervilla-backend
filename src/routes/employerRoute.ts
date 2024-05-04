@@ -72,7 +72,8 @@ employerRouter.post('/update-companyLogo', employerAuthMiddleware, async (req, r
 employerRouter.put('/updateCompany', employerAuthMiddleware, async (req, res) => companyController.updateCompanyDetails(req, res))
 
 const jobRepository = new JobRepository()
-const jobService = new JobService(jobRepository,companyRepository,addressRepository,employerRepository)
+const industryRepository = new IndustryRepository()
+const jobService = new JobService(jobRepository,companyRepository,addressRepository,employerRepository,industryRepository)
 const jobController = new JobController(jobService)
 
 employerRouter.post('/addJob/:employerId', employerAuthMiddleware, async (req, res) => jobController.saveJob(req, res))
@@ -106,11 +107,9 @@ const messageService = new MessageService(messageRepository, chatRepository)
 const messageController = new MessageController(messageService)
 
 employerRouter.get('/messages', employerAuthMiddleware, async (req, res) => messageController.getAllMessages(req, res))
-employerRouter.post('/send-message', employerAuthMiddleware, async (req, res) => messageController.sendMessage(req, res))
+employerRouter.get('/get-chats', employerAuthMiddleware, async (req, res) => messageController.getAllChats(req, res))
 
 
-
-const industryRepository = new IndustryRepository()
 const industryService = new IndustryService(industryRepository)
 const industryController = new IndustryController(industryService)
 

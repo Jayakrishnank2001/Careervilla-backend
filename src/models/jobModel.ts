@@ -1,71 +1,76 @@
 import mongoose, { ObjectId, Document, Schema } from "mongoose";
 
-export interface JobInterface extends Document{
+export interface JobInterface extends Document {
     _id: ObjectId,
     companyId: ObjectId,
     jobTitle: string,
     jobDescription: string,
-    email:string,
+    email: string,
     salary: string,
-    specialisms:string,
+    specialisms: string,
     jobType: string,
     experience: string,
     gender: string,
-    isBlocked:boolean,
+    isBlocked: boolean,
     applicationDeadline: string,
     addressId: ObjectId,
     status: string,
-    postedBy:ObjectId
+    postedBy: ObjectId,
+    industry: ObjectId
 }
 
 const jobSchema: Schema = new Schema({
     companyId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Company'
+        ref: 'Company'
     },
     jobTitle: {
         type: String,
-        required:true
+        required: true
     },
     jobDescription: {
-        type:String
+        type: String
     },
     email: {
-        type:String
+        type: String
     },
     salary: {
-        type:String
+        type: String
     },
     specialisms: {
-        type:String
+        type: String
     },
     jobType: {
-        type:String
+        type: String
     },
     experience: {
-        type:String
+        type: String
     },
     gender: {
-        type:String
+        type: String
     },
     isBlocked: {
         type: Boolean,
-        default:false
+        default: false
     },
     applicationDeadline: {
-        type:Date
+        type: Date
     },
     addressId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Address'
+        ref: 'Address'
     },
     status: {
         type: String,
-        default:'Active'
+        default: 'Active'
     },
     postedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Employer'
+        ref: 'Employer'
+    },
+    industry: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Industry'
     }
 })
 
