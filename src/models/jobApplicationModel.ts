@@ -8,7 +8,7 @@ export interface JobApplicationInterface extends Document {
     resume: string,
     status: string,
     qualification: string,
-    experience: number
+    experience: string
     rejectionReason:string
 }
 
@@ -38,7 +38,7 @@ const jobApplicationSchema: Schema = new Schema({
         type: String
     },
     experience: {
-        type:Number
+        type:String
     },
     rejectionReason: {
         type:String

@@ -8,7 +8,7 @@ interface JobApplication{
     resume?: string,
     status?: string,
     qualification?: string,
-    experience?: number,
+    experience?: string,
     rejectionReason?:string
 }
 export default JobApplication

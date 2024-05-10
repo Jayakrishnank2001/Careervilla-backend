@@ -8,6 +8,7 @@ import Job, { searchQuery } from "../interfaces/entityInterfaces/IJob";
 import EmployerRepository from "../repositories/employerRepository";
 import { ObjectId } from "mongoose";
 import IndustryRepository from "../repositories/industryRepository";
+import JobseekerRepository from "../repositories/jobseekerRepository";
 
 const { OK } = STATUS_CODES
 
@@ -16,7 +17,8 @@ class JobService implements IJobService {
         private companyRepository: CompanyRepository,
         private addressRepository: AddressRepository,
         private employerRepository: EmployerRepository,
-        private industryRepository: IndustryRepository) { }
+        private industryRepository: IndustryRepository,
+        private jobseekerRepository: JobseekerRepository) { }
 
     async saveJob(jobData: IJob, employerId: string): Promise<IJobRes> {
         try {
@@ -38,14 +40,19 @@ class JobService implements IJobService {
         }
     }
 
-    async getAllJobs(page: number, pageSize: number, companyId: string, searchQuery: searchQuery): Promise<Job[]> {
+    async getAllJobs(page: number, pageSize: number, companyId: string, searchQuery: searchQuery,jobseekerId:string): Promise<Job[]> {
         try {
             if (!searchQuery.jobTitle) searchQuery.jobTitle = ''
             if (!searchQuery.location) searchQuery.location = ''
             if (!searchQuery.experience) searchQuery.experience = ''
             if (!searchQuery.industryName) searchQuery.industryName = ''
             if (!searchQuery.jobType) searchQuery.jobType = ''
-            return await this.jobRepository.getAllJobs(page, pageSize, companyId, searchQuery)
+            const jobs = await this.jobRepository.getAllJobs(companyId, searchQuery)
+            if (companyId != 'undefined') {
+                return jobs
+            } else {
+                return await this.jobseekerRepository.getPreferencedJobs(jobseekerId,jobs,page,pageSize)
+            }
         } catch (error) {
             console.log(error)
             throw new Error('Internal server error')

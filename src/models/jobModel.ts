@@ -17,6 +17,7 @@ export interface JobInterface extends Document {
     status: string,
     postedBy: ObjectId,
     industry: ObjectId
+    postedAt:string
 }
 
 const jobSchema: Schema = new Schema({
@@ -71,6 +72,10 @@ const jobSchema: Schema = new Schema({
     industry: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Industry'
+    },
+    postedAt: {
+        type: Date,
+        default:Date.now
     }
 })
 

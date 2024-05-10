@@ -134,7 +134,7 @@ class EmployerRepository implements IEmployerRepository {
             if (!employer) {
                 return []
             }
-            return employer.postedJobs.map(postedJob => postedJob.jobId) as Job[]
+            return employer.postedJobs.map(postedJob => postedJob.jobId) as unknown as Job[]
         } catch (error) {
             console.error(error)
             return []

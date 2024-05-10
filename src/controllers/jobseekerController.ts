@@ -347,6 +347,38 @@ class JobseekerController {
         }
     }
 
+    async addSkills(req: Request, res: Response) {
+        try {
+            const skills = await this.jobseekerService.addSkills(req.body.skills, req.body.jobseekerId)
+            res.status(STATUS_CODES.OK).json(skills)
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
+
+    async addLanguages(req: Request, res: Response) {
+        try {
+            const languages = await this.jobseekerService.addLanguages(req.body.languages, req.body.jobseekerId)
+            res.status(STATUS_CODES.OK).json(languages)
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
+
+    async addJobTitles(req: Request, res: Response) {
+        try {
+            const jobTitles = await this.jobseekerService.addJobTitles(req.body.jobTitles, req.body.jobseekerId)
+            res.status(STATUS_CODES.OK).json(jobTitles)
+        } catch (error) {
+            console.error(error)
+            return res.status(INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' })
+        }
+    }
+
+
+
 
 
 

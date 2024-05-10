@@ -5,7 +5,7 @@ interface Message{
     chatId?: ObjectId,
     senderId?: ObjectId,
     receiverId?: ObjectId,
-    message?: string,
+    message: string,
     status?: string,
     time?: string
 }

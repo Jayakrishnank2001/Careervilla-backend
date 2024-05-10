@@ -390,6 +390,44 @@ class JobseekerService implements IJobseekerService {
     }
   }
 
+  async addSkills(skills: string[], jobseekerId: string): Promise<IRes> {
+    try {
+      await this.jobseekerRepository.addSkills(skills, jobseekerId)
+      return {
+        success: true,
+        message:'skills added'
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async addLanguages(languages: string[], jobseekerId: string): Promise<IRes> {
+    try {
+      await this.jobseekerRepository.addLanguages(languages, jobseekerId)
+      return {
+        success: true,
+        message:'languages added'
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
+
+  async addJobTitles(jobTitles: string[], jobseekerId: string): Promise<IRes> {
+    try {
+      await this.jobseekerRepository.addJobTitles(jobTitles, jobseekerId)
+      return {
+        success: true,
+        message:'Job Titles added'
+      }
+    } catch (error) {
+      console.log(error)
+      throw new Error('Internal server error')
+    }
+  }
 
 
   

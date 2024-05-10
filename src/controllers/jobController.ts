@@ -22,9 +22,10 @@ class JobController {
             const page = parseInt(req.query.page as string)
             const pageSize = parseInt(req.query.pageSize as string)
             const companyId = req.query.companyId as string
+            const jobseekerId=req.query.jobseekerId as string
             const { jobTitle, location, experience, industryName, jobType } = req.query as unknown as searchQuery
             const searchQuery = { jobTitle, location, experience, industryName, jobType }
-            const jobs = await this.jobService.getAllJobs(page, pageSize, companyId, searchQuery)
+            const jobs = await this.jobService.getAllJobs(page, pageSize, companyId, searchQuery,jobseekerId)
             res.status(STATUS_CODES.OK).json(jobs)
         } catch (error) {
             console.log(error)

@@ -8,6 +8,7 @@ import { IEmployersAndCount, IJobseekersAndCount } from "../serviceInterfaces/IA
 import { IIndustriesAndCount } from "../serviceInterfaces/IIndustryService"
 import { IReportedJobsAndCount } from "../serviceInterfaces/IReportedJobService"
 import { IPlansAndCount } from "../serviceInterfaces/ISubscriptionService"
+import { Response } from "express"
 
 export type AllResTypes = IJobseekersAndCount | IEmployersAndCount | Jobseeker | Jobseeker[] | Employer | Employer[] | null | ReportedJob[] | IReportedJobsAndCount | 
     Industry | Industry[] | IIndustriesAndCount | SubscriptionPlan | SubscriptionPlan[] | IPlansAndCount
@@ -38,6 +39,7 @@ export interface ICompany {
 
 export interface IJob {
     id?: string,
+    jobTitle:string
     companyName: string,
     jobDescription?: string,
     email?: string,
@@ -72,3 +74,8 @@ export interface IRes {
     success: boolean,
     message: string
 }
+
+export interface SSEClient {
+    res: Response; 
+    employerId?: string; 
+  }

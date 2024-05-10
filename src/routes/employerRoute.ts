@@ -54,7 +54,7 @@ employerRouter.get('/postedJobs/:employerId', employerAuthMiddleware, async (req
 
 
 const subscriptionRepository = new SubscriptionRepository()
-const subscriptionService = new SubscriptionService(subscriptionRepository,employerRepository)
+const subscriptionService = new SubscriptionService(subscriptionRepository, employerRepository)
 const subscriptionController = new SubscriptionController(subscriptionService)
 
 employerRouter.get('/subscription-plans', employerAuthMiddleware, async (req, res) => subscriptionController.getPlans(req, res))
@@ -62,8 +62,8 @@ employerRouter.post('/payment/:employerId', employerAuthMiddleware, async (req, 
 
 
 const companyRepository = new CompanyRepository()
-const addressRepository=new AddressRepository()
-const companyService = new CompanyService(companyRepository,addressRepository,employerRepository)
+const addressRepository = new AddressRepository()
+const companyService = new CompanyService(companyRepository, addressRepository, employerRepository)
 const companyController = new CompanyController(companyService)
 
 employerRouter.post('/addCompany/:employerId', async (req, res) => companyController.saveCompany(req, res))
@@ -73,7 +73,8 @@ employerRouter.put('/updateCompany', employerAuthMiddleware, async (req, res) =>
 
 const jobRepository = new JobRepository()
 const industryRepository = new IndustryRepository()
-const jobService = new JobService(jobRepository,companyRepository,addressRepository,employerRepository,industryRepository)
+const jobseekerRepository=new JobseekerRepository()
+const jobService = new JobService(jobRepository, companyRepository, addressRepository, employerRepository, industryRepository,jobseekerRepository)
 const jobController = new JobController(jobService)
 
 employerRouter.post('/addJob/:employerId', employerAuthMiddleware, async (req, res) => jobController.saveJob(req, res))
@@ -92,8 +93,7 @@ employerRouter.get('/notifications/:employerId', employerAuthMiddleware, async (
 
 
 const jobApplicationRepository = new JobApplicationRepository()
-const jobseekerRepository=new JobseekerRepository()
-const jobApplicationService=new JobApplicationService(jobApplicationRepository,jobseekerRepository,jobRepository,notificationRepository)
+const jobApplicationService = new JobApplicationService(jobApplicationRepository, jobseekerRepository, jobRepository, notificationRepository)
 const jobApplicationController = new JobApplicationController(jobApplicationService)
 
 employerRouter.get('/job-applications/:jobId', employerAuthMiddleware, async (req, res) => jobApplicationController.getJobApplications(req, res))

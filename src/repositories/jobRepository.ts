@@ -24,13 +24,13 @@ class JobRepository implements IJobRepository {
         }
     }
 
-    async getAllJobs(page: number, pageSize: number, companyId: string, searchQuery: searchQuery): Promise<Job[]> {
+    async getAllJobs(companyId: string, searchQuery: searchQuery): Promise<Job[]> {
         try {
             if (companyId == 'undefined') {
                 const jobRegex = new RegExp(searchQuery.jobTitle, 'i');
                 const experienceRegex = new RegExp(searchQuery.experience, 'i');
                 const locationRegex = new RegExp(searchQuery.location, 'i');
-                const industryRegex = new RegExp(searchQuery.industryName,'i');
+                const industryRegex = new RegExp(searchQuery.industryName, 'i');
                 const jobTypeRegex = new RegExp(searchQuery.jobType, 'i');
                 const jobs = await JobModel.find({
                     $and: [
@@ -39,13 +39,13 @@ class JobRepository implements IJobRepository {
                         { jobType: { $regex: jobTypeRegex } },
                         { isBlocked: false },
                         { status: 'Active' },
-                        { applicationDeadline: { $gte: new Date() } }, 
+                        { applicationDeadline: { $gte: new Date() } },
                     ]
                 })
-                .populate({
-                    path: 'industry',
-                    match: { industryName: { $regex: industryRegex} },
-                })
+                    .populate({
+                        path: 'industry',
+                        match: { industryName: { $regex: industryRegex } },
+                    })
                     .populate({
                         path: 'addressId',
                         match: {
@@ -60,13 +60,9 @@ class JobRepository implements IJobRepository {
                     .sort({ _id: -1 })
                     .exec();
                 const filteredJobs = jobs.filter(job => job.addressId && job.industry !== null);
-                const paginatedJobs = filteredJobs.slice((page - 1) * pageSize, page * pageSize);
-                return paginatedJobs.map((job) => job.toObject());
+                return filteredJobs.map((job) => job.toObject());
             } else {
                 const jobs = await JobModel.find({ isBlocked: false, status: 'Active', companyId: companyId }).populate('companyId').populate('addressId')
-                    .skip((page - 1) * pageSize)
-                    .limit(pageSize)
-                    .exec()
                 return jobs.map((job) => job.toObject())
             }
         } catch (error) {
@@ -89,7 +85,7 @@ class JobRepository implements IJobRepository {
 
     async findJobById(jobId: ObjectId): Promise<Job | null> {
         try {
-            const job = await JobModel.findById(jobId).populate('companyId addressId postedBy')
+            const job = await JobModel.findById(jobId).populate('companyId addressId postedBy industry')
             return job
         } catch (error) {
             console.error(error)

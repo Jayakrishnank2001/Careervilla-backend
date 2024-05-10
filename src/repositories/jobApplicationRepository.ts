@@ -1,4 +1,3 @@
-import { ObjectId } from "mongoose";
 import JobApplication from "../interfaces/entityInterfaces/IJobApplication";
 import IJobApplicationRepository from "../interfaces/repositoryInterfaces/IJobApplicationRepository";
 import JobApplicationModel from "../models/jobApplicationModel";

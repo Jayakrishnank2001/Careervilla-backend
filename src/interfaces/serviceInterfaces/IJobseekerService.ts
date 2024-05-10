@@ -24,6 +24,9 @@ export interface IJobseekerService{
   addEducation(education: string, jobseekerId: string): Promise<IRes>
   addSalary(salary: string, jobseekerId: string): Promise<IRes>
   addJobTypes(jobTypes: [string], jobseekerId: string): Promise<IRes>
+  addSkills(skills: string[], jobseekerId: string): Promise<IRes>
+  addLanguages(languages: string[], jobseekerId: string): Promise<IRes>
+  addJobTitles(jobTitles: string[], jobseekerId: string): Promise<IRes>
 
   
 }

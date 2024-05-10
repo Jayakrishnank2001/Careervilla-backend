@@ -62,6 +62,9 @@ jobseekerRouter.post('/add-recent-work', jobseekerAuthMiddleware, async (req, re
 jobseekerRouter.post('/add-education', jobseekerAuthMiddleware, async (req, res) => jobseekerController.addEducation(req, res))
 jobseekerRouter.post('/add-salary', jobseekerAuthMiddleware, async (req, res) => jobseekerController.addSalary(req, res))
 jobseekerRouter.post('/add-jobTypes', jobseekerAuthMiddleware, async (req, res) => jobseekerController.addJobTypes(req, res))
+jobseekerRouter.post('/add-skills', jobseekerAuthMiddleware, async (req, res) => jobseekerController.addSkills(req, res))
+jobseekerRouter.post('/add-languages', jobseekerAuthMiddleware, async (req, res) => jobseekerController.addLanguages(req, res))
+jobseekerRouter.post('/add-jobTitles', jobseekerAuthMiddleware, async (req, res) => jobseekerController.addJobTitles(req, res))
 
 
 
@@ -71,7 +74,7 @@ const companyRepository = new CompanyRepository()
 const addressRepository = new AddressRepository()
 const employerRepository = new EmployerRepository()
 const industryRepository = new IndustryRepository()
-const jobService = new JobService(jobRepository, companyRepository, addressRepository, employerRepository,industryRepository)
+const jobService = new JobService(jobRepository, companyRepository, addressRepository, employerRepository,industryRepository,jobseekerRepository)
 const jobController = new JobController(jobService)
 
 jobseekerRouter.get('/jobs', async (req, res) => jobController.getAllJobs(req, res))

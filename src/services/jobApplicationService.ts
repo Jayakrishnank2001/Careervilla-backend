@@ -1,5 +1,4 @@
 import { IJobApplicationService } from "../interfaces/serviceInterfaces/IJobApplicationService";
-import { STATUS_CODES } from "../constants/httpStatusCodes";
 import JobApplicationRepository from "../repositories/jobApplicationRepository";
 import { IRes } from "../interfaces/common/ICommon";
 import JobApplication from "../interfaces/entityInterfaces/IJobApplication";
@@ -26,6 +25,7 @@ class JobApplicationService implements IJobApplicationService {
             }
             if (job?.postedBy)
                 await this.notificationRepository.saveNotification(job?.postedBy, notificationPayload)
+            
             return {
                 success: true,
                 message: 'Successfully applied for the Job'

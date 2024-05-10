@@ -152,7 +152,7 @@ class JobseekerRepository implements IJobseekerRepository {
          if (!jobseeker) {
             return []
          }
-         return jobseeker?.savedJobs.map(savedJob => savedJob.jobId) as Job[]
+         return jobseeker?.savedJobs.map(savedJob => savedJob.jobId) as unknown as Job[]
       } catch (error) {
          console.error(error)
          throw new Error()
@@ -219,6 +219,68 @@ class JobseekerRepository implements IJobseekerRepository {
          return null
       }
    }
+
+   async addSkills(skills: string[], jobseekerId: string): Promise<Jobseeker | null> {
+      try {
+         const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId,
+            { $set: { 'qualifications.skills': skills } }
+         )
+         return jobseeker as Jobseeker
+      } catch (error) {
+         console.error(error)
+         return null
+      }
+   }
+
+   async addLanguages(languages: string[], jobseekerId: string): Promise<Jobseeker | null> {
+      try {
+         const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId,
+            { $set: { 'qualifications.languages': languages } }
+         )
+         return jobseeker as Jobseeker
+      } catch (error) {
+         console.error(error)
+         return null
+      }
+   }
+
+   async addJobTitles(jobTitles: string[], jobseekerId: string): Promise<Jobseeker | null> {
+      try {
+         const jobseeker = await JobseekerModel.findByIdAndUpdate(jobseekerId,
+            { $set: { 'jobPreferences.jobTitles': jobTitles } }
+         )
+         return jobseeker as Jobseeker
+      } catch (error) {
+         console.error(error)
+         return null
+      }
+   }
+
+   async getPreferencedJobs(jobseekerId: string, jobs: Job[], page: number, pageSize: number): Promise<Job[]> {
+      try {
+         const jobseeker = await JobseekerModel.findById(jobseekerId)
+         let preferredJobs
+         let otherJobs
+         if (jobseeker) {
+            const preferredJobTitles = jobseeker.jobPreferences.jobTitles
+            if (preferredJobTitles) {
+               preferredJobs = jobs.filter(job => preferredJobTitles.includes(job.jobTitle));
+               otherJobs = jobs.filter(job => !preferredJobTitles.includes(job.jobTitle));
+               const allJobs = [...preferredJobs, ...otherJobs]
+               const paginatedJobs = allJobs.slice((page - 1) * pageSize, page * pageSize);
+               return paginatedJobs
+            } else {
+               return []
+            }
+         } else {
+            return []
+         }
+      } catch (error) {
+         console.error(error)
+         return []
+      }
+   }
+
 
 
 

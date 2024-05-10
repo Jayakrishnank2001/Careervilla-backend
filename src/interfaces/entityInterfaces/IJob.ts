@@ -3,7 +3,7 @@ import { ObjectId } from "mongoose"
 interface Job{
     id?: string,
     companyId?: ObjectId,
-    jobTitle?: string,
+    jobTitle: string,
     jobDescription?: string,
     email?:string,
     salary?: string,
@@ -16,7 +16,8 @@ interface Job{
     addressId?: ObjectId;
     status?: string,
     postedBy?: ObjectId,
-    industry?:ObjectId
+    industry?: ObjectId,
+    postedAt?:string
 }
 export default Job
 
