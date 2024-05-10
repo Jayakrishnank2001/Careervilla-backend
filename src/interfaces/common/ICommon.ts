@@ -1,4 +1,3 @@
-import { ObjectId } from "mongoose"
 import Employer from "../entityInterfaces/IEmployer"
 import Industry from "../entityInterfaces/IIndustry"
 import Jobseeker from "../entityInterfaces/IJobseeker"
@@ -8,7 +7,6 @@ import { IEmployersAndCount, IJobseekersAndCount } from "../serviceInterfaces/IA
 import { IIndustriesAndCount } from "../serviceInterfaces/IIndustryService"
 import { IReportedJobsAndCount } from "../serviceInterfaces/IReportedJobService"
 import { IPlansAndCount } from "../serviceInterfaces/ISubscriptionService"
-import { Response } from "express"
 
 export type AllResTypes = IJobseekersAndCount | IEmployersAndCount | Jobseeker | Jobseeker[] | Employer | Employer[] | null | ReportedJob[] | IReportedJobsAndCount | 
     Industry | Industry[] | IIndustriesAndCount | SubscriptionPlan | SubscriptionPlan[] | IPlansAndCount
@@ -75,7 +73,8 @@ export interface IRes {
     message: string
 }
 
-export interface SSEClient {
-    res: Response; 
-    employerId?: string; 
-  }
+export interface notificationRes{
+    success: boolean
+    message: string
+    employerId?: string
+}

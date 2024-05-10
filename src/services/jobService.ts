@@ -24,8 +24,8 @@ class JobService implements IJobService {
         try {
             const company = await this.companyRepository.isCompanyExists(jobData.companyName)
             const savedAddress = (company) ? await this.addressRepository.saveAddress(jobData) : null
-            const industry=await this.industryRepository.industryExists(jobData.industryName)
-            const savedJob = (company && company.id && savedAddress?.id && industry) ? await this.jobRepository.saveJob(jobData, company.id, savedAddress.id, employerId,industry.id) : null
+            const industry = await this.industryRepository.industryExists(jobData.industryName)
+            const savedJob = (company && company.id && savedAddress?.id && industry) ? await this.jobRepository.saveJob(jobData, company.id, savedAddress.id, employerId, industry.id) : null
             await this.employerRepository.postJob(employerId, savedJob?.id)
             return {
                 status: OK,
@@ -40,7 +40,7 @@ class JobService implements IJobService {
         }
     }
 
-    async getAllJobs(page: number, pageSize: number, companyId: string, searchQuery: searchQuery,jobseekerId:string): Promise<Job[]> {
+    async getAllJobs(page: number, pageSize: number, companyId: string, searchQuery: searchQuery, jobseekerId: string): Promise<Job[]> {
         try {
             if (!searchQuery.jobTitle) searchQuery.jobTitle = ''
             if (!searchQuery.location) searchQuery.location = ''
@@ -50,8 +50,10 @@ class JobService implements IJobService {
             const jobs = await this.jobRepository.getAllJobs(companyId, searchQuery)
             if (companyId != 'undefined') {
                 return jobs
+            } else if (jobseekerId == 'undefined') {
+                return jobs
             } else {
-                return await this.jobseekerRepository.getPreferencedJobs(jobseekerId,jobs,page,pageSize)
+                return await this.jobseekerRepository.getPreferencedJobs(jobseekerId, jobs, page, pageSize)
             }
         } catch (error) {
             console.log(error)
@@ -74,7 +76,7 @@ class JobService implements IJobService {
             const industry = await this.industryRepository.industryExists(jobData.industryName)
             await this.addressRepository.updateAddress(addressId, jobData)
             if (industry) {
-                await this.jobRepository.updateJob(jobData, jobId,industry.id)
+                await this.jobRepository.updateJob(jobData, jobId, industry.id)
             }
             return {
                 status: STATUS_CODES.OK,

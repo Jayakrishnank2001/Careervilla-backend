@@ -117,6 +117,16 @@ class JobRepository implements IJobRepository {
         }
     }
 
+    async findJob(jobId: string): Promise<Job | null> {
+        try {
+            const job = await JobModel.findById(jobId)
+            return job
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    }
+
 
 
 }

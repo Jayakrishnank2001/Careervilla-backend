@@ -79,8 +79,7 @@ const jobController = new JobController(jobService)
 
 jobseekerRouter.get('/jobs', async (req, res) => jobController.getAllJobs(req, res))
 
-const notificationRepository = new NotificationRepository()
-const jobApplicationService = new JobApplicationService(jobApplicationRepository, jobseekerRepository, jobRepository, notificationRepository)
+const jobApplicationService = new JobApplicationService(jobApplicationRepository, jobseekerRepository)
 const jobApplicationController = new JobApplicationController(jobApplicationService)
 
 jobseekerRouter.post('/apply-job', jobseekerAuthMiddleware, async (req, res) => jobApplicationController.applyJob(req, res))

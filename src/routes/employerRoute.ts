@@ -86,14 +86,14 @@ employerRouter.patch('/update-jobStatus/:jobId', employerAuthMiddleware, async (
 
 
 const notificationRepository = new NotificationRepository()
-const notificationService = new NotificationService(notificationRepository)
+const notificationService = new NotificationService(notificationRepository,jobRepository)
 const notificationController = new NotificationController(notificationService)
 
 employerRouter.get('/notifications/:employerId', employerAuthMiddleware, async (req, res) => notificationController.getNotifications(req, res))
 
 
 const jobApplicationRepository = new JobApplicationRepository()
-const jobApplicationService = new JobApplicationService(jobApplicationRepository, jobseekerRepository, jobRepository, notificationRepository)
+const jobApplicationService = new JobApplicationService(jobApplicationRepository, jobseekerRepository)
 const jobApplicationController = new JobApplicationController(jobApplicationService)
 
 employerRouter.get('/job-applications/:jobId', employerAuthMiddleware, async (req, res) => jobApplicationController.getJobApplications(req, res))

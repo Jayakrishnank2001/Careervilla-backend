@@ -9,6 +9,7 @@ interface IJobRepository {
     findJobById(jobId: ObjectId): Promise<Job | null>
     updateJob(jobData: Job, jobId: string,industryId:string): Promise<Job | null>
     updateJobStatus(jobId: string): Promise<void>
+    findJob(jobId: string): Promise<Job | null>
 
 }
 export default IJobRepository

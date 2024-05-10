@@ -7,10 +7,15 @@ import Message from "./interfaces/entityInterfaces/IMessage";
 import MessageService from "./services/messageService";
 import MessageRepository from "./repositories/messageRepository";
 import ChatRepository from "./repositories/chatRepository";
-import Notification from "./interfaces/entityInterfaces/INotification";
+import NotificationRepository from "./repositories/notificationRepository";
+import NotificationService from "./services/notificationService";
+import JobRepository from "./repositories/jobRepository";
 const messageRepository = new MessageRepository()
 const chatRepository = new ChatRepository()
 const messageService = new MessageService(messageRepository, chatRepository)
+const notificationRepository = new NotificationRepository()
+const jobRepository = new JobRepository()
+const notificationService = new NotificationService(notificationRepository, jobRepository)
 
 dotenv.config()
 
@@ -37,11 +42,12 @@ const startServer = async () => {
                 const messageData = await messageService.sendMessage(chatData.senderId as unknown as string, chatData.receiverId as unknown as string, chatData.message)
                 socket.to(userSockets.get(receiverId as unknown as string) as string).emit('receive-message', messageData)
             });
-            
-            socket.on('notification', async (notificationData: Notification) => {
-                
+
+            socket.on('send-notification', async (jobId: string) => {
+                const notificationData = await notificationService.generateNotification(jobId)
+                socket.to(userSockets.get(notificationData.employerId as unknown as string) as string).emit('receive-notification', notificationData)
             })
-            
+
             socket.on('disconnect', () => {
                 userSockets.delete(id)
             });
