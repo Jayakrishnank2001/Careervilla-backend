@@ -22,7 +22,8 @@ class AdminController {
         res.cookie("adminJWT", loginStatus.data.token, {
           httpOnly: true,
           sameSite: "none",
-          secure: process.env.NODE_ENV !== "development",
+          // secure: process.env.NODE_ENV !== "development",
+          secure: true,
           maxAge: 30 * 24 * 60 * 60 * 1000,
         });
         res.status(loginStatus.status).json(loginStatus);
