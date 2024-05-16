@@ -19,7 +19,7 @@ COPY . .
 EXPOSE 3000
 
 # Start the Node.js app
-CMD ["npm", "start"]
+CMD [ "npm", "run", "dev" ]
 
 
 # FROM ubuntu as build
