@@ -25,6 +25,7 @@ const startServer = async () => {
     try {
         const app = createServer()
         const server = http.createServer(app)
+        const port=3000
         const io = new Server(server, {
             cors: {
                 origin: process.env.CORS_URL,
@@ -52,11 +53,9 @@ const startServer = async () => {
                 userSockets.delete(id)
             });
         });
-        app?.listen(3000, () => {
+        server?.listen(port, () => {
             console.log('Connected to Server')
         })
-        io.listen(3001)
-        return io
     } catch (error) {
         console.log(error)
     }
