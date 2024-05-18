@@ -27,5 +27,15 @@ class MessageController {
         }
     }
 
+    async getReceiverDetails(req: Request, res: Response) {
+        try {
+            const receiverDetails = await this.messageService.getReceiverDetails(req.query.userId as string, req.query.role as string)
+            res.status(STATUS_CODES.OK).json(receiverDetails)
+        } catch (error) {
+            console.log(error)
+            res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ message: 'Internal Server Error' })
+        }
+    }
+
 }
 export default MessageController

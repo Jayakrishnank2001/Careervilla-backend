@@ -17,7 +17,6 @@ import ReportedJobRepository from '../repositories/reportedJobRepository'
 import ReportedJobService from '../services/reportedJobService'
 import ReportedJobController from '../controllers/reportedJobcontroller'
 import EmployerRepository from '../repositories/employerRepository'
-import NotificationRepository from '../repositories/notificationRepository'
 import CompanyService from '../services/companyService'
 import CompanyController from '../controllers/companyController'
 import ReviewRepository from '../repositories/reviewRepository'
@@ -77,7 +76,7 @@ const industryRepository = new IndustryRepository()
 const jobService = new JobService(jobRepository, companyRepository, addressRepository, employerRepository,industryRepository,jobseekerRepository)
 const jobController = new JobController(jobService)
 
-jobseekerRouter.get('/jobs', async (req, res) => jobController.getAllJobs(req, res))
+jobseekerRouter.get('/jobs', jobseekerAuthMiddleware, async (req, res) => jobController.getAllJobs(req, res))
 
 const jobApplicationService = new JobApplicationService(jobApplicationRepository, jobseekerRepository)
 const jobApplicationController = new JobApplicationController(jobApplicationService)
@@ -110,11 +109,12 @@ jobseekerRouter.delete('/delete-review/:reviewId', jobseekerAuthMiddleware, asyn
 
 const messageRepository = new MessageRepository()
 const chatRepository = new ChatRepository()
-const messageService = new MessageService(messageRepository, chatRepository)
+const messageService = new MessageService(messageRepository, chatRepository,jobseekerRepository,employerRepository)
 const messageController = new MessageController(messageService)
 
 jobseekerRouter.get('/messages', jobseekerAuthMiddleware, async (req, res) => messageController.getAllMessages(req, res))
 jobseekerRouter.get('/get-chats', jobseekerAuthMiddleware, async (req, res) => messageController.getAllChats(req, res))
+jobseekerRouter.get('/get-receiverDetails', jobseekerAuthMiddleware, async (req, res) => messageController.getReceiverDetails(req, res))
 
 
 const industryService = new IndustryService(industryRepository)

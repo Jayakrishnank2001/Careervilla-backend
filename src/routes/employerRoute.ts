@@ -103,11 +103,12 @@ employerRouter.patch('/add-rejectionReason', employerAuthMiddleware, async (req,
 
 const messageRepository = new MessageRepository()
 const chatRepository = new ChatRepository()
-const messageService = new MessageService(messageRepository, chatRepository)
+const messageService = new MessageService(messageRepository, chatRepository,jobseekerRepository,employerRepository)
 const messageController = new MessageController(messageService)
 
 employerRouter.get('/messages', employerAuthMiddleware, async (req, res) => messageController.getAllMessages(req, res))
 employerRouter.get('/get-chats', employerAuthMiddleware, async (req, res) => messageController.getAllChats(req, res))
+employerRouter.get('/get-receiverDetails', employerAuthMiddleware, async (req, res) => messageController.getReceiverDetails(req, res))
 
 
 const industryService = new IndustryService(industryRepository)

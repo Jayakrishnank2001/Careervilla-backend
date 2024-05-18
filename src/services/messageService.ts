@@ -1,16 +1,22 @@
 import { STATUS_CODES } from "../constants/httpStatusCodes";
 import { IResponse } from "../interfaces/common/ICommon";
 import Chat from "../interfaces/entityInterfaces/IChat";
+import Employer from "../interfaces/entityInterfaces/IEmployer";
+import Jobseeker from "../interfaces/entityInterfaces/IJobseeker";
 import Message from "../interfaces/entityInterfaces/IMessage";
 import { IMessageService } from "../interfaces/serviceInterfaces/IMessageService";
 import ChatRepository from "../repositories/chatRepository";
+import EmployerRepository from "../repositories/employerRepository";
+import JobseekerRepository from "../repositories/jobseekerRepository";
 import MessageRepository from "../repositories/messageRepository";
 
 
 class MessageService implements IMessageService {
 
     constructor(private messageRepository: MessageRepository,
-        private chatRepository: ChatRepository) { }
+        private chatRepository: ChatRepository,
+        private jobseekerRepository: JobseekerRepository,
+        private employerRepository: EmployerRepository) { }
 
     async sendMessage(senderId: string, receiverId: string, message: string): Promise<IResponse> {
         try {
@@ -50,6 +56,24 @@ class MessageService implements IMessageService {
         try {
             const chats = await this.chatRepository.getAllChats(userId, role)
             return await this.messageRepository.getLastMessage(chats)
+        } catch (error) {
+            console.log(error);
+            throw new Error("Internal server error");
+        }
+    }
+
+    async getReceiverDetails(userId: string, role: string): Promise<Jobseeker | Employer> {
+        try {
+            if (role === 'jobseeker') {
+                const receiverDetails = await this.employerRepository.getEmployerData(userId)
+                if (receiverDetails)
+                    return receiverDetails
+            } else {
+                const receiverDetails = await this.jobseekerRepository.getJobseekerData(userId)
+                if (receiverDetails)
+                    return receiverDetails
+            }
+            throw new Error("Receiver details not found");
         } catch (error) {
             console.log(error);
             throw new Error("Internal server error");

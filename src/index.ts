@@ -10,9 +10,13 @@ import ChatRepository from "./repositories/chatRepository";
 import NotificationRepository from "./repositories/notificationRepository";
 import NotificationService from "./services/notificationService";
 import JobRepository from "./repositories/jobRepository";
+import JobseekerRepository from "./repositories/jobseekerRepository";
+import EmployerRepository from "./repositories/employerRepository";
 const messageRepository = new MessageRepository()
 const chatRepository = new ChatRepository()
-const messageService = new MessageService(messageRepository, chatRepository)
+const jobseekerRepository = new JobseekerRepository()
+const employerRepository = new EmployerRepository()
+const messageService = new MessageService(messageRepository, chatRepository, jobseekerRepository, employerRepository)
 const notificationRepository = new NotificationRepository()
 const jobRepository = new JobRepository()
 const notificationService = new NotificationService(notificationRepository, jobRepository)
@@ -25,7 +29,7 @@ const startServer = async () => {
     try {
         const app = createServer()
         const server = http.createServer(app)
-        const port=3000
+        const port = 3000
         const io = new Server(server, {
             cors: {
                 origin: process.env.CORS_URL,
