@@ -37,11 +37,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Deploy to EC2
-        env:
-          CORS_URL: ${{ vars.CORS_URL }}
-          db_URI: ${{ vars.db_URI }}
-          JWT_SECRET: ${{ vars.JWT_SECRET }}
-          STRIPE_SECRET_KEY: ${{ vars.STRIPE_SECRET_KEY }}
         run: |
           echo "${{ secrets.EC2_KEY }}" > ec2_key.pem
           chmod 400 ec2_key.pem
@@ -49,10 +44,5 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/careervilla-backend:latest
             docker stop careervilla-backend || true
             docker rm careervilla-backend || true
-            docker run -d --name careervilla-backend -p 3000:3000 \
-              -e CORS_URL=${CORS_URL} \
-              -e db_URI=${db_URI} \
-              -e JWT_SECRET=${JWT_SECRET} \
-              -e STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY} \
-              ${{ secrets.DOCKER_USERNAME }}/careervilla-backend:latest
+            docker run -d --name careervilla-backend -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/careervilla-backend:latest
           EOF
