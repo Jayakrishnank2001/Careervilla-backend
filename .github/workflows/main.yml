@@ -45,9 +45,9 @@ jobs:
             docker stop careervilla-backend || true
             docker rm careervilla-backend || true
             docker run -d --name careervilla-backend -p 3000:3000 \
-            -e CORS_URL=${{ vars.CORS_URL }} \
-            -e db_URI=${{ vars.db_URI }} \
-            -e JWT_SECRET=${{ vars.JWT_SECRET }} \
-            -e STRIPE_SECRET_KEY=${{ vars.STRIPE_SECRET_KEY }} \
-            ${{ secrets.DOCKER_USERNAME }}/careervilla-backend:latest
+              -e CORS_URL=${{ vars.CORS_URL }} \
+              -e db_URI=${{ vars.db_URI }} \
+              -e JWT_SECRET=${{ vars.JWT_SECRET }} \
+              -e STRIPE_SECRET_KEY=${{ vars.STRIPE_SECRET_KEY }} \
+              ${{ secrets.DOCKER_USERNAME }}/careervilla-backend:latest
           EOF
