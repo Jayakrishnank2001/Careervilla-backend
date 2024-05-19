@@ -45,6 +45,7 @@ jobs:
         run: |
           echo "${{ secrets.EC2_KEY }}" > ec2_key.pem
           chmod 400 ec2_key.pem
+          echo "DOCKER_IMAGE=$DOCKER_IMAGE"
           ssh -o StrictHostKeyChecking=no -i ec2_key.pem $EC2_USER@$EC2_HOST << 'EOF'
             docker pull $DOCKER_IMAGE
             docker stop careervilla-backend || true
