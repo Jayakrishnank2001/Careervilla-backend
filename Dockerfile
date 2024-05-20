@@ -8,9 +8,6 @@ WORKDIR /app
 COPY package*.json .
 COPY tsconfig*.json .
 
-# Copy the .env file
-COPY .env .
-
 # RUN npm install // bad practice
 RUN npm install
 
