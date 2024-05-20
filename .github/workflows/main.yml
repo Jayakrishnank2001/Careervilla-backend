@@ -36,18 +36,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Create .env file
+        run: |
+          echo CORS_URL=${{ secrets.CORS_URL }} >> .env
+          echo db_URI=${{ secrets.db_URI }} >> .env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+          echo STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }} >> .env
+
       - name: Deploy to EC2
         run: |
           echo "${{ secrets.EC2_KEY }}" > ec2_key.pem
           chmod 400 ec2_key.pem
+          scp -o StrictHostKeyChecking=no -i ec2_key.pem .env ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USER }}/.env
           ssh -o StrictHostKeyChecking=no -i ec2_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
             docker pull ${{ secrets.DOCKER_USERNAME }}/careervilla-backend:latest
             docker stop careervilla-backend || true
             docker rm careervilla-backend || true
-            docker run -d --name careervilla-backend -p 3000:3000 \
-              --env CORS_URL=${{ secrets.CORS_URL }} \
-              --env db_URI=${{ secrets.db_URI }} \
-              --env JWT_SECRET=${{ secrets.JWT_SECRET }} \
-              --env STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }} \
-              ${{ secrets.DOCKER_USERNAME }}/careervilla-backend:latest
+            docker run -d --name careervilla-backend --env-file /home/${{ secrets.EC2_USER }}/.env -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/careervilla-backend:latest
           EOF

@@ -2,7 +2,6 @@ import jwt, { Secret } from 'jsonwebtoken';
 import dotenv from 'dotenv'
 dotenv.config()
 
-
 const jwtSecret = process.env.JWT_SECRET;
 
 if (!jwtSecret) {
