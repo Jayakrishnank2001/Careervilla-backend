@@ -44,5 +44,10 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/careervilla-backend:latest
             docker stop careervilla-backend || true
             docker rm careervilla-backend || true
-            docker run -d --name careervilla-backend -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/careervilla-backend:latest
+            docker run -d --name careervilla-backend -p 3000:3000 \
+              --env CORS_URL=${{ secrets.CORS_URL }} \
+              --env db_URI=${{ secrets.db_URI }} \
+              --env JWT_SECRET=${{ secrets.JWT_SECRET }} \
+              --env STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }} \
+              ${{ secrets.DOCKER_USERNAME }}/careervilla-backend:latest
           EOF
