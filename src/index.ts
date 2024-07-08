@@ -43,7 +43,7 @@ const startServer = async () => {
             userSockets.set(id, socket.id)
 
             socket.on('send-message', async (chatData: Message) => {
-                let receiverId = chatData.receiverId
+                let receiverId = chatData.receiverId;
                 const messageData = await messageService.sendMessage(chatData.senderId as unknown as string, chatData.receiverId as unknown as string, chatData.message)
                 socket.to(userSockets.get(receiverId as unknown as string) as string).emit('receive-message', messageData)
             });
